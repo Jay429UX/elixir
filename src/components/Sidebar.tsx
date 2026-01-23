@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
-type TabType = "casino" | "sports";
+import { useTab } from "@/context/TabContext";
 
 interface NavItem {
   icon: React.ReactNode;
@@ -16,7 +15,7 @@ interface OriginalGame {
 }
 
 export default function Sidebar() {
-  const [activeTab, setActiveTab] = useState<TabType>("casino");
+  const { activeTab, setActiveTab, isSidebarCollapsed, toggleSidebar } = useTab();
   const [originalsOpen, setOriginalsOpen] = useState(false);
 
   const originalGames: OriginalGame[] = [
@@ -224,79 +223,150 @@ export default function Sidebar() {
   const quickItems = activeTab === "casino" ? casinoNavItems : [];
 
   return (
-    <aside className="fixed left-0 top-16 bottom-0 w-60 bg-dicey-card border-r border-dicey-border overflow-y-auto">
-      <div className="p-4">
+    <aside className={`fixed left-4 top-4 bottom-4 bg-dicey-card border border-dicey-border rounded-2xl overflow-y-auto transition-all duration-300 ${isSidebarCollapsed ? 'w-16' : 'w-60'}`}>
+      {/* Logo & Toggle */}
+      <div className="h-16 flex items-center justify-between px-4 border-b border-dicey-border">
+        {!isSidebarCollapsed && (
+          <span className="text-xl font-bold text-white tracking-tight">DICEY</span>
+        )}
+        <button
+          onClick={toggleSidebar}
+          className={`p-2 hover:bg-dicey-border rounded-lg transition-colors ${isSidebarCollapsed ? 'mx-auto' : ''}`}
+        >
+          <svg
+            className={`w-4 h-4 text-gray-400 transition-transform ${isSidebarCollapsed ? 'rotate-180' : ''}`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+          </svg>
+        </button>
+      </div>
+
+      <div className={`${isSidebarCollapsed ? 'p-2' : 'p-4'}`}>
         {/* Casino / Sports Toggle */}
-        <div className="flex bg-dicey-darker rounded-xl p-1 mb-6">
-          <button
-            onClick={() => setActiveTab("casino")}
-            className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
-              activeTab === "casino"
-                ? "bg-white text-black"
-                : "text-gray-400 hover:text-white"
-            }`}
-          >
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-              <rect x="3" y="3" width="18" height="18" rx="3" fill="none" stroke="currentColor" strokeWidth="2" />
-              <circle cx="8" cy="8" r="1.5" />
-              <circle cx="16" cy="16" r="1.5" />
-              <circle cx="12" cy="12" r="1.5" />
-            </svg>
-            Casino
-          </button>
-          <button
-            onClick={() => setActiveTab("sports")}
-            className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
-              activeTab === "sports"
-                ? "bg-white text-black"
-                : "text-gray-400 hover:text-white"
-            }`}
-          >
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10" />
-              <path d="M2 12h20" />
-            </svg>
-            Sports
-          </button>
-        </div>
+        {isSidebarCollapsed ? (
+          <div className="flex flex-col gap-2 mb-6">
+            <button
+              onClick={() => setActiveTab("casino")}
+              className={`p-2.5 rounded-lg transition-all flex items-center justify-center ${
+                activeTab === "casino"
+                  ? "bg-white text-black"
+                  : "text-gray-400 hover:text-white hover:bg-dicey-border"
+              }`}
+              title="Casino"
+            >
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="3" y="3" width="18" height="18" rx="3" fill="none" stroke="currentColor" strokeWidth="2" />
+                <circle cx="8" cy="8" r="1.5" />
+                <circle cx="16" cy="16" r="1.5" />
+                <circle cx="12" cy="12" r="1.5" />
+              </svg>
+            </button>
+            <button
+              onClick={() => setActiveTab("sports")}
+              className={`p-2.5 rounded-lg transition-all flex items-center justify-center ${
+                activeTab === "sports"
+                  ? "bg-white text-black"
+                  : "text-gray-400 hover:text-white hover:bg-dicey-border"
+              }`}
+              title="Sports"
+            >
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10" />
+                <path d="M2 12h20" />
+              </svg>
+            </button>
+          </div>
+        ) : (
+          <div className="flex bg-dicey-darker rounded-xl p-1 mb-6">
+            <button
+              onClick={() => setActiveTab("casino")}
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
+                activeTab === "casino"
+                  ? "bg-white text-black"
+                  : "text-gray-400 hover:text-white"
+              }`}
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="3" y="3" width="18" height="18" rx="3" fill="none" stroke="currentColor" strokeWidth="2" />
+                <circle cx="8" cy="8" r="1.5" />
+                <circle cx="16" cy="16" r="1.5" />
+                <circle cx="12" cy="12" r="1.5" />
+              </svg>
+              Casino
+            </button>
+            <button
+              onClick={() => setActiveTab("sports")}
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
+                activeTab === "sports"
+                  ? "bg-white text-black"
+                  : "text-gray-400 hover:text-white"
+              }`}
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10" />
+                <path d="M2 12h20" />
+              </svg>
+              Sports
+            </button>
+          </div>
+        )}
 
         {/* Original Games - Casino Only */}
         {activeTab === "casino" && (
           <div className="mb-6">
-            <button
-              onClick={() => setOriginalsOpen(!originalsOpen)}
-              className="w-full flex items-center justify-between px-3 py-2.5 text-white bg-dicey-card hover:bg-dicey-border rounded-lg transition-colors"
-            >
-              <div className="flex items-center gap-3">
+            {isSidebarCollapsed ? (
+              <button
+                className="w-full flex items-center justify-center p-2.5 text-gray-400 hover:text-white hover:bg-dicey-border rounded-lg transition-colors"
+                title="Original Games"
+              >
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M12 2L2 7l10 5 10-5-10-5z" />
                   <path d="M2 17l10 5 10-5" />
                   <path d="M2 12l10 5 10-5" />
                 </svg>
-                <span className="text-sm font-medium">Original Games</span>
-              </div>
-              <svg
-                className={`w-3 h-3 text-gray-400 transition-transform ${originalsOpen ? "rotate-180" : ""}`}
-                fill="currentColor"
-                viewBox="0 0 12 12"
-              >
-                <path d="M6 9L1 4h10L6 9z" />
-              </svg>
-            </button>
-
-            {originalsOpen && (
-              <div className="mt-1 ml-2 border-l border-dicey-border">
-                {originalGames.map((game) => (
-                  <button
-                    key={game.label}
-                    className="w-full flex items-center gap-3 px-4 py-2 text-gray-400 hover:text-white hover:bg-dicey-card rounded-r-lg transition-colors"
+              </button>
+            ) : (
+              <>
+                <button
+                  onClick={() => setOriginalsOpen(!originalsOpen)}
+                  className="w-full flex items-center justify-between px-3 py-2.5 text-white bg-dicey-card hover:bg-dicey-border rounded-lg transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                      <path d="M2 17l10 5 10-5" />
+                      <path d="M2 12l10 5 10-5" />
+                    </svg>
+                    <span className="text-sm font-medium">Original Games</span>
+                  </div>
+                  <svg
+                    className={`w-3 h-3 text-gray-400 transition-transform ${originalsOpen ? "rotate-180" : ""}`}
+                    fill="currentColor"
+                    viewBox="0 0 12 12"
                   >
-                    <span className="text-gray-500">{game.icon}</span>
-                    <span className="text-sm">{game.label}</span>
-                  </button>
-                ))}
-              </div>
+                    <path d="M6 9L1 4h10L6 9z" />
+                  </svg>
+                </button>
+
+                {originalsOpen && (
+                  <div className="mt-1 ml-2 border-l border-dicey-border">
+                    {originalGames.map((game) => (
+                      <button
+                        key={game.label}
+                        className="w-full flex items-center gap-3 px-4 py-2 text-gray-400 hover:text-white hover:bg-dicey-card rounded-r-lg transition-colors"
+                      >
+                        <span className="text-gray-500">{game.icon}</span>
+                        <span className="text-sm">{game.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </>
             )}
           </div>
         )}
@@ -304,23 +374,32 @@ export default function Sidebar() {
         {/* Quick Access - Casino Only */}
         {activeTab === "casino" && quickItems.length > 0 && (
           <div className="mb-6">
-            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-2">
-              Quick Access
-            </h3>
+            {!isSidebarCollapsed && (
+              <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-2">
+                Quick Access
+              </h3>
+            )}
             <nav className="space-y-1">
               {quickItems.map((item) => (
                 <button
                   key={item.label}
-                  className="w-full flex items-center gap-3 px-3 py-2.5 text-gray-300 hover:text-white hover:bg-dicey-card rounded-lg transition-colors group"
+                  className={`w-full flex items-center text-gray-300 hover:text-white hover:bg-dicey-card rounded-lg transition-colors group ${
+                    isSidebarCollapsed ? 'justify-center p-2.5' : 'gap-3 px-3 py-2.5'
+                  }`}
+                  title={isSidebarCollapsed ? item.label : undefined}
                 >
                   <span className="text-gray-500 group-hover:text-white transition-colors">
                     {item.icon}
                   </span>
-                  <span className="text-sm font-medium">{item.label}</span>
-                  {item.badge && (
-                    <span className="ml-auto text-xs px-2 py-0.5 rounded-full font-medium bg-white/10 text-gray-300">
-                      {item.badge}
-                    </span>
+                  {!isSidebarCollapsed && (
+                    <>
+                      <span className="text-sm font-medium">{item.label}</span>
+                      {item.badge && (
+                        <span className="ml-auto text-xs px-2 py-0.5 rounded-full font-medium bg-white/10 text-gray-300">
+                          {item.badge}
+                        </span>
+                      )}
+                    </>
                   )}
                 </button>
               ))}
@@ -330,23 +409,32 @@ export default function Sidebar() {
 
         {/* Categories */}
         <div>
-          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-2">
-            {activeTab === "casino" ? "Categories" : "Sports"}
-          </h3>
+          {!isSidebarCollapsed && (
+            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-2">
+              {activeTab === "casino" ? "Categories" : "Sports"}
+            </h3>
+          )}
           <nav className="space-y-1">
             {currentItems.map((item) => (
               <button
                 key={item.label}
-                className="w-full flex items-center gap-3 px-3 py-2.5 text-gray-300 hover:text-white hover:bg-dicey-card rounded-lg transition-colors group"
+                className={`w-full flex items-center text-gray-300 hover:text-white hover:bg-dicey-card rounded-lg transition-colors group ${
+                  isSidebarCollapsed ? 'justify-center p-2.5' : 'gap-3 px-3 py-2.5'
+                }`}
+                title={isSidebarCollapsed ? item.label : undefined}
               >
                 <span className="text-gray-500 group-hover:text-white transition-colors">
                   {item.icon}
                 </span>
-                <span className="text-sm font-medium">{item.label}</span>
-                {item.badge && (
-                  <span className="ml-auto text-xs px-2 py-0.5 rounded-full font-medium bg-white/10 text-gray-300">
-                    {item.badge}
-                  </span>
+                {!isSidebarCollapsed && (
+                  <>
+                    <span className="text-sm font-medium">{item.label}</span>
+                    {item.badge && (
+                      <span className="ml-auto text-xs px-2 py-0.5 rounded-full font-medium bg-white/10 text-gray-300">
+                        {item.badge}
+                      </span>
+                    )}
+                  </>
                 )}
               </button>
             ))}
@@ -356,16 +444,18 @@ export default function Sidebar() {
       </div>
 
       {/* Powered by Magic Eden */}
-      <div className="absolute bottom-0 left-0 right-0 p-3 border-t border-dicey-border bg-dicey-card">
-        <div className="flex flex-col items-center gap-1">
-          <span className="text-[10px] text-gray-500">Built & Powered by</span>
-          <img
-            src="/magic-eden-logo.svg"
-            alt="Magic Eden"
-            className="h-3 opacity-60 hover:opacity-100 transition-opacity"
-          />
+      {!isSidebarCollapsed && (
+        <div className="absolute bottom-0 left-0 right-0 p-3 border-t border-dicey-border bg-dicey-card">
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-[10px] text-gray-500">Built & Powered by</span>
+            <img
+              src="/magic-eden-logo.svg"
+              alt="Magic Eden"
+              className="h-3 opacity-60 hover:opacity-100 transition-opacity"
+            />
+          </div>
         </div>
-      </div>
+      )}
     </aside>
   );
 }

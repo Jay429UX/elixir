@@ -8,6 +8,8 @@ interface GameCardProps {
   isNew?: boolean;
   isHot?: boolean;
   players?: number;
+  width?: number;
+  onPlay?: () => void;
 }
 
 export default function GameCard({
@@ -18,9 +20,15 @@ export default function GameCard({
   isNew,
   isHot,
   players,
+  width,
+  onPlay,
 }: GameCardProps) {
   return (
-    <div className="group relative flex-1 min-w-0 cursor-pointer">
+    <div
+      className="group relative flex-shrink-0 cursor-pointer"
+      style={{ width: width ? `${width}px` : '176px' }}
+      onClick={onPlay}
+    >
       {/* Game Image */}
       <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-dicey-card border border-dicey-border">
         <div

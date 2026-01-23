@@ -19,6 +19,7 @@ interface GameRowProps {
   icon?: React.ReactNode;
   games: Game[];
   showViewAll?: boolean;
+  onGameSelect?: (game: Game) => void;
 }
 
 export default function GameRow({
@@ -26,40 +27,56 @@ export default function GameRow({
   icon,
   games,
   showViewAll = true,
+  onGameSelect,
 }: GameRowProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(7);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [maxScroll, setMaxScroll] = useState(0);
+  const [cardsPerView, setCardsPerView] = useState(7);
+  const [cardWidth, setCardWidth] = useState(176);
+  const gap = 16; // gap-4 = 1rem = 16px
 
-  // Calculate items per page based on container width
+  // Calculate cards per view and card width based on container width
   useEffect(() => {
-    const calculateItemsPerPage = () => {
+    const calculateLayout = () => {
       if (containerRef.current) {
         const containerWidth = containerRef.current.offsetWidth;
-        const cardWidth = 176; // w-44 = 11rem = 176px
-        const gap = 16; // gap-4 = 1rem = 16px
-        const items = Math.floor((containerWidth + gap) / (cardWidth + gap));
-        setItemsPerPage(Math.max(1, items));
+        const minCardWidth = 160;
+        const maxCardWidth = 200;
+
+        // Calculate how many cards can fit
+        let numCards = Math.floor((containerWidth + gap) / (minCardWidth + gap));
+        numCards = Math.max(3, Math.min(numCards, 10)); // Between 3 and 10 cards
+
+        // Calculate exact card width to fill container
+        const exactCardWidth = (containerWidth - (numCards - 1) * gap) / numCards;
+        const finalCardWidth = Math.min(maxCardWidth, Math.max(minCardWidth, exactCardWidth));
+
+        setCardsPerView(numCards);
+        setCardWidth(finalCardWidth);
+
+        // Calculate max scroll
+        const totalWidth = games.length * finalCardWidth + (games.length - 1) * gap;
+        setMaxScroll(Math.max(0, totalWidth - containerWidth));
       }
     };
 
-    calculateItemsPerPage();
-    window.addEventListener("resize", calculateItemsPerPage);
-    return () => window.removeEventListener("resize", calculateItemsPerPage);
-  }, []);
-
-  const totalPages = Math.ceil(games.length / itemsPerPage);
+    calculateLayout();
+    window.addEventListener("resize", calculateLayout);
+    return () => window.removeEventListener("resize", calculateLayout);
+  }, [games.length]);
 
   const scroll = (direction: "left" | "right") => {
+    const scrollAmount = (cardWidth + gap) * cardsPerView; // Scroll one full view
     if (direction === "right") {
-      setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1));
+      setScrollPosition((prev) => Math.min(prev + scrollAmount, maxScroll));
     } else {
-      setCurrentPage((prev) => Math.max(prev - 1, 0));
+      setScrollPosition((prev) => Math.max(prev - scrollAmount, 0));
     }
   };
 
   return (
-    <section className="mb-8">
+    <section className="mb-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
@@ -76,9 +93,9 @@ export default function GameRow({
           {/* Navigation Buttons */}
           <button
             onClick={() => scroll("left")}
-            disabled={currentPage === 0}
+            disabled={scrollPosition === 0}
             className={`p-2 bg-dicey-card hover:bg-dicey-border border border-dicey-border rounded-lg transition-colors ${
-              currentPage === 0 ? "opacity-50 cursor-not-allowed" : ""
+              scrollPosition === 0 ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
             <svg
@@ -91,9 +108,9 @@ export default function GameRow({
           </button>
           <button
             onClick={() => scroll("right")}
-            disabled={currentPage >= totalPages - 1}
+            disabled={scrollPosition >= maxScroll}
             className={`p-2 bg-dicey-card hover:bg-dicey-border border border-dicey-border rounded-lg transition-colors ${
-              currentPage >= totalPages - 1 ? "opacity-50 cursor-not-allowed" : ""
+              scrollPosition >= maxScroll ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
             <svg
@@ -112,31 +129,23 @@ export default function GameRow({
         <div
           className="flex transition-transform duration-500 ease-out"
           style={{
-            transform: `translateX(-${currentPage * 100}%)`,
+            transform: `translateX(-${scrollPosition}px)`,
+            gap: `${gap}px`,
           }}
         >
-          {/* Render all pages */}
-          {Array.from({ length: totalPages }).map((_, pageIndex) => (
-            <div
-              key={pageIndex}
-              className="flex gap-4 flex-shrink-0"
-              style={{ width: "100%" }}
-            >
-              {games
-                .slice(pageIndex * itemsPerPage, (pageIndex + 1) * itemsPerPage)
-                .map((game) => (
-                  <GameCard
-                    key={game.id}
-                    title={game.title}
-                    provider={game.provider}
-                    image={game.image}
-                    isLive={game.isLive}
-                    isNew={game.isNew}
-                    isHot={game.isHot}
-                    players={game.players}
-                  />
-                ))}
-            </div>
+          {games.map((game) => (
+            <GameCard
+              key={game.id}
+              title={game.title}
+              provider={game.provider}
+              image={game.image}
+              isLive={game.isLive}
+              isNew={game.isNew}
+              isHot={game.isHot}
+              players={game.players}
+              width={cardWidth}
+              onPlay={() => onGameSelect?.(game)}
+            />
           ))}
         </div>
       </div>

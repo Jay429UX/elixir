@@ -45,7 +45,7 @@ export default function HeroBanner() {
   }, []);
 
   return (
-    <div className="relative mb-8 rounded-2xl overflow-hidden bg-dicey-card border border-dicey-border h-[320px]">
+    <div className="relative mb-4 rounded-2xl overflow-hidden bg-dicey-card border border-dicey-border h-[320px]">
 
       {/* Slides Container */}
       <div className="relative h-full">

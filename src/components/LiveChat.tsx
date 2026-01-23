@@ -16,15 +16,15 @@ interface LiveChatProps {
 }
 
 const vipBadges = [
-  "/vip/Icon 2 (iron)-BWRwb8a7.png",
-  "/vip/Icon 1 (gold)-9sMBN4Vh.png",
-  "/vip/Icon 2 (platinum)-DPA4FuH1.png",
-  "/vip/Icon 1 (diamant)-_4mW1oBJ.png",
-  "/vip/Icon 4 (gold)-B969YQB8.png",
-  "/vip/Icon 4 (platinum)-28ZBS5o7.png",
-  "/vip/Icon 5 (gold)-T356dNZq.png",
-  "/vip/Icon 5 (platinum)-BAlv4mS-.png",
-  "/vip/Icon 2 (diamant)-BcCwr7BA.png",
+  "/vip/Icon%202%20(iron)-BWRwb8a7.png",
+  "/vip/Icon%201%20(gold)-9sMBN4Vh.png",
+  "/vip/Icon%202%20(platinum)-DPA4FuH1.png",
+  "/vip/Icon%201%20(diamant)-_4mW1oBJ.png",
+  "/vip/Icon%204%20(gold)-B969YQB8.png",
+  "/vip/Icon%204%20(platinum)-28ZBS5o7.png",
+  "/vip/Icon%205%20(gold)-T356dNZq.png",
+  "/vip/Icon%205%20(platinum)-BAlv4mS-.png",
+  "/vip/Icon%202%20(diamant)-BcCwr7BA.png",
 ];
 
 const chatMessages = [
@@ -163,7 +163,7 @@ export default function LiveChat({ isOpen, onToggle }: LiveChatProps) {
 
       {/* Sliding Panel */}
       <div
-        className={`fixed top-16 bottom-0 w-80 bg-dicey-card border-l border-dicey-border flex flex-col z-40 transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 bottom-0 w-80 bg-dicey-card border-l border-dicey-border flex flex-col z-40 transition-transform duration-300 ease-in-out ${
           isOpen ? 'right-0 translate-x-0' : 'right-0 translate-x-full'
         }`}
       >
@@ -187,7 +187,7 @@ export default function LiveChat({ isOpen, onToggle }: LiveChatProps) {
         {[...messages].reverse().map((msg, index) => (
           <div
             key={msg.id}
-            className={`bg-dicey-dark border border-dicey-border rounded-lg p-2.5 transition-all duration-300 ease-out hover:bg-dicey-card/50 cursor-pointer ${
+            className={`bg-dicey-border/40 rounded-lg p-2.5 ${
               index === 0 ? 'animate-drop-in' : ''
             }`}
           >

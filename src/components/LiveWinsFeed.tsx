@@ -13,15 +13,15 @@ interface Win {
 }
 
 const vipBadges = [
-  "/vip/Icon 2 (iron)-BWRwb8a7.png",
-  "/vip/Icon 1 (gold)-9sMBN4Vh.png",
-  "/vip/Icon 2 (platinum)-DPA4FuH1.png",
-  "/vip/Icon 1 (diamant)-_4mW1oBJ.png",
-  "/vip/Icon 4 (gold)-B969YQB8.png",
-  "/vip/Icon 4 (platinum)-28ZBS5o7.png",
-  "/vip/Icon 5 (gold)-T356dNZq.png",
-  "/vip/Icon 5 (platinum)-BAlv4mS-.png",
-  "/vip/Icon 2 (diamant)-BcCwr7BA.png",
+  "/vip/Icon%202%20(iron)-BWRwb8a7.png",
+  "/vip/Icon%201%20(gold)-9sMBN4Vh.png",
+  "/vip/Icon%202%20(platinum)-DPA4FuH1.png",
+  "/vip/Icon%201%20(diamant)-_4mW1oBJ.png",
+  "/vip/Icon%204%20(gold)-B969YQB8.png",
+  "/vip/Icon%204%20(platinum)-28ZBS5o7.png",
+  "/vip/Icon%205%20(gold)-T356dNZq.png",
+  "/vip/Icon%205%20(platinum)-BAlv4mS-.png",
+  "/vip/Icon%202%20(diamant)-BcCwr7BA.png",
 ];
 
 // Same games as Popular Games section
@@ -115,7 +115,7 @@ export default function LiveWinsFeed() {
   const displayWins = [...wins, ...wins];
 
   return (
-    <div className="mb-8">
+    <div className="mb-4">
       <div className="flex items-center gap-3 mb-4">
         <div className="flex items-center gap-2">
           <span className="relative flex h-2 w-2">
@@ -156,7 +156,9 @@ export default function LiveWinsFeed() {
                 </div>
 
                 {/* Card content */}
-                <div className="relative flex items-center gap-3 px-4 py-2 bg-dicey-card border border-dicey-border rounded-lg group-hover/card:border-transparent">
+                <div className="relative flex items-center gap-3 px-4 py-2 bg-dicey-card border border-dicey-border rounded-lg group-hover/card:border-transparent overflow-hidden">
+                  {/* Shimmer overlay on hover */}
+                  <div className="card-shimmer opacity-0 group-hover/card:opacity-100 transition-opacity" />
                   <div className="w-10 h-12 rounded-md overflow-hidden flex-shrink-0">
                     <img
                       src={win.gameImage}
