@@ -11,6 +11,7 @@ import SportsContent from "@/components/SportsContent";
 import GameScreen from "@/components/GameScreen";
 import LiveBetsTable from "@/components/LiveBetsTable";
 import Footer from "@/components/Footer";
+import ProvidersRow from "@/components/ProvidersRow";
 import { useTab } from "@/context/TabContext";
 
 interface Game {
@@ -132,6 +133,21 @@ const jackpotGames = [
   { id: "j18", title: "Sweet Bonanza 1000", provider: "Pragmatic Play", image: "/games/pragmaticexternal_SweetBonanza1000.webp", isHot: true, players: 2345 },
 ];
 
+const providers = [
+  { id: "p1", name: "Provider 1", logo: "/providers/logo_3_2_bw_white.svg" },
+  { id: "p2", name: "Provider 2", logo: "/providers/logo_3_2_bw_white (1).svg" },
+  { id: "p3", name: "Provider 3", logo: "/providers/logo_3_2_bw_white (2).svg" },
+  { id: "p4", name: "Provider 4", logo: "/providers/logo_3_2_bw_white (3).svg" },
+  { id: "p5", name: "Provider 5", logo: "/providers/logo_3_2_bw_white (4).svg" },
+  { id: "p6", name: "Provider 6", logo: "/providers/logo_3_2_bw_white (5).svg" },
+  { id: "p7", name: "Provider 7", logo: "/providers/logo_3_2_bw_white (6).svg" },
+  { id: "p8", name: "Provider 8", logo: "/providers/logo_3_2_bw_white (7).svg" },
+  { id: "p9", name: "Provider 9", logo: "/providers/logo_3_2_bw_white (8).svg" },
+  { id: "p10", name: "Provider 10", logo: "/providers/logo_3_2_bw_white (9).svg" },
+  { id: "p11", name: "Provider 11", logo: "/providers/logo_3_2_bw_white (10).svg" },
+  { id: "p12", name: "Provider 12", logo: "/providers/logo_3_2_bw_white (11).svg" },
+];
+
 export default function Home() {
   const [isChatOpen, setIsChatOpen] = useState(true);
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
@@ -146,7 +162,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-dicey-dark">
+    <div className="min-h-screen">
       <Header />
       <Sidebar />
 
@@ -168,7 +184,20 @@ export default function Home() {
               {/* Live Wins Feed */}
               <LiveWinsFeed />
 
-              {/* Popular Games */}
+              {/* New Releases - First */}
+              <GameRow
+                title="New Releases"
+                icon={
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" />
+                    <circle cx="7" cy="7" r="1.5" fill="currentColor" />
+                  </svg>
+                }
+                games={newReleases}
+                onGameSelect={handleGameSelect}
+              />
+
+              {/* Popular Games - Second */}
               <GameRow
                 title="Popular Games"
                 icon={
@@ -190,19 +219,6 @@ export default function Home() {
                   </svg>
                 }
                 games={liveGames}
-                onGameSelect={handleGameSelect}
-              />
-
-              {/* New Releases */}
-              <GameRow
-                title="New Releases"
-                icon={
-                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" />
-                    <circle cx="7" cy="7" r="1.5" fill="currentColor" />
-                  </svg>
-                }
-                games={newReleases}
                 onGameSelect={handleGameSelect}
               />
 
@@ -229,6 +245,20 @@ export default function Home() {
                 }
                 games={jackpotGames}
                 onGameSelect={handleGameSelect}
+              />
+
+              {/* Providers Section */}
+              <ProvidersRow
+                title="Providers"
+                icon={
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="3" width="7" height="7" rx="1" />
+                    <rect x="14" y="3" width="7" height="7" rx="1" />
+                    <rect x="3" y="14" width="7" height="7" rx="1" />
+                    <rect x="14" y="14" width="7" height="7" rx="1" />
+                  </svg>
+                }
+                providers={providers}
               />
 
               {/* Live Bets Table */}

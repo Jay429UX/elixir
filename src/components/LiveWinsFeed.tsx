@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { cn } from "@/lib/utils";
 
 interface Win {
   id: string;
@@ -10,6 +11,8 @@ interface Win {
   amount: number;
   multiplier: number;
   vipLevel: number;
+  isNew?: boolean;
+  shouldBump?: boolean;
 }
 
 const vipBadges = [
@@ -49,59 +52,59 @@ const generateUsername = () => {
   return `${adjectives[Math.floor(Math.random() * adjectives.length)]}${nouns[Math.floor(Math.random() * nouns.length)]}${num}`;
 };
 
-const generateWin = (id: number): Win => {
+let winCounter = 0;
+
+const generateWin = (): Win => {
   const multiplier = Math.random() < 0.1
     ? Math.floor(Math.random() * 500) + 50
     : Math.floor(Math.random() * 20) + 1;
   const baseAmount = Math.random() * 100 + 1;
-  // All users have a VIP badge
   const vipLevel = Math.floor(Math.random() * vipBadges.length);
   const gameData = games[Math.floor(Math.random() * games.length)];
+  winCounter++;
   return {
-    id: `win-${id}-${Date.now()}`,
+    id: `win-${winCounter}-${Date.now()}`,
     username: generateUsername(),
     game: gameData.name,
     gameImage: gameData.image,
     amount: parseFloat((baseAmount * multiplier).toFixed(2)),
     multiplier: multiplier,
     vipLevel: vipLevel,
+    isNew: true,
   };
 };
 
-// Generate initial wins once
-const initialWins: Win[] = Array.from({ length: 20 }, (_, i) => generateWin(i));
+// Generate initial wins
+const createInitialWins = (): Win[] => {
+  return Array.from({ length: 15 }, () => ({ ...generateWin(), isNew: false }));
+};
 
 export default function LiveWinsFeed() {
-  const [wins] = useState<Win[]>(initialWins);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [wins, setWins] = useState<Win[]>(() => createInitialWins());
   const [isHovered, setIsHovered] = useState(false);
 
-  // Pure CSS animation - no state updates causing re-renders
+  // Add new wins periodically - faster interval (15% faster = ~1.7s instead of 2s)
   useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer) return;
-
-    let animationId: number;
-    let position = 0;
-    const speed = 0.5; // pixels per frame
-
-    const animate = () => {
+    const interval = setInterval(() => {
       if (!isHovered) {
-        position += speed;
-        const halfWidth = scrollContainer.scrollWidth / 2;
-        if (position >= halfWidth) {
-          position = 0;
-        }
-        scrollContainer.style.transform = `translateX(-${position}px)`;
+        setWins(prev => {
+          const newWin = generateWin();
+          // Add new win to the beginning, mark existing cards to bump, remove from end
+          const updated = [
+            newWin,
+            ...prev.slice(0, 19).map(w => ({ ...w, shouldBump: true }))
+          ];
+          return updated;
+        });
+
+        // Remove the animation flags after animation completes
+        setTimeout(() => {
+          setWins(prev => prev.map(w => ({ ...w, isNew: false, shouldBump: false })));
+        }, 250);
       }
-      animationId = requestAnimationFrame(animate);
-    };
+    }, 1200); // faster interval
 
-    animationId = requestAnimationFrame(animate);
-
-    return () => {
-      cancelAnimationFrame(animationId);
-    };
+    return () => clearInterval(interval);
   }, [isHovered]);
 
   const formatAmount = (amount: number) => {
@@ -111,16 +114,13 @@ export default function LiveWinsFeed() {
     return amount.toFixed(2);
   };
 
-  // Duplicate wins for seamless loop
-  const displayWins = [...wins, ...wins];
-
   return (
-    <div className="mb-4">
-      <div className="flex items-center gap-3 mb-4">
+    <div className="mb-6">
+      <div className="flex items-center gap-3 mb-3">
         <div className="flex items-center gap-2">
-          <span className="relative flex h-2 w-2">
+          <span className="relative flex size-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+            <span className="relative inline-flex rounded-full size-2 bg-white"></span>
           </span>
           <h2 className="text-lg font-semibold text-white">Live Wins</h2>
         </div>
@@ -128,37 +128,34 @@ export default function LiveWinsFeed() {
 
       {/* Relative container for gradient fades */}
       <div
-        className="relative overflow-hidden"
+        className="relative overflow-hidden -mx-1"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         {/* Inner container with padding for hover effects */}
-        <div className="py-4">
+        <div className="py-4 px-1">
           <div
-            ref={scrollRef}
-            className="flex gap-3 will-change-transform"
+            className="flex gap-3 transition-transform duration-300 ease-out"
             style={{ width: 'fit-content' }}
           >
-            {displayWins.map((win, index) => (
+            {wins.map((win) => (
               <div
-                key={`${win.id}-${index}`}
-                className="group/card relative flex-shrink-0 min-w-[260px] transition-transform duration-200 hover:-translate-y-2 hover:rotate-1 cursor-pointer"
+                key={win.id}
+                className={cn(
+                  "group/card relative flex-shrink-0 min-w-[260px] transition-all duration-200 hover:-translate-y-2 hover:rotate-1 cursor-pointer",
+                  win.isNew && "animate-slide-in-left",
+                  win.shouldBump && !win.isNew && "animate-nudge-right"
+                )}
               >
-                {/* Gradient border with glow - hidden by default, shown on hover */}
-                <div className="absolute -inset-[2px] rounded-lg opacity-0 group-hover/card:opacity-100 transition-opacity duration-200">
-                  {/* Animated gradient border */}
-                  <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 p-[2px]">
-                    <div className="absolute inset-[2px] rounded-[6px] bg-dicey-card" />
-                  </div>
-                  {/* Glow effect */}
-                  <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-cyan-500/15 via-blue-500/15 to-purple-500/15 blur-md" />
-                  <div className="absolute inset-0 rounded-lg bg-gradient-to-l from-pink-500/10 via-purple-500/10 to-cyan-500/10 blur-md" />
+                {/* Animated gradient border highlight on hover */}
+                <div className="absolute -inset-[2px] rounded-lg opacity-0 group-hover/card:opacity-100 transition-opacity duration-200 win-card-gradient">
+                  <div className="absolute inset-[2px] rounded-[6px] bg-dicey-card" />
                 </div>
 
                 {/* Card content */}
                 <div className="relative flex items-center gap-3 px-4 py-2 bg-dicey-card border border-dicey-border rounded-lg group-hover/card:border-transparent overflow-hidden">
                   {/* Shimmer overlay on hover */}
-                  <div className="card-shimmer opacity-0 group-hover/card:opacity-100 transition-opacity" />
+                  <div className="card-shimmer opacity-0 group-hover/card:opacity-100 transition-opacity duration-200" />
                   <div className="w-10 h-12 rounded-md overflow-hidden flex-shrink-0">
                     <img
                       src={win.gameImage}
@@ -172,7 +169,7 @@ export default function LiveWinsFeed() {
                         <img
                           src={vipBadges[win.vipLevel]}
                           alt="VIP"
-                          className="w-4 h-4 flex-shrink-0"
+                          className="size-4 flex-shrink-0"
                         />
                       )}
                       <span className="text-sm text-gray-400">
@@ -186,12 +183,12 @@ export default function LiveWinsFeed() {
                   <div className="flex flex-col items-end flex-shrink-0">
                     <div className="flex items-center gap-1">
                       {/* USDC Icon */}
-                      <img src="/usdc.png" alt="USDC" className="w-4 h-4" />
-                      <span className="text-sm font-semibold text-white">
+                      <img src="/usdc.png" alt="USDC" className="size-4" />
+                      <span className="text-sm font-semibold text-white tabular-nums">
                         {formatAmount(win.amount)}
                       </span>
                     </div>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-gray-500 tabular-nums">
                       {win.multiplier}x
                     </span>
                   </div>
@@ -201,9 +198,8 @@ export default function LiveWinsFeed() {
           </div>
         </div>
 
-        {/* Gradient fades */}
-        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-dicey-dark to-transparent pointer-events-none z-10" />
-        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-dicey-dark to-transparent pointer-events-none z-10" />
+        {/* Only right gradient fade - no left fade since new wins come from left */}
+        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#0a0612] to-transparent pointer-events-none z-10" />
       </div>
     </div>
   );

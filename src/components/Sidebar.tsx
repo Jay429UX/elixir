@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useTab } from "@/context/TabContext";
+import { cn } from "@/lib/utils";
 
 interface NavItem {
   icon: React.ReactNode;
@@ -83,7 +84,6 @@ export default function Sidebar() {
         </svg>
       ),
       label: "Popular",
-      badge: "Hot",
     },
     {
       icon: (
@@ -111,7 +111,6 @@ export default function Sidebar() {
         </svg>
       ),
       label: "Slots",
-      badge: "2.5k+",
     },
     {
       icon: (
@@ -121,7 +120,6 @@ export default function Sidebar() {
         </svg>
       ),
       label: "Live Casino",
-      badge: "Live",
     },
     {
       icon: (
@@ -148,7 +146,6 @@ export default function Sidebar() {
         </svg>
       ),
       label: "New Releases",
-      badge: "New",
     },
     {
       icon: (
@@ -170,7 +167,6 @@ export default function Sidebar() {
         </svg>
       ),
       label: "Football",
-      badge: "Live",
     },
     {
       icon: (
@@ -215,7 +211,6 @@ export default function Sidebar() {
         </svg>
       ),
       label: "Esports",
-      badge: "Hot",
     },
   ];
 
@@ -223,60 +218,78 @@ export default function Sidebar() {
   const quickItems = activeTab === "casino" ? casinoNavItems : [];
 
   return (
-    <aside className={`fixed left-4 top-4 bottom-4 bg-dicey-card border border-dicey-border rounded-2xl overflow-y-auto transition-all duration-300 ${isSidebarCollapsed ? 'w-16' : 'w-60'}`}>
+    <aside className={cn("fixed left-4 top-4 bottom-4 bg-dicey-card border border-dicey-border rounded-2xl overflow-y-auto transition-all duration-200", isSidebarCollapsed ? "w-16" : "w-60")}>
       {/* Logo & Toggle */}
-      <div className="h-16 flex items-center justify-between px-4 border-b border-dicey-border">
+      <div className="h-16 flex items-center justify-center px-4 border-b border-dicey-border">
         {!isSidebarCollapsed && (
-          <span className="text-xl font-bold text-white tracking-tight">DICEY</span>
+          <img src="/dicey-logo.svg" alt="Dicey" className="h-6 mr-auto" />
         )}
         <button
+          aria-label={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           onClick={toggleSidebar}
-          className={`p-2 hover:bg-dicey-border rounded-lg transition-colors ${isSidebarCollapsed ? 'mx-auto' : ''}`}
+          className={cn("p-2 hover:bg-dicey-border rounded-lg transition-colors duration-200", isSidebarCollapsed && "mx-auto")}
         >
           <svg
-            className={`w-4 h-4 text-gray-400 transition-transform ${isSidebarCollapsed ? 'rotate-180' : ''}`}
+            className="size-4 text-gray-400"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
+            strokeWidth={2}
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+            {/* Panel rectangle */}
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            {/* Divider line */}
+            <path d="M9 3v18" />
+            {/* Arrow pointing into/out of panel */}
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d={isSidebarCollapsed ? "M13 9l3 3-3 3M16 12H12" : "M17 9l-3 3 3 3M14 12h4"}
+            />
           </svg>
         </button>
       </div>
 
-      <div className={`${isSidebarCollapsed ? 'p-2' : 'p-4'}`}>
+      <div className={`${isSidebarCollapsed ? 'p-2' : 'p-5'}`}>
         {/* Casino / Sports Toggle */}
         {isSidebarCollapsed ? (
           <div className="flex flex-col gap-2 mb-6">
             <button
               onClick={() => setActiveTab("casino")}
-              className={`p-2.5 rounded-lg transition-all flex items-center justify-center ${
+              className={cn(
+                "p-2.5 rounded-lg transition-all duration-200 flex items-center justify-center",
                 activeTab === "casino"
                   ? "bg-white text-black"
                   : "text-gray-400 hover:text-white hover:bg-dicey-border"
-              }`}
+              )}
               title="Casino"
             >
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                <rect x="3" y="3" width="18" height="18" rx="3" fill="none" stroke="currentColor" strokeWidth="2" />
-                <circle cx="8" cy="8" r="1.5" />
-                <circle cx="16" cy="16" r="1.5" />
-                <circle cx="12" cy="12" r="1.5" />
+              {/* Slot machine / cherry icon */}
+              <svg className="size-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 3C8.5 3 6 5.5 6 8c0 1.5.5 2.5 1.5 3.5L6 14v3c0 1 1 2 2 2h8c1 0 2-1 2-2v-3l-1.5-2.5C17.5 10.5 18 9.5 18 8c0-2.5-2.5-5-6-5z" />
+                <circle cx="9" cy="8" r="1.5" />
+                <circle cx="15" cy="8" r="1.5" />
+                <path d="M9 17h6" stroke="currentColor" strokeWidth="1.5" fill="none" />
               </svg>
             </button>
             <button
               onClick={() => setActiveTab("sports")}
-              className={`p-2.5 rounded-lg transition-all flex items-center justify-center ${
+              className={cn(
+                "p-2.5 rounded-lg transition-all duration-200 flex items-center justify-center",
                 activeTab === "sports"
                   ? "bg-white text-black"
                   : "text-gray-400 hover:text-white hover:bg-dicey-border"
-              }`}
+              )}
               title="Sports"
             >
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              {/* Football/soccer icon */}
+              <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="12" cy="12" r="10" />
-                <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10" />
-                <path d="M2 12h20" />
+                <path d="M12 2l3 5h-6l3-5" />
+                <path d="M12 22l3-5h-6l3 5" />
+                <path d="M2 12l5 3v-6l-5 3" />
+                <path d="M22 12l-5 3v-6l5 3" />
+                <circle cx="12" cy="12" r="3" />
               </svg>
             </button>
           </div>
@@ -284,34 +297,41 @@ export default function Sidebar() {
           <div className="flex bg-dicey-darker rounded-xl p-1 mb-6">
             <button
               onClick={() => setActiveTab("casino")}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
+              className={cn(
+                "flex-1 flex items-center justify-center py-2.5 px-4 rounded-lg transition-all duration-200",
                 activeTab === "casino"
                   ? "bg-white text-black"
                   : "text-gray-400 hover:text-white"
-              }`}
+              )}
+              title="Casino"
             >
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <rect x="3" y="3" width="18" height="18" rx="3" fill="none" stroke="currentColor" strokeWidth="2" />
-                <circle cx="8" cy="8" r="1.5" />
-                <circle cx="16" cy="16" r="1.5" />
-                <circle cx="12" cy="12" r="1.5" />
+              {/* Slot machine / cherry icon */}
+              <svg className="size-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 3C8.5 3 6 5.5 6 8c0 1.5.5 2.5 1.5 3.5L6 14v3c0 1 1 2 2 2h8c1 0 2-1 2-2v-3l-1.5-2.5C17.5 10.5 18 9.5 18 8c0-2.5-2.5-5-6-5z" />
+                <circle cx="9" cy="8" r="1.5" />
+                <circle cx="15" cy="8" r="1.5" />
+                <path d="M9 17h6" stroke="currentColor" strokeWidth="1.5" fill="none" />
               </svg>
-              Casino
             </button>
             <button
               onClick={() => setActiveTab("sports")}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
+              className={cn(
+                "flex-1 flex items-center justify-center py-2.5 px-4 rounded-lg transition-all duration-200",
                 activeTab === "sports"
                   ? "bg-white text-black"
                   : "text-gray-400 hover:text-white"
-              }`}
+              )}
+              title="Sports"
             >
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              {/* Football/soccer icon */}
+              <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="12" cy="12" r="10" />
-                <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10" />
-                <path d="M2 12h20" />
+                <path d="M12 2l3 5h-6l3-5" />
+                <path d="M12 22l3-5h-6l3 5" />
+                <path d="M2 12l5 3v-6l-5 3" />
+                <path d="M22 12l-5 3v-6l5 3" />
+                <circle cx="12" cy="12" r="3" />
               </svg>
-              Sports
             </button>
           </div>
         )}
@@ -345,7 +365,7 @@ export default function Sidebar() {
                     <span className="text-sm font-medium">Original Games</span>
                   </div>
                   <svg
-                    className={`w-3 h-3 text-gray-400 transition-transform ${originalsOpen ? "rotate-180" : ""}`}
+                    className={cn("size-3 text-gray-400 transition-transform duration-200", originalsOpen && "rotate-180")}
                     fill="currentColor"
                     viewBox="0 0 12 12"
                   >
@@ -383,12 +403,13 @@ export default function Sidebar() {
               {quickItems.map((item) => (
                 <button
                   key={item.label}
-                  className={`w-full flex items-center text-gray-300 hover:text-white hover:bg-dicey-card rounded-lg transition-colors group ${
-                    isSidebarCollapsed ? 'justify-center p-2.5' : 'gap-3 px-3 py-2.5'
-                  }`}
+                  className={cn(
+                    "w-full flex items-center text-gray-300 hover:text-white hover:bg-dicey-card rounded-lg transition-colors duration-200 group",
+                    isSidebarCollapsed ? "justify-center p-2.5" : "gap-3 px-3 py-2.5"
+                  )}
                   title={isSidebarCollapsed ? item.label : undefined}
                 >
-                  <span className="text-gray-500 group-hover:text-white transition-colors">
+                  <span className="text-gray-500 group-hover:text-white transition-colors duration-200">
                     {item.icon}
                   </span>
                   {!isSidebarCollapsed && (
@@ -418,12 +439,13 @@ export default function Sidebar() {
             {currentItems.map((item) => (
               <button
                 key={item.label}
-                className={`w-full flex items-center text-gray-300 hover:text-white hover:bg-dicey-card rounded-lg transition-colors group ${
-                  isSidebarCollapsed ? 'justify-center p-2.5' : 'gap-3 px-3 py-2.5'
-                }`}
+                className={cn(
+                  "w-full flex items-center text-gray-300 hover:text-white hover:bg-dicey-card rounded-lg transition-colors duration-200 group",
+                  isSidebarCollapsed ? "justify-center p-2.5" : "gap-3 px-3 py-2.5"
+                )}
                 title={isSidebarCollapsed ? item.label : undefined}
               >
-                <span className="text-gray-500 group-hover:text-white transition-colors">
+                <span className="text-gray-500 group-hover:text-white transition-colors duration-200">
                   {item.icon}
                 </span>
                 {!isSidebarCollapsed && (

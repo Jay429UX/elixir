@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface GameScreenProps {
   game: {
@@ -23,9 +24,9 @@ export default function GameScreen({ game, onClose }: GameScreenProps) {
         <div className="flex items-center gap-4">
           <button
             onClick={onClose}
-            className="flex items-center gap-2 px-3 py-2 bg-dicey-border/50 hover:bg-dicey-border rounded-lg transition-colors"
+            className="flex items-center gap-2 px-3 py-2 bg-dicey-border/50 hover:bg-dicey-border rounded-lg transition-colors duration-200"
           >
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="size-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
             <span className="text-white text-sm font-medium">Back to Lobby</span>
@@ -35,10 +36,10 @@ export default function GameScreen({ game, onClose }: GameScreenProps) {
             <img
               src={game.image}
               alt={game.title}
-              className="w-10 h-10 rounded-lg object-cover"
+              className="size-10 rounded-lg object-cover"
             />
             <div>
-              <h1 className="text-white font-semibold">{game.title}</h1>
+              <h1 className="text-white font-semibold text-balance">{game.title}</h1>
               <span className="text-gray-400 text-sm">{game.provider}</span>
             </div>
           </div>
@@ -48,12 +49,13 @@ export default function GameScreen({ game, onClose }: GameScreenProps) {
         <div className="flex items-center gap-2">
           {/* Favorite */}
           <button
+            aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
             onClick={() => setIsFavorite(!isFavorite)}
-            className="p-2 bg-dicey-border/50 hover:bg-dicey-border rounded-lg transition-colors"
+            className="p-2 bg-dicey-border/50 hover:bg-dicey-border rounded-lg transition-colors duration-200"
           >
             <svg
-              className={`w-5 h-5 ${isFavorite ? 'text-yellow-400 fill-yellow-400' : 'text-gray-400'}`}
-              fill={isFavorite ? 'currentColor' : 'none'}
+              className={cn("size-5", isFavorite ? "text-yellow-400 fill-yellow-400" : "text-gray-400")}
+              fill={isFavorite ? "currentColor" : "none"}
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
@@ -62,25 +64,32 @@ export default function GameScreen({ game, onClose }: GameScreenProps) {
           </button>
 
           {/* Sound */}
-          <button className="p-2 bg-dicey-border/50 hover:bg-dicey-border rounded-lg transition-colors">
-            <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <button
+            aria-label="Toggle sound"
+            className="p-2 bg-dicey-border/50 hover:bg-dicey-border rounded-lg transition-colors duration-200"
+          >
+            <svg className="size-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
             </svg>
           </button>
 
           {/* Info */}
-          <button className="p-2 bg-dicey-border/50 hover:bg-dicey-border rounded-lg transition-colors">
-            <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <button
+            aria-label="Game info"
+            className="p-2 bg-dicey-border/50 hover:bg-dicey-border rounded-lg transition-colors duration-200"
+          >
+            <svg className="size-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </button>
 
           {/* Fullscreen */}
           <button
+            aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
             onClick={() => setIsFullscreen(!isFullscreen)}
-            className="p-2 bg-dicey-border/50 hover:bg-dicey-border rounded-lg transition-colors"
+            className="p-2 bg-dicey-border/50 hover:bg-dicey-border rounded-lg transition-colors duration-200"
           >
-            <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="size-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {isFullscreen ? (
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" />
               ) : (
@@ -95,7 +104,7 @@ export default function GameScreen({ game, onClose }: GameScreenProps) {
       <div className="flex-1 flex items-center justify-center p-4">
         <div className="relative w-full max-w-5xl aspect-video bg-dicey-card rounded-2xl border border-dicey-border overflow-hidden">
           {/* Placeholder Game Screen */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-dicey-dark via-dicey-card to-dicey-dark">
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-dicey-dark">
             {/* Game Image as Background */}
             <div
               className="absolute inset-0 opacity-20 bg-cover bg-center blur-sm"
@@ -104,7 +113,7 @@ export default function GameScreen({ game, onClose }: GameScreenProps) {
 
             {/* Placeholder Content */}
             <div className="relative z-10 flex flex-col items-center gap-6">
-              <div className="w-32 h-32 rounded-2xl overflow-hidden border-2 border-dicey-border shadow-2xl">
+              <div className="size-32 rounded-2xl overflow-hidden border-2 border-dicey-border shadow-2xl">
                 <img
                   src={game.image}
                   alt={game.title}
@@ -113,16 +122,16 @@ export default function GameScreen({ game, onClose }: GameScreenProps) {
               </div>
 
               <div className="text-center">
-                <h2 className="text-2xl font-bold text-white mb-2">{game.title}</h2>
+                <h2 className="text-2xl font-bold text-white mb-2 text-balance">{game.title}</h2>
                 <p className="text-gray-400">{game.provider}</p>
               </div>
 
               {/* Loading/Play Button */}
               <div className="flex flex-col items-center gap-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                  <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                  <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                  <div className="size-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <div className="size-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <div className="size-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                 </div>
                 <span className="text-gray-400 text-sm">Loading game...</span>
               </div>
@@ -142,18 +151,12 @@ export default function GameScreen({ game, onClose }: GameScreenProps) {
           {/* Balance */}
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 px-4 py-2 bg-dicey-border/50 rounded-lg">
-              <img src="/usdc.png" alt="USDC" className="w-5 h-5" />
-              <span
-                className="font-semibold"
-                style={{
-                  color: '#FFD700',
-                  textShadow: '0 0 8px rgba(255, 215, 0, 0.6), 0 0 16px rgba(255, 193, 7, 0.4)',
-                }}
-              >
+              <img src="/usdc.png" alt="USDC" className="size-5" />
+              <span className="font-semibold tabular-nums text-yellow-400">
                 1,250.00
               </span>
             </div>
-            <button className="px-4 py-2 bg-white text-black rounded-lg text-sm font-semibold hover:bg-gray-200 transition-colors">
+            <button className="px-4 py-2 bg-white text-black rounded-lg text-sm font-semibold hover:bg-gray-200 transition-colors duration-200">
               Deposit
             </button>
           </div>
@@ -162,25 +165,25 @@ export default function GameScreen({ game, onClose }: GameScreenProps) {
           <div className="flex items-center gap-3">
             <span className="text-gray-400 text-sm">Bet Amount:</span>
             <div className="flex items-center gap-1">
-              <button className="px-3 py-1.5 bg-dicey-border/50 hover:bg-dicey-border rounded-lg text-white text-sm transition-colors">
+              <button className="px-3 py-1.5 bg-dicey-border/50 hover:bg-dicey-border rounded-lg text-white text-sm transition-colors duration-200">
                 ½
               </button>
-              <button className="px-3 py-1.5 bg-dicey-border/50 hover:bg-dicey-border rounded-lg text-white text-sm transition-colors">
+              <button className="px-3 py-1.5 bg-dicey-border/50 hover:bg-dicey-border rounded-lg text-white text-sm transition-colors duration-200">
                 2×
               </button>
               <input
                 type="text"
                 defaultValue="10.00"
-                className="w-24 px-3 py-1.5 bg-dicey-dark border border-dicey-border rounded-lg text-white text-sm text-center focus:outline-none focus:border-gray-500"
+                className="w-24 px-3 py-1.5 bg-dicey-dark border border-dicey-border rounded-lg text-white text-sm text-center tabular-nums focus:outline-none focus:border-gray-500"
               />
-              <button className="px-3 py-1.5 bg-dicey-border/50 hover:bg-dicey-border rounded-lg text-white text-sm transition-colors">
+              <button className="px-3 py-1.5 bg-dicey-border/50 hover:bg-dicey-border rounded-lg text-white text-sm transition-colors duration-200">
                 Max
               </button>
             </div>
           </div>
 
           {/* Play Button */}
-          <button className="px-8 py-2.5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg font-semibold hover:from-green-600 hover:to-emerald-700 transition-all shadow-lg shadow-green-500/25">
+          <button className="px-8 py-2.5 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-700 transition-colors duration-200 shadow-lg">
             Play Now
           </button>
         </div>

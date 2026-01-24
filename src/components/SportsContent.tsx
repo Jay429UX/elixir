@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface Match {
   id: string;
@@ -127,14 +128,15 @@ export default function SportsContent() {
     return (
       <button
         onClick={() => addToBetSlip(match, selection, odds)}
-        className={`flex-1 py-2 px-3 rounded-lg text-sm font-semibold transition-all ${
+        className={cn(
+          "flex-1 py-2 px-3 rounded-lg text-sm font-semibold transition-all duration-200",
           isSelected
             ? "bg-white text-black"
             : "bg-dicey-border hover:bg-dicey-border/80 text-white"
-        }`}
+        )}
       >
         <span className="block text-xs text-gray-400 mb-0.5">{selection}</span>
-        <span>{odds.toFixed(2)}</span>
+        <span className="tabular-nums">{odds.toFixed(2)}</span>
       </button>
     );
   };
@@ -151,23 +153,23 @@ export default function SportsContent() {
           {featuredMatches.map((match) => (
             <div
               key={match.id}
-              className="bg-gradient-to-br from-dicey-card to-dicey-darker border border-dicey-border rounded-xl p-5 relative overflow-hidden"
+              className="bg-dicey-card border border-dicey-border rounded-xl p-5 relative overflow-hidden"
             >
               {match.isLive && (
                 <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-red-500/20 text-red-400 px-2 py-1 rounded-full text-xs font-semibold">
-                  <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
+                  <span className="size-1.5 bg-red-500 rounded-full animate-pulse" />
                   LIVE {match.minute}
                 </div>
               )}
               <div className="text-xs text-gray-400 mb-4">{match.league}</div>
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
+                  <div className="size-12 bg-white/10 rounded-full flex items-center justify-center">
                     <span className="text-2xl">⚽</span>
                   </div>
                   <div>
                     <div className="text-white font-semibold">{match.homeTeam}</div>
-                    {match.isLive && <div className="text-2xl font-bold text-white">{match.homeScore}</div>}
+                    {match.isLive && <div className="text-2xl font-bold text-white tabular-nums">{match.homeScore}</div>}
                   </div>
                 </div>
                 <div className="text-gray-500 text-sm font-medium">
@@ -176,9 +178,9 @@ export default function SportsContent() {
                 <div className="flex items-center gap-3">
                   <div className="text-right">
                     <div className="text-white font-semibold">{match.awayTeam}</div>
-                    {match.isLive && <div className="text-2xl font-bold text-white">{match.awayScore}</div>}
+                    {match.isLive && <div className="text-2xl font-bold text-white tabular-nums">{match.awayScore}</div>}
                   </div>
-                  <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
+                  <div className="size-12 bg-white/10 rounded-full flex items-center justify-center">
                     <span className="text-2xl">⚽</span>
                   </div>
                 </div>
@@ -199,11 +201,12 @@ export default function SportsContent() {
           <button
             key={sport.id}
             onClick={() => setSelectedSport(sport.id)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
+            className={cn(
+              "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-200",
               selectedSport === sport.id
                 ? "bg-white text-black"
                 : "bg-dicey-card border border-dicey-border text-gray-300 hover:text-white"
-            }`}
+            )}
           >
             <span>{sport.icon}</span>
             {sport.label}
@@ -221,16 +224,17 @@ export default function SportsContent() {
           {getMatches().map((match, index) => (
             <div
               key={match.id}
-              className={`p-4 flex items-center justify-between ${
-                index !== getMatches().length - 1 ? "border-b border-dicey-border" : ""
-              } hover:bg-dicey-border/30 transition-colors`}
+              className={cn(
+                "p-4 flex items-center justify-between hover:bg-dicey-border/30 transition-colors duration-200",
+                index !== getMatches().length - 1 && "border-b border-dicey-border"
+              )}
             >
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-xs text-gray-500">{match.league}</span>
                   {match.isLive && (
                     <span className="flex items-center gap-1 text-xs text-red-400">
-                      <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
+                      <span className="size-1.5 bg-red-500 rounded-full animate-pulse" />
                       {match.minute}
                     </span>
                   )}
@@ -238,11 +242,11 @@ export default function SportsContent() {
                 <div className="flex items-center gap-3">
                   <div className="text-white font-medium">
                     {match.homeTeam}
-                    {match.isLive && <span className="ml-2 text-gray-400">{match.homeScore}</span>}
+                    {match.isLive && <span className="ml-2 text-gray-400 tabular-nums">{match.homeScore}</span>}
                   </div>
                   <span className="text-gray-500">vs</span>
                   <div className="text-white font-medium">
-                    {match.isLive && <span className="mr-2 text-gray-400">{match.awayScore}</span>}
+                    {match.isLive && <span className="mr-2 text-gray-400 tabular-nums">{match.awayScore}</span>}
                     {match.awayTeam}
                   </div>
                 </div>
@@ -254,33 +258,36 @@ export default function SportsContent() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => addToBetSlip(match, "1", match.homeOdds)}
-                    className={`px-3 py-1.5 rounded text-sm font-semibold transition-all ${
+                    className={cn(
+                      "px-3 py-1.5 rounded text-sm font-semibold tabular-nums transition-all duration-200",
                       isInBetSlip(match.id, "1")
                         ? "bg-white text-black"
                         : "bg-dicey-border hover:bg-dicey-border/80 text-white"
-                    }`}
+                    )}
                   >
                     {match.homeOdds.toFixed(2)}
                   </button>
                   {match.drawOdds && (
                     <button
                       onClick={() => addToBetSlip(match, "X", match.drawOdds!)}
-                      className={`px-3 py-1.5 rounded text-sm font-semibold transition-all ${
+                      className={cn(
+                        "px-3 py-1.5 rounded text-sm font-semibold tabular-nums transition-all duration-200",
                         isInBetSlip(match.id, "X")
                           ? "bg-white text-black"
                           : "bg-dicey-border hover:bg-dicey-border/80 text-white"
-                      }`}
+                      )}
                     >
                       {match.drawOdds.toFixed(2)}
                     </button>
                   )}
                   <button
                     onClick={() => addToBetSlip(match, "2", match.awayOdds)}
-                    className={`px-3 py-1.5 rounded text-sm font-semibold transition-all ${
+                    className={cn(
+                      "px-3 py-1.5 rounded text-sm font-semibold tabular-nums transition-all duration-200",
                       isInBetSlip(match.id, "2")
                         ? "bg-white text-black"
                         : "bg-dicey-border hover:bg-dicey-border/80 text-white"
-                    }`}
+                    )}
                   >
                     {match.awayOdds.toFixed(2)}
                   </button>
@@ -295,10 +302,10 @@ export default function SportsContent() {
       {betSlip.length > 0 && (
         <div className="fixed bottom-4 right-4 w-80 bg-dicey-card border border-dicey-border rounded-xl shadow-2xl overflow-hidden z-40">
           <div className="bg-white text-black px-4 py-3 font-semibold flex items-center justify-between">
-            <span>Bet Slip ({betSlip.length})</span>
+            <span>Bet Slip (<span className="tabular-nums">{betSlip.length}</span>)</span>
             <button
               onClick={() => setBetSlip([])}
-              className="text-sm text-gray-600 hover:text-black"
+              className="text-sm text-gray-600 hover:text-black transition-colors duration-200"
             >
               Clear
             </button>
@@ -315,12 +322,13 @@ export default function SportsContent() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-white font-semibold">{bet.odds.toFixed(2)}</span>
+                  <span className="text-white font-semibold tabular-nums">{bet.odds.toFixed(2)}</span>
                   <button
+                    aria-label="Remove bet"
                     onClick={() => setBetSlip(betSlip.filter((b) => !(b.match.id === bet.match.id && b.selection === bet.selection)))}
-                    className="text-gray-400 hover:text-white"
+                    className="text-gray-400 hover:text-white transition-colors duration-200"
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                   </button>
@@ -331,7 +339,7 @@ export default function SportsContent() {
           <div className="p-4 border-t border-dicey-border">
             <div className="flex items-center justify-between mb-3">
               <span className="text-gray-400 text-sm">Total Odds</span>
-              <span className="text-white font-bold">
+              <span className="text-white font-bold tabular-nums">
                 {betSlip.reduce((acc, bet) => acc * bet.odds, 1).toFixed(2)}
               </span>
             </div>
@@ -339,11 +347,11 @@ export default function SportsContent() {
               <input
                 type="number"
                 placeholder="Stake"
-                className="flex-1 bg-dicey-border rounded-lg px-3 py-2 text-white text-sm outline-none focus:ring-2 focus:ring-white/20"
+                className="flex-1 bg-dicey-border rounded-lg px-3 py-2 text-white text-sm tabular-nums outline-none focus:ring-2 focus:ring-white/20"
               />
               <span className="text-gray-400 self-center text-sm">USDC</span>
             </div>
-            <button className="w-full bg-white text-black py-3 rounded-lg font-semibold hover:bg-gray-200 transition-colors">
+            <button className="w-full bg-white text-black py-3 rounded-lg font-semibold hover:bg-gray-200 transition-colors duration-200">
               Place Bet
             </button>
           </div>

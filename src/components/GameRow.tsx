@@ -89,36 +89,40 @@ export default function GameRow({
           )}
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           {/* Navigation Buttons */}
           <button
             onClick={() => scroll("left")}
             disabled={scrollPosition === 0}
-            className={`p-2 bg-dicey-card hover:bg-dicey-border border border-dicey-border rounded-lg transition-colors ${
+            className={`size-7 flex items-center justify-center bg-dicey-card hover:bg-dicey-border border border-dicey-border rounded-md transition-colors ${
               scrollPosition === 0 ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
             <svg
-              className="w-3 h-3 text-gray-400 -rotate-90"
-              fill="currentColor"
-              viewBox="0 0 12 12"
+              className="w-3 h-3 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
             >
-              <path d="M6 9L1 4h10L6 9z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
           <button
             onClick={() => scroll("right")}
             disabled={scrollPosition >= maxScroll}
-            className={`p-2 bg-dicey-card hover:bg-dicey-border border border-dicey-border rounded-lg transition-colors ${
+            className={`size-7 flex items-center justify-center bg-dicey-card hover:bg-dicey-border border border-dicey-border rounded-md transition-colors ${
               scrollPosition >= maxScroll ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
             <svg
-              className="w-3 h-3 text-gray-400 rotate-90"
-              fill="currentColor"
-              viewBox="0 0 12 12"
+              className="w-3 h-3 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
             >
-              <path d="M6 9L1 4h10L6 9z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </button>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 interface Bet {
   id: string;
@@ -125,9 +126,9 @@ export default function LiveBetsTable() {
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <span className="relative flex h-2 w-2">
+          <span className="relative flex size-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            <span className="relative inline-flex rounded-full size-2 bg-green-500"></span>
           </span>
           <h2 className="text-lg font-semibold text-white">Live Bets</h2>
         </div>
@@ -136,31 +137,34 @@ export default function LiveBetsTable() {
         <div className="flex bg-dicey-card border border-dicey-border rounded-lg p-1">
           <button
             onClick={() => setFilter("all")}
-            className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors ${
+            className={cn(
+              "px-4 py-1.5 text-sm font-medium rounded-md transition-colors duration-200",
               filter === "all"
                 ? "bg-white text-black"
                 : "text-gray-400 hover:text-white"
-            }`}
+            )}
           >
             All Bets
           </button>
           <button
             onClick={() => setFilter("highRollers")}
-            className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors ${
+            className={cn(
+              "px-4 py-1.5 text-sm font-medium rounded-md transition-colors duration-200",
               filter === "highRollers"
                 ? "bg-white text-black"
                 : "text-gray-400 hover:text-white"
-            }`}
+            )}
           >
             High Rollers
           </button>
           <button
             onClick={() => setFilter("myBets")}
-            className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors ${
+            className={cn(
+              "px-4 py-1.5 text-sm font-medium rounded-md transition-colors duration-200",
               filter === "myBets"
                 ? "bg-white text-black"
                 : "text-gray-400 hover:text-white"
-            }`}
+            )}
           >
             My Bets
           </button>
@@ -181,23 +185,24 @@ export default function LiveBetsTable() {
               <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Payout</span>
             </div>
             {filteredBets.length === 0 ? (
-              <div className="flex items-center justify-center py-12 text-gray-500">
+              <div className="flex items-center justify-center py-12 text-gray-500 text-pretty">
                 No bets to display
               </div>
             ) : (
               filteredBets.slice(0, 10).map((bet, index) => (
                 <div
                   key={bet.id}
-                  className={`grid grid-cols-5 gap-4 px-4 py-3 rounded-lg transition-colors ${
+                  className={cn(
+                    "grid grid-cols-5 gap-4 px-4 py-3 rounded-lg transition-colors duration-200",
                     index === 0 ? "animate-fade-in bg-dicey-border/30" : "bg-dicey-border/20"
-                  }`}
+                  )}
                 >
                   {/* Game */}
                   <div className="flex items-center gap-3">
                     <img
                       src={bet.gameIcon}
                       alt={bet.gameName}
-                      className="w-8 h-8 rounded-lg object-cover"
+                      className="size-8 rounded-lg object-cover"
                     />
                     <span className="text-sm text-white font-medium truncate">{bet.gameName}</span>
                   </div>
@@ -207,26 +212,26 @@ export default function LiveBetsTable() {
                     <img
                       src={vipBadges[bet.vipLevel]}
                       alt="VIP"
-                      className="w-4 h-4 flex-shrink-0"
+                      className="size-4 flex-shrink-0"
                     />
                     <span className="text-sm text-gray-400 truncate">{bet.player}</span>
                   </div>
 
                   {/* Wager */}
                   <div className="flex items-center justify-end">
-                    <span className="text-sm text-white font-medium">{formatAmount(bet.wager)}</span>
+                    <span className="text-sm text-white font-medium tabular-nums">{formatAmount(bet.wager)}</span>
                   </div>
 
                   {/* Multiplier */}
                   <div className="flex items-center justify-end">
-                    <span className={`text-sm font-bold ${getMultiplierColor(bet.multiplier)}`}>
+                    <span className={cn("text-sm font-bold tabular-nums", getMultiplierColor(bet.multiplier))}>
                       {bet.multiplier.toFixed(2)}x
                     </span>
                   </div>
 
                   {/* Payout */}
                   <div className="flex items-center justify-end">
-                    <span className={`text-sm font-bold ${bet.payout >= bet.wager ? "text-green-400" : "text-gray-400"}`}>
+                    <span className={cn("text-sm font-bold tabular-nums", bet.payout >= bet.wager ? "text-green-400" : "text-gray-400")}>
                       {bet.payout >= bet.wager ? formatAmount(bet.payout) : "$0.00"}
                     </span>
                   </div>
@@ -237,7 +242,7 @@ export default function LiveBetsTable() {
         </div>
 
         {/* Bottom fade mask - outside the table */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-dicey-dark to-transparent pointer-events-none rounded-b-xl" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0612] to-transparent pointer-events-none rounded-b-xl" />
       </div>
     </section>
   );

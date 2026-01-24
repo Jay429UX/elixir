@@ -47,9 +47,32 @@ const config: Config = {
             transform: "translateY(0) scale(1)",
           },
         },
+        "slide-in-left": {
+          "0%": {
+            opacity: "0",
+            transform: "translateX(-50px) scale(0.95)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateX(0) scale(1)",
+          },
+        },
+        "nudge-right": {
+          "0%": {
+            transform: "translateX(0)",
+          },
+          "50%": {
+            transform: "translateX(6px)",
+          },
+          "100%": {
+            transform: "translateX(0)",
+          },
+        },
       },
       animation: {
         "drop-in": "drop-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
+        "slide-in-left": "slide-in-left 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards",
+        "nudge-right": "nudge-right 0.25s ease-out forwards",
       },
     },
   },
