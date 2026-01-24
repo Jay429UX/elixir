@@ -8,6 +8,7 @@ interface GameCardProps {
   image: string;
   isLive?: boolean;
   isNew?: boolean;
+  isHot?: boolean;
   players?: number;
   width?: number;
   onPlay?: () => void;
@@ -19,6 +20,7 @@ export default function GameCard({
   image,
   isLive,
   isNew,
+  isHot,
   players,
   width,
   onPlay,
@@ -50,6 +52,11 @@ export default function GameCard({
           {isNew && (
             <span className="px-2 py-1 bg-white text-black text-xs font-medium rounded-md">
               NEW
+            </span>
+          )}
+          {isHot && (
+            <span className="px-2 py-1 bg-orange-500 text-white text-xs font-medium rounded-md">
+              HOT
             </span>
           )}
         </div>
