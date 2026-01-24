@@ -82,24 +82,33 @@ const generateBet = (id: number): Bet => {
 };
 
 // Generate initial bets
-const initialBets: Bet[] = Array.from({ length: 20 }, (_, i) => generateBet(i));
+const createInitialBets = (): Bet[] =>
+  Array.from({ length: 20 }, (_, i) => generateBet(i));
 
 export default function LiveBetsTable() {
-  const [bets, setBets] = useState<Bet[]>(initialBets);
+  const [bets, setBets] = useState<Bet[]>([]);
   const [filter, setFilter] = useState<FilterType>("all");
+  const [isClient, setIsClient] = useState(false);
+
+  // Initialize bets only on client side to avoid hydration mismatch
+  useEffect(() => {
+    setIsClient(true);
+    setBets(createInitialBets());
+  }, []);
 
   // Simulate incoming bets
   useEffect(() => {
+    if (!isClient) return;
     const interval = setInterval(() => {
       setBets((prev) => {
         const newBet = generateBet(prev.length);
         const newBets = [newBet, ...prev];
         return newBets.slice(0, 50); // Keep only last 50 bets
       });
-    }, 2000 + Math.random() * 3000);
+    }, 800 + Math.random() * 400);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isClient]);
 
   const filteredBets = bets.filter((bet) => {
     if (filter === "highRollers") return bet.isHighRoller;
@@ -242,7 +251,7 @@ export default function LiveBetsTable() {
         </div>
 
         {/* Bottom fade mask - outside the table */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0612] to-transparent pointer-events-none rounded-b-xl" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#140d24] to-transparent pointer-events-none rounded-b-xl" />
       </div>
     </section>
   );

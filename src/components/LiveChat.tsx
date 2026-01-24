@@ -84,12 +84,20 @@ const generateMessage = (id: number): ChatMessage => {
 };
 
 // Generate initial messages
-const initialMessages: ChatMessage[] = Array.from({ length: 50 }, (_, i) => generateMessage(i));
+const createInitialMessages = (): ChatMessage[] =>
+  Array.from({ length: 50 }, (_, i) => generateMessage(i));
 
 export default function LiveChat({ isOpen, onToggle }: LiveChatProps) {
-  const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState("");
+  const [isClient, setIsClient] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  // Initialize messages only on client side to avoid hydration mismatch
+  useEffect(() => {
+    setIsClient(true);
+    setMessages(createInitialMessages());
+  }, []);
 
   // Keep scroll at top when new messages arrive (since we're using flex-col-reverse)
   useEffect(() => {
@@ -100,6 +108,7 @@ export default function LiveChat({ isOpen, onToggle }: LiveChatProps) {
 
   // Simulate incoming messages
   useEffect(() => {
+    if (!isClient) return;
     const interval = setInterval(() => {
       setMessages((prev) => {
         const newMessages = [...prev, generateMessage(prev.length)];
@@ -109,7 +118,7 @@ export default function LiveChat({ isOpen, onToggle }: LiveChatProps) {
     }, 3000 + Math.random() * 4000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isClient]);
 
   const handleSend = () => {
     if (inputValue.trim()) {

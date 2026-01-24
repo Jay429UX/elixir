@@ -80,11 +80,19 @@ const createInitialWins = (): Win[] => {
 };
 
 export default function LiveWinsFeed() {
-  const [wins, setWins] = useState<Win[]>(() => createInitialWins());
+  const [wins, setWins] = useState<Win[]>([]);
   const [isHovered, setIsHovered] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  // Initialize wins only on client side to avoid hydration mismatch
+  useEffect(() => {
+    setIsClient(true);
+    setWins(createInitialWins());
+  }, []);
 
   // Add new wins periodically - faster interval (15% faster = ~1.7s instead of 2s)
   useEffect(() => {
+    if (!isClient) return;
     const interval = setInterval(() => {
       if (!isHovered) {
         setWins(prev => {
@@ -105,7 +113,7 @@ export default function LiveWinsFeed() {
     }, 1200); // faster interval
 
     return () => clearInterval(interval);
-  }, [isHovered]);
+  }, [isHovered, isClient]);
 
   const formatAmount = (amount: number) => {
     if (amount >= 1000) {
@@ -199,7 +207,7 @@ export default function LiveWinsFeed() {
         </div>
 
         {/* Only right gradient fade - no left fade since new wins come from left */}
-        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#0a0612] to-transparent pointer-events-none z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#140d24] to-transparent pointer-events-none z-10" />
       </div>
     </div>
   );

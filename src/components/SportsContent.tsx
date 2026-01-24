@@ -351,8 +351,32 @@ export default function SportsContent() {
               />
               <span className="text-gray-400 self-center text-sm">USDC</span>
             </div>
-            <button className="w-full bg-white text-black py-3 rounded-lg font-semibold hover:bg-gray-200 transition-colors duration-200">
-              Place Bet
+            {/* Place Bet - 3D Nuclear Green CTA */}
+            <button className="relative group/btn w-full">
+              {/* Bottom layer (shadow/glow) - soft uniform glow on hover */}
+              <span className="absolute -inset-1 rounded-xl transition-all duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-md" />
+              {/* Bubble particles on hover */}
+              <span className="absolute -top-2 left-6 size-2 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.2s_ease-out_infinite]" />
+              <span className="absolute -top-1 left-16 size-1.5 rounded-full bg-[#39ff14]/50 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.4s_ease-out_infinite_0.2s]" />
+              <span className="absolute -top-2 right-10 size-2.5 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.4s]" />
+              <span className="absolute -top-1 right-20 size-1 rounded-full bg-[#39ff14]/40 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.3s_ease-out_infinite_0.1s]" />
+              <span className="absolute top-0 left-1/2 size-1.5 rounded-full bg-[#39ff14]/55 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.1s_ease-out_infinite_0.3s]" />
+              {/* Middle layer - darker for depth */}
+              <span className="absolute inset-0 translate-y-1 bg-[#1a5c0a] rounded-xl" />
+              {/* Top layer (main button) with radial gradient - nuclear green */}
+              <span
+                className="relative block py-3 text-black font-bold rounded-xl transition-all duration-200 group-hover/btn:translate-y-0.5 text-center overflow-hidden"
+                style={{
+                  background: 'radial-gradient(ellipse at 50% 0%, #39ff14 0%, #32cd32 40%, #228b22 100%)',
+                  boxShadow: 'inset 0 2px 0 rgba(255,255,255,0.25), inset 0 -2px 0 rgba(0,0,0,0.2)',
+                }}
+              >
+                {/* Shimmer effect */}
+                <span className="cta-shimmer" />
+                <span className="relative" style={{ textShadow: '0 1px 0 rgba(255,255,255,0.3), 0 -1px 0 rgba(0,0,0,0.15)' }}>
+                  Place Bet
+                </span>
+              </span>
             </button>
           </div>
         </div>

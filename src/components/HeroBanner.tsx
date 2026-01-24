@@ -64,7 +64,7 @@ export default function HeroBanner() {
                 <span className="inline-block px-3 py-1 mb-4 text-xs font-bold text-black bg-white rounded-full uppercase">
                   {slide.title}
                 </span>
-                <h1 className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight h-[60px] flex items-center text-balance whitespace-nowrap">
+                <h1 className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight h-[60px] flex items-center whitespace-nowrap">
                   {slide.subtitle}
                 </h1>
                 <p className="text-lg text-gray-400 mb-6 max-w-md h-[56px] font-medium text-pretty">
@@ -85,13 +85,17 @@ export default function HeroBanner() {
                     <span className="absolute inset-0 translate-y-1 bg-[#1a5c0a] rounded-xl" />
                     {/* Top layer (main button) with radial gradient - nuclear green */}
                     <span
-                      className="relative block px-8 py-3 text-black font-bold rounded-xl transition-all duration-200 group-hover/btn:translate-y-0.5"
+                      className="relative block px-8 py-3 text-black font-bold rounded-xl transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
                       style={{
                         background: 'radial-gradient(ellipse at 50% 0%, #39ff14 0%, #32cd32 40%, #228b22 100%)',
                         boxShadow: 'inset 0 2px 0 rgba(255,255,255,0.25), inset 0 -2px 0 rgba(0,0,0,0.2)',
                       }}
                     >
-                      {slide.ctaText}
+                      {/* Shimmer effect */}
+                      <span className="cta-shimmer" />
+                      <span className="relative" style={{ textShadow: '0 1px 0 rgba(255,255,255,0.3), 0 -1px 0 rgba(0,0,0,0.15)' }}>
+                        {slide.ctaText}
+                      </span>
                     </span>
                   </button>
                   {/* Terms Apply - Ghost button */}

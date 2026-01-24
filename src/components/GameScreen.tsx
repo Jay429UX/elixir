@@ -2,6 +2,16 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import DepositModal from "./DepositModal";
+
+// Crypto assets for the deposit modal
+const cryptoAssets = [
+  { symbol: "USDC", name: "USD Coin", icon: "/usdc.png", balance: "1,250.00" },
+  { symbol: "SOL", name: "Solana", icon: "/crypto/sol.svg", balance: "12.45" },
+  { symbol: "ETH", name: "Ethereum", icon: "/crypto/eth.svg", balance: "0.85" },
+  { symbol: "BTC", name: "Bitcoin", icon: "/crypto/btc.svg", balance: "0.0234" },
+  { symbol: "USDT", name: "Tether", icon: "/crypto/usdt.svg", balance: "500.00" },
+];
 
 interface GameScreenProps {
   game: {
@@ -15,6 +25,7 @@ interface GameScreenProps {
 export default function GameScreen({ game, onClose }: GameScreenProps) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
 
   return (
     <div className="fixed inset-0 z-50 bg-black/95 flex flex-col">
@@ -156,8 +167,25 @@ export default function GameScreen({ game, onClose }: GameScreenProps) {
                 1,250.00
               </span>
             </div>
-            <button className="px-4 py-2 bg-white text-black rounded-lg text-sm font-semibold hover:bg-gray-200 transition-colors duration-200">
-              Deposit
+            {/* Deposit Button - 3D Nuclear Green */}
+            <button
+              onClick={() => setIsDepositModalOpen(true)}
+              className="relative group/btn"
+            >
+              <span className="absolute -inset-0.5 rounded-lg transition-all duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-sm" />
+              <span className="absolute -top-1 left-2 size-1.5 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.2s_ease-out_infinite]" />
+              <span className="absolute -top-0.5 right-3 size-1 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.2s]" />
+              <span className="absolute inset-0 translate-y-0.5 bg-[#1a5c0a] rounded-lg" />
+              <span
+                className="relative block px-4 py-2 text-black text-sm font-semibold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
+                style={{
+                  background: 'radial-gradient(ellipse at 50% 0%, #39ff14 0%, #32cd32 40%, #228b22 100%)',
+                  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(0,0,0,0.2)',
+                }}
+              >
+                <span className="cta-shimmer" />
+                <span className="relative" style={{ textShadow: '0 1px 0 rgba(255,255,255,0.3), 0 -1px 0 rgba(0,0,0,0.15)' }}>Deposit</span>
+              </span>
             </button>
           </div>
 
@@ -182,12 +210,42 @@ export default function GameScreen({ game, onClose }: GameScreenProps) {
             </div>
           </div>
 
-          {/* Play Button */}
-          <button className="px-8 py-2.5 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-700 transition-colors duration-200 shadow-lg">
-            Play Now
+          {/* Play Button - 3D Nuclear Green CTA */}
+          <button className="relative group/btn">
+            {/* Bottom layer (shadow/glow) - soft uniform glow on hover */}
+            <span className="absolute -inset-1 rounded-xl transition-all duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-md" />
+            {/* Bubble particles on hover */}
+            <span className="absolute -top-2 left-3 size-2 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.2s_ease-out_infinite]" />
+            <span className="absolute -top-1 left-8 size-1.5 rounded-full bg-[#39ff14]/50 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.4s_ease-out_infinite_0.2s]" />
+            <span className="absolute -top-2 right-6 size-2.5 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.4s]" />
+            <span className="absolute -top-1 right-12 size-1 rounded-full bg-[#39ff14]/40 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.3s_ease-out_infinite_0.1s]" />
+            <span className="absolute top-0 left-1/2 size-1.5 rounded-full bg-[#39ff14]/55 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.1s_ease-out_infinite_0.3s]" />
+            {/* Middle layer - darker for depth */}
+            <span className="absolute inset-0 translate-y-1 bg-[#1a5c0a] rounded-xl" />
+            {/* Top layer (main button) with radial gradient - nuclear green */}
+            <span
+              className="relative block px-8 py-3 text-black font-bold rounded-xl transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
+              style={{
+                background: 'radial-gradient(ellipse at 50% 0%, #39ff14 0%, #32cd32 40%, #228b22 100%)',
+                boxShadow: 'inset 0 2px 0 rgba(255,255,255,0.25), inset 0 -2px 0 rgba(0,0,0,0.2)',
+              }}
+            >
+              {/* Shimmer effect */}
+              <span className="cta-shimmer" />
+              <span className="relative" style={{ textShadow: '0 1px 0 rgba(255,255,255,0.3), 0 -1px 0 rgba(0,0,0,0.15)' }}>
+                Play Now
+              </span>
+            </span>
           </button>
         </div>
       </div>
+
+      {/* Deposit Modal */}
+      <DepositModal
+        isOpen={isDepositModalOpen}
+        onClose={() => setIsDepositModalOpen(false)}
+        cryptoAssets={cryptoAssets}
+      />
     </div>
   );
 }

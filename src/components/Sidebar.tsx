@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useTab } from "@/context/TabContext";
 import { cn } from "@/lib/utils";
 
@@ -218,36 +219,22 @@ export default function Sidebar() {
   const quickItems = activeTab === "casino" ? casinoNavItems : [];
 
   return (
-    <aside className={cn("fixed left-4 top-4 bottom-4 bg-dicey-card border border-dicey-border rounded-2xl overflow-y-auto transition-all duration-200", isSidebarCollapsed ? "w-16" : "w-60")}>
-      {/* Logo & Toggle */}
-      <div className="h-16 flex items-center justify-center px-4 border-b border-dicey-border">
-        {!isSidebarCollapsed && (
-          <img src="/dicey-logo.svg" alt="Dicey" className="h-6 mr-auto" />
-        )}
-        <button
-          aria-label={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-          onClick={toggleSidebar}
-          className={cn("p-2 hover:bg-dicey-border rounded-lg transition-colors duration-200", isSidebarCollapsed && "mx-auto")}
-        >
-          <svg
-            className="size-4 text-gray-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-          >
-            {/* Panel rectangle */}
-            <rect x="3" y="3" width="18" height="18" rx="2" />
-            {/* Divider line */}
-            <path d="M9 3v18" />
-            {/* Arrow pointing into/out of panel */}
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d={isSidebarCollapsed ? "M13 9l3 3-3 3M16 12H12" : "M17 9l-3 3 3 3M14 12h4"}
-            />
-          </svg>
-        </button>
+    <aside
+      className={cn("fixed left-4 top-4 bottom-4 border border-dicey-border rounded-2xl overflow-y-auto transition-all duration-200", isSidebarCollapsed ? "w-16" : "w-60")}
+      style={{
+        background: 'radial-gradient(ellipse 120% 40% at 50% 0%, rgba(75, 45, 120, 0.25) 0%, #1a1229 50%)',
+      }}
+    >
+      {/* Logo */}
+      <div className="h-16 flex items-center justify-center border-b border-dicey-border">
+        <a href="/" className="flex items-center">
+          <DotLottieReact
+            src="/animations/Dicey-Logo.json"
+            autoplay
+            loop={false}
+            style={{ width: isSidebarCollapsed ? '43px' : '95px', height: 'auto' }}
+          />
+        </a>
       </div>
 
       <div className={`${isSidebarCollapsed ? 'p-2' : 'p-5'}`}>
@@ -465,10 +452,11 @@ export default function Sidebar() {
 
       </div>
 
-      {/* Powered by Magic Eden */}
-      {!isSidebarCollapsed && (
-        <div className="absolute bottom-0 left-0 right-0 p-3 border-t border-dicey-border bg-dicey-card">
-          <div className="flex flex-col items-center gap-1">
+      {/* Bottom Section - Powered by & Toggle */}
+      <div className="absolute bottom-0 left-0 right-0 border-t border-dicey-border" style={{ background: 'inherit' }}>
+        {/* Powered by Magic Eden - only when expanded */}
+        {!isSidebarCollapsed && (
+          <div className="p-3 flex flex-col items-center gap-1">
             <span className="text-[10px] text-gray-500">Built & Powered by</span>
             <img
               src="/magic-eden-logo.svg"
@@ -476,8 +464,36 @@ export default function Sidebar() {
               className="h-3 opacity-60 hover:opacity-100 transition-opacity"
             />
           </div>
-        </div>
-      )}
+        )}
+        {/* Collapse/Expand Toggle Button */}
+        <button
+          aria-label={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+          onClick={toggleSidebar}
+          className={cn(
+            "w-full flex items-center gap-3 p-3 text-gray-400 hover:text-white hover:bg-dicey-border/50 transition-colors duration-200",
+            isSidebarCollapsed ? "justify-center" : "justify-start border-t border-dicey-border"
+          )}
+        >
+          <svg
+            className="size-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+          >
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            <path d="M9 3v18" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d={isSidebarCollapsed ? "M13 9l3 3-3 3" : "M17 9l-3 3 3 3"}
+            />
+          </svg>
+          {!isSidebarCollapsed && (
+            <span className="text-sm">Collapse</span>
+          )}
+        </button>
+      </div>
     </aside>
   );
 }

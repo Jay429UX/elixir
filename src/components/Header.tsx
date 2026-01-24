@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useTab } from "@/context/TabContext";
 import { cn } from "@/lib/utils";
+import DepositModal from "./DepositModal";
+import WithdrawModal from "./WithdrawModal";
 
 interface CryptoAsset {
   symbol: string;
@@ -25,6 +27,8 @@ export default function Header() {
   const [isVIPDropdownOpen, setIsVIPDropdownOpen] = useState(false);
   const [isWalletDropdownOpen, setIsWalletDropdownOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
+  const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
   const [cryptoAssets, setCryptoAssets] = useState<CryptoAsset[]>(initialCryptoAssets);
   const [selectedCrypto, setSelectedCrypto] = useState<CryptoAsset>(initialCryptoAssets[0]);
   const [rakebackAmount, setRakebackAmount] = useState(87.50);
@@ -333,13 +337,14 @@ export default function Header() {
                                 <span className="absolute -top-0.5 right-2 size-1 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.2s]" />
                                 <span className="absolute inset-0 translate-y-0.5 bg-[#1a5c0a] rounded-lg" />
                                 <span
-                                  className="relative block px-3 py-1.5 text-xs text-black font-semibold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5"
+                                  className="relative block px-3 py-1.5 text-xs text-black font-semibold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
                                   style={{
                                     background: 'radial-gradient(ellipse at 50% 0%, #39ff14 0%, #32cd32 40%, #228b22 100%)',
                                     boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(0,0,0,0.2)',
                                   }}
                                 >
-                                  Claim
+                                  <span className="cta-shimmer" />
+                                  <span className="relative" style={{ textShadow: '0 1px 0 rgba(255,255,255,0.3), 0 -1px 0 rgba(0,0,0,0.15)' }}>Claim</span>
                                 </span>
                               </>
                             ) : (
@@ -381,13 +386,14 @@ export default function Header() {
                                 <span className="absolute -top-0.5 right-2 size-1 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.2s]" />
                                 <span className="absolute inset-0 translate-y-0.5 bg-[#1a5c0a] rounded-lg" />
                                 <span
-                                  className="relative block px-3 py-1.5 text-xs text-black font-semibold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5"
+                                  className="relative block px-3 py-1.5 text-xs text-black font-semibold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
                                   style={{
                                     background: 'radial-gradient(ellipse at 50% 0%, #39ff14 0%, #32cd32 40%, #228b22 100%)',
                                     boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(0,0,0,0.2)',
                                   }}
                                 >
-                                  Claim
+                                  <span className="cta-shimmer" />
+                                  <span className="relative" style={{ textShadow: '0 1px 0 rgba(255,255,255,0.3), 0 -1px 0 rgba(0,0,0,0.15)' }}>Claim</span>
                                 </span>
                               </>
                             ) : (
@@ -429,13 +435,14 @@ export default function Header() {
                                 <span className="absolute -top-0.5 right-2 size-1 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.2s]" />
                                 <span className="absolute inset-0 translate-y-0.5 bg-[#1a5c0a] rounded-lg" />
                                 <span
-                                  className="relative block px-3 py-1.5 text-xs text-black font-semibold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5"
+                                  className="relative block px-3 py-1.5 text-xs text-black font-semibold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
                                   style={{
                                     background: 'radial-gradient(ellipse at 50% 0%, #39ff14 0%, #32cd32 40%, #228b22 100%)',
                                     boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(0,0,0,0.2)',
                                   }}
                                 >
-                                  Claim
+                                  <span className="cta-shimmer" />
+                                  <span className="relative" style={{ textShadow: '0 1px 0 rgba(255,255,255,0.3), 0 -1px 0 rgba(0,0,0,0.15)' }}>Claim</span>
                                 </span>
                               </>
                             ) : (
@@ -477,13 +484,14 @@ export default function Header() {
                                 <span className="absolute -top-0.5 right-2 size-1 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.2s]" />
                                 <span className="absolute inset-0 translate-y-0.5 bg-[#1a5c0a] rounded-lg" />
                                 <span
-                                  className="relative block px-3 py-1.5 text-xs text-black font-semibold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5"
+                                  className="relative block px-3 py-1.5 text-xs text-black font-semibold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
                                   style={{
                                     background: 'radial-gradient(ellipse at 50% 0%, #39ff14 0%, #32cd32 40%, #228b22 100%)',
                                     boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(0,0,0,0.2)',
                                   }}
                                 >
-                                  Claim
+                                  <span className="cta-shimmer" />
+                                  <span className="relative" style={{ textShadow: '0 1px 0 rgba(255,255,255,0.3), 0 -1px 0 rgba(0,0,0,0.15)' }}>Claim</span>
                                 </span>
                               </>
                             ) : (
@@ -576,7 +584,13 @@ export default function Header() {
               {/* Deposit & Withdraw Buttons */}
               <div className="p-3 border-t border-dicey-border flex gap-2">
                 {/* 3D Primary Deposit Button - Nuclear Green */}
-                <button className="relative flex-1 group/btn">
+                <button
+                  onClick={() => {
+                    setIsWalletDropdownOpen(false);
+                    setIsDepositModalOpen(true);
+                  }}
+                  className="relative flex-1 group/btn"
+                >
                   {/* Soft uniform glow on hover */}
                   <span className="absolute -inset-1 rounded-lg transition-all duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-md" />
                   {/* Bubble particles on hover */}
@@ -588,19 +602,26 @@ export default function Header() {
                   <span className="absolute inset-0 translate-y-0.5 bg-[#1a5c0a] rounded-lg" />
                   {/* Top layer with radial gradient */}
                   <span
-                    className="relative flex items-center justify-center gap-2 px-4 py-2.5 text-black text-sm font-semibold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5"
+                    className="relative flex items-center justify-center gap-2 px-4 py-2.5 text-black text-sm font-semibold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
                     style={{
                       background: 'radial-gradient(ellipse at 50% 0%, #39ff14 0%, #32cd32 40%, #228b22 100%)',
                       boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(0,0,0,0.2)',
                     }}
                   >
-                    <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <span className="cta-shimmer" />
+                    <svg className="size-4 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
-                    Deposit
+                    <span className="relative" style={{ textShadow: '0 1px 0 rgba(255,255,255,0.3), 0 -1px 0 rgba(0,0,0,0.15)' }}>Deposit</span>
                   </span>
                 </button>
-                <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-dicey-border text-white rounded-lg text-sm font-semibold hover:bg-dicey-border/80 transition-colors duration-200">
+                <button
+                  onClick={() => {
+                    setIsWalletDropdownOpen(false);
+                    setIsWithdrawModalOpen(true);
+                  }}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-dicey-border text-white rounded-lg text-sm font-semibold hover:bg-dicey-border/80 transition-colors duration-200"
+                >
                   <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
                   </svg>
@@ -744,6 +765,20 @@ export default function Header() {
           </div>
         </div>
       </div>
+
+      {/* Deposit Modal */}
+      <DepositModal
+        isOpen={isDepositModalOpen}
+        onClose={() => setIsDepositModalOpen(false)}
+        cryptoAssets={cryptoAssets}
+      />
+
+      {/* Withdraw Modal */}
+      <WithdrawModal
+        isOpen={isWithdrawModalOpen}
+        onClose={() => setIsWithdrawModalOpen(false)}
+        cryptoAssets={cryptoAssets}
+      />
     </header>
   );
 }

@@ -6,6 +6,7 @@ interface Provider {
   id: string;
   name: string;
   logo: string;
+  gameCount?: number;
 }
 
 interface ProvidersRowProps {
@@ -129,14 +130,19 @@ export default function ProvidersRow({
           {providers.map((provider) => (
             <button
               key={provider.id}
-              className="group flex items-center justify-center p-6 bg-dicey-card border border-dicey-border rounded-xl hover:border-white/20 hover:bg-dicey-border/50 transition-all duration-200 shrink-0"
-              style={{ width: cardWidth, height: cardWidth * 0.6 }}
+              className="group flex flex-col items-center justify-center gap-3 p-6 bg-dicey-card border border-dicey-border rounded-xl hover:border-white/20 hover:bg-dicey-border/50 transition-all duration-200 shrink-0"
+              style={{ width: cardWidth, height: cardWidth * 0.85 }}
             >
               <img
                 src={provider.logo}
                 alt={provider.name}
-                className="h-10 w-auto opacity-60 group-hover:opacity-100 transition-opacity duration-200"
+                className="h-20 w-auto opacity-60 group-hover:opacity-100 transition-opacity duration-200"
               />
+              {provider.gameCount !== undefined && (
+                <span className="text-xs text-gray-500 group-hover:text-gray-400 transition-colors duration-200">
+                  {provider.gameCount} games
+                </span>
+              )}
             </button>
           ))}
         </div>

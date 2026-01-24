@@ -12,6 +12,7 @@ import GameScreen from "@/components/GameScreen";
 import LiveBetsTable from "@/components/LiveBetsTable";
 import Footer from "@/components/Footer";
 import ProvidersRow from "@/components/ProvidersRow";
+import GameFilters from "@/components/GameFilters";
 import { useTab } from "@/context/TabContext";
 
 interface Game {
@@ -134,18 +135,18 @@ const jackpotGames = [
 ];
 
 const providers = [
-  { id: "p1", name: "Provider 1", logo: "/providers/logo_3_2_bw_white.svg" },
-  { id: "p2", name: "Provider 2", logo: "/providers/logo_3_2_bw_white (1).svg" },
-  { id: "p3", name: "Provider 3", logo: "/providers/logo_3_2_bw_white (2).svg" },
-  { id: "p4", name: "Provider 4", logo: "/providers/logo_3_2_bw_white (3).svg" },
-  { id: "p5", name: "Provider 5", logo: "/providers/logo_3_2_bw_white (4).svg" },
-  { id: "p6", name: "Provider 6", logo: "/providers/logo_3_2_bw_white (5).svg" },
-  { id: "p7", name: "Provider 7", logo: "/providers/logo_3_2_bw_white (6).svg" },
-  { id: "p8", name: "Provider 8", logo: "/providers/logo_3_2_bw_white (7).svg" },
-  { id: "p9", name: "Provider 9", logo: "/providers/logo_3_2_bw_white (8).svg" },
-  { id: "p10", name: "Provider 10", logo: "/providers/logo_3_2_bw_white (9).svg" },
-  { id: "p11", name: "Provider 11", logo: "/providers/logo_3_2_bw_white (10).svg" },
-  { id: "p12", name: "Provider 12", logo: "/providers/logo_3_2_bw_white (11).svg" },
+  { id: "p1", name: "Nolimit City", logo: "/providers/logo_3_2_bw_white.svg", gameCount: 87 },
+  { id: "p2", name: "Pragmatic Play", logo: "/providers/logo_3_2_bw_white (1).svg", gameCount: 342 },
+  { id: "p3", name: "Hacksaw Gaming", logo: "/providers/logo_3_2_bw_white (2).svg", gameCount: 156 },
+  { id: "p4", name: "Play'n GO", logo: "/providers/logo_3_2_bw_white (3).svg", gameCount: 289 },
+  { id: "p5", name: "Evolution", logo: "/providers/logo_3_2_bw_white (4).svg", gameCount: 178 },
+  { id: "p6", name: "Backseat Gaming", logo: "/providers/logo_3_2_bw_white (5).svg", gameCount: 45 },
+  { id: "p7", name: "Big Time Gaming", logo: "/providers/logo_3_2_bw_white (6).svg", gameCount: 67 },
+  { id: "p8", name: "NetEnt", logo: "/providers/logo_3_2_bw_white (7).svg", gameCount: 234 },
+  { id: "p9", name: "BGaming", logo: "/providers/logo_3_2_bw_white (8).svg", gameCount: 123 },
+  { id: "p10", name: "Red Tiger", logo: "/providers/logo_3_2_bw_white (9).svg", gameCount: 198 },
+  { id: "p11", name: "PG Soft", logo: "/providers/logo_3_2_bw_white (10).svg", gameCount: 156 },
+  { id: "p12", name: "Playtech", logo: "/providers/logo_3_2_bw_white (11).svg", gameCount: 312 },
 ];
 
 export default function Home() {
@@ -183,6 +184,9 @@ export default function Home() {
 
               {/* Live Wins Feed */}
               <LiveWinsFeed />
+
+              {/* Game Filters */}
+              <GameFilters />
 
               {/* New Releases - First */}
               <GameRow

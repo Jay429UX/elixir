@@ -14,10 +14,10 @@ const config: Config = {
       },
       colors: {
         dicey: {
-          dark: "#0f0a1a",
-          darker: "#09061a",
-          card: "#1a0f2e",
-          border: "#2d1a4d",
+          dark: "#1a1229",
+          darker: "#140d24",
+          card: "#231738",
+          border: "#362452",
           accent: "#ffffff",
           "accent-hover": "#e5e5e5",
           gold: "#ffffff",
