@@ -49,6 +49,12 @@ export default function ConfidentialityModal({ onAccept }: ConfidentialityModalP
             </p>
           </div>
 
+          <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4 mb-4">
+            <p className="text-blue-200 text-sm leading-relaxed text-center">
+              <span className="text-blue-400 font-medium">Note:</span> Not all Dicey features are enabled due to confidentiality. This preview is limited to the generic casino/sports homepage and game screen.
+            </p>
+          </div>
+
           <div className="bg-dicey-border/30 rounded-lg p-3 mb-6">
             <p className="text-gray-500 text-xs text-center">
               By clicking "I Understand" you agree to keep this prototype confidential.

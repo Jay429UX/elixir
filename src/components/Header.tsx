@@ -702,7 +702,6 @@ export default function Header() {
                               !notification.read && "bg-dicey-border/30"
                             )}
                           >
-                            <span className="text-xl flex-shrink-0">{notification.icon}</span>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2">
                                 <span className="text-sm font-medium text-white">{notification.title}</span>
