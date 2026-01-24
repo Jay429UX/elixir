@@ -6,6 +6,7 @@ import { useTab } from "@/context/TabContext";
 import { cn } from "@/lib/utils";
 import DepositModal from "./DepositModal";
 import WithdrawModal from "./WithdrawModal";
+import LevelUpBonusModal from "./LevelUpBonusModal";
 
 interface CryptoAsset {
   symbol: string;
@@ -29,6 +30,7 @@ export default function Header() {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
+  const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false);
   const [cryptoAssets, setCryptoAssets] = useState<CryptoAsset[]>(initialCryptoAssets);
   const [selectedCrypto, setSelectedCrypto] = useState<CryptoAsset>(initialCryptoAssets[0]);
   const [rakebackAmount, setRakebackAmount] = useState(87.50);
@@ -198,14 +200,14 @@ export default function Header() {
   }, []);
 
   return (
-    <header className={cn("fixed top-0 right-0 z-40 h-16 transition-all duration-200", isSidebarCollapsed ? "left-[88px]" : "left-[272px]")}>
-      <div className="flex items-center justify-between h-full px-4">
+    <header className={cn("fixed top-0 right-0 z-40 h-14 lg:h-16 transition-all duration-200 left-0", isSidebarCollapsed ? "lg:left-[88px]" : "lg:left-[272px]")}>
+      <div className="flex items-center justify-between h-full px-2 lg:px-4">
         {/* Center Navigation Container */}
-        <div className="absolute left-1/2 -translate-x-1/2 -top-0">
-          <div className="relative flex items-end" style={{ gap: 0 }}>
-            {/* Left curved section */}
+        <div className="absolute left-1/2 -translate-x-1/2 -top-0 w-full lg:w-auto">
+          <div className="relative flex items-end justify-center" style={{ gap: 0 }}>
+            {/* Left curved section - hidden on mobile */}
             <svg
-              className="h-[52px] w-auto text-dicey-card block"
+              className="hidden lg:block h-[52px] w-auto text-dicey-card"
               viewBox="0 0 76 102"
               fill="currentColor"
               style={{ marginRight: '-1px' }}
@@ -216,7 +218,7 @@ export default function Header() {
 
             {/* Center content */}
             <div
-              className="flex items-center gap-4 h-[52px] bg-dicey-card px-4 border-b border-white/[0.08]"
+              className="flex items-center gap-2 lg:gap-4 h-14 lg:h-[52px] bg-dicey-card px-2 lg:px-4 border-b border-white/[0.08] w-full lg:w-auto justify-center"
               style={{ margin: '0 -1px' }}
             >
               {/* VIP Progress with Dropdown */}
@@ -236,8 +238,8 @@ export default function Header() {
                     alt="VIP Diamond"
                     className="w-5 h-5 object-contain"
                   />
-                  {/* Progress bar with sparks */}
-                  <div className="relative w-16 h-1.5">
+                  {/* Progress bar with sparks - hidden on small mobile */}
+                  <div className="relative w-12 lg:w-16 h-1.5 hidden sm:block">
                     <div className="w-full h-full bg-dicey-dark rounded-full overflow-hidden">
                       <div
                         className="h-full bg-gradient-to-r from-cyan-500 via-cyan-400 to-emerald-400 rounded-full"
@@ -404,7 +406,10 @@ export default function Header() {
                       </div>
 
                       {/* Level Up Bonus */}
-                      <div className="flex items-center justify-between p-3 hover:bg-dicey-border/50 rounded-lg transition-colors">
+                      <button
+                        onClick={() => setIsLevelUpModalOpen(true)}
+                        className="w-full flex items-center justify-between p-3 hover:bg-dicey-border/50 rounded-lg transition-colors text-left"
+                      >
                         <div className="flex items-center gap-3">
                           <span className="text-xl">⬆️</span>
                           <div>
@@ -422,35 +427,16 @@ export default function Header() {
                           <span className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-dicey-border text-gray-400 tabular-nums">
                             {formatCountdown(levelUpCountdown, true)}
                           </span>
+                        ) : levelUpBonusAmount > 0 ? (
+                          <span className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#39ff14]/20 text-[#39ff14]">
+                            View
+                          </span>
                         ) : (
-                          <button
-                            onClick={() => handleClaim(levelUpBonusAmount, setLevelUpBonusAmount, setLevelUpCountdown, 86400)}
-                            disabled={levelUpBonusAmount <= 0}
-                            className={levelUpBonusAmount > 0 ? "relative group/btn" : "px-3 py-1.5 text-xs font-semibold rounded-lg bg-gray-600 text-gray-400 cursor-not-allowed"}
-                          >
-                            {levelUpBonusAmount > 0 ? (
-                              <>
-                                <span className="absolute -inset-0.5 rounded-lg transition-all duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-sm" />
-                                <span className="absolute -top-1 left-1 size-1 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.2s_ease-out_infinite]" />
-                                <span className="absolute -top-0.5 right-2 size-1 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.2s]" />
-                                <span className="absolute inset-0 translate-y-0.5 bg-[#1a5c0a] rounded-lg" />
-                                <span
-                                  className="relative block px-3 py-1.5 text-xs text-black font-semibold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
-                                  style={{
-                                    background: 'radial-gradient(ellipse at 50% 0%, #39ff14 0%, #32cd32 40%, #228b22 100%)',
-                                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(0,0,0,0.2)',
-                                  }}
-                                >
-                                  <span className="cta-shimmer" />
-                                  <span className="relative" style={{ textShadow: '0 1px 0 rgba(255,255,255,0.3), 0 -1px 0 rgba(0,0,0,0.15)' }}>Claim</span>
-                                </span>
-                              </>
-                            ) : (
-                              'Claimed'
-                            )}
-                          </button>
+                          <span className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-gray-600 text-gray-400">
+                            Claimed
+                          </span>
                         )}
-                      </div>
+                      </button>
 
                       {/* Rakeback */}
                       <div className="flex items-center justify-between p-3 hover:bg-dicey-border/50 rounded-lg transition-colors">
@@ -515,8 +501,8 @@ export default function Header() {
                 )}
               </div>
 
-              {/* Divider */}
-              <div className="w-px h-6 bg-dicey-border" />
+              {/* Divider - hidden on mobile */}
+              <div className="hidden sm:block w-px h-6 bg-dicey-border" />
 
               {/* Wallet Balance */}
               <div className="relative" ref={walletDropdownRef}>
@@ -632,8 +618,8 @@ export default function Header() {
                 )}
               </div>
 
-              {/* Divider */}
-              <div className="w-px h-6 bg-dicey-border" />
+              {/* Divider - hidden on mobile */}
+              <div className="hidden sm:block w-px h-6 bg-dicey-border" />
 
               {/* Notifications */}
               <div className="relative" ref={notificationsRef}>
@@ -730,8 +716,8 @@ export default function Header() {
                 )}
               </div>
 
-              {/* Divider */}
-              <div className="w-px h-6 bg-dicey-border" />
+              {/* Divider - hidden on mobile */}
+              <div className="hidden sm:block w-px h-6 bg-dicey-border" />
 
               {/* User Profile */}
               <button
@@ -751,9 +737,9 @@ export default function Header() {
               </button>
             </div>
 
-            {/* Right curved section (mirrored) */}
+            {/* Right curved section (mirrored) - hidden on mobile */}
             <svg
-              className="h-[52px] w-auto text-dicey-card block"
+              className="hidden lg:block h-[52px] w-auto text-dicey-card"
               viewBox="0 0 76 102"
               fill="currentColor"
               style={{ transform: 'scaleX(-1)', marginLeft: '-1px' }}
@@ -777,6 +763,14 @@ export default function Header() {
         isOpen={isWithdrawModalOpen}
         onClose={() => setIsWithdrawModalOpen(false)}
         cryptoAssets={cryptoAssets}
+      />
+
+      {/* Level Up Bonus Modal */}
+      <LevelUpBonusModal
+        isOpen={isLevelUpModalOpen}
+        onClose={() => setIsLevelUpModalOpen(false)}
+        bonusAmount={levelUpBonusAmount}
+        onClaim={() => handleClaim(levelUpBonusAmount, setLevelUpBonusAmount, setLevelUpCountdown, 86400)}
       />
     </header>
   );

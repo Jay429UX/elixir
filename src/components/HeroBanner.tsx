@@ -46,7 +46,7 @@ export default function HeroBanner() {
   }, []);
 
   return (
-    <div className="relative mb-4 rounded-2xl overflow-hidden bg-dicey-card border border-dicey-border h-[320px]">
+    <div className="relative mb-4 rounded-2xl overflow-hidden bg-dicey-card border border-dicey-border h-[180px] md:h-[220px]">
 
       {/* Slides Container */}
       <div className="relative h-full">
@@ -59,33 +59,33 @@ export default function HeroBanner() {
             )}
           >
             {/* Content */}
-            <div className="relative z-10 px-14 py-16 h-full flex items-center">
-              <div className="max-w-xl">
-                <span className="inline-block px-3 py-1 mb-4 text-xs font-bold text-black bg-white rounded-full uppercase">
+            <div className="relative z-10 px-4 py-6 md:px-12 md:py-10 h-full flex items-center">
+              <div className="max-w-2xl">
+                <span className="inline-block px-2 py-0.5 md:px-3 md:py-1 mb-2 text-[10px] md:text-xs font-bold text-black bg-white rounded-full uppercase">
                   {slide.title}
                 </span>
-                <h1 className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight h-[60px] flex items-center whitespace-nowrap">
+                <h1 className="text-xl md:text-4xl font-black text-white mb-1 md:mb-2 leading-tight">
                   {slide.subtitle}
                 </h1>
-                <p className="text-lg text-gray-400 mb-6 max-w-md h-[56px] font-medium text-pretty">
+                <p className="text-xs md:text-sm text-gray-400 mb-3 md:mb-4 font-medium line-clamp-2 md:line-clamp-none">
                   {slide.description}
                 </p>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 md:gap-3">
                   {/* 3D Primary CTA button - Nuclear Green */}
                   <button className="relative group/btn">
                     {/* Bottom layer (shadow/glow) - soft uniform glow on hover */}
-                    <span className="absolute -inset-1 rounded-xl transition-all duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-md" />
-                    {/* Bubble particles on hover */}
-                    <span className="absolute -top-2 left-3 size-2 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.2s_ease-out_infinite]" />
-                    <span className="absolute -top-1 left-8 size-1.5 rounded-full bg-[#39ff14]/50 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.4s_ease-out_infinite_0.2s]" />
-                    <span className="absolute -top-2 right-6 size-2.5 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.4s]" />
-                    <span className="absolute -top-1 right-12 size-1 rounded-full bg-[#39ff14]/40 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.3s_ease-out_infinite_0.1s]" />
-                    <span className="absolute top-0 left-1/2 size-1.5 rounded-full bg-[#39ff14]/55 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.1s_ease-out_infinite_0.3s]" />
+                    <span className="absolute -inset-1 rounded-lg transition-all duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-md" />
+                    {/* Bubble particles on hover - hidden on mobile */}
+                    <span className="hidden md:block absolute -top-2 left-3 size-2 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.2s_ease-out_infinite]" />
+                    <span className="hidden md:block absolute -top-1 left-8 size-1.5 rounded-full bg-[#39ff14]/50 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.4s_ease-out_infinite_0.2s]" />
+                    <span className="hidden md:block absolute -top-2 right-6 size-2.5 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.4s]" />
+                    <span className="hidden md:block absolute -top-1 right-12 size-1 rounded-full bg-[#39ff14]/40 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.3s_ease-out_infinite_0.1s]" />
+                    <span className="hidden md:block absolute top-0 left-1/2 size-1.5 rounded-full bg-[#39ff14]/55 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.1s_ease-out_infinite_0.3s]" />
                     {/* Middle layer - darker for depth */}
-                    <span className="absolute inset-0 translate-y-1 bg-[#1a5c0a] rounded-xl" />
+                    <span className="absolute inset-0 translate-y-1 bg-[#1a5c0a] rounded-lg" />
                     {/* Top layer (main button) with radial gradient - nuclear green */}
                     <span
-                      className="relative block px-8 py-3 text-black font-bold rounded-xl transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
+                      className="relative block px-4 py-2 md:px-6 md:py-2.5 text-xs md:text-sm text-black font-bold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
                       style={{
                         background: 'radial-gradient(ellipse at 50% 0%, #39ff14 0%, #32cd32 40%, #228b22 100%)',
                         boxShadow: 'inset 0 2px 0 rgba(255,255,255,0.25), inset 0 -2px 0 rgba(0,0,0,0.2)',
@@ -98,8 +98,8 @@ export default function HeroBanner() {
                       </span>
                     </span>
                   </button>
-                  {/* Terms Apply - Ghost button */}
-                  <button className="px-8 py-3 text-white/70 font-bold rounded-xl hover:text-white hover:bg-white/5 transition-colors duration-200">
+                  {/* Terms Apply - Ghost button - hidden on small mobile */}
+                  <button className="hidden sm:block px-4 py-2 md:px-6 md:py-2.5 text-xs md:text-sm text-white/70 font-bold rounded-lg hover:text-white hover:bg-white/5 transition-colors duration-200">
                     Terms Apply
                   </button>
                 </div>
@@ -109,22 +109,17 @@ export default function HeroBanner() {
         ))}
       </div>
 
-      {/* Hero Image with fade mask */}
-      <div className="absolute inset-0 z-0 opacity-10">
-        <div
-          className="w-full h-full"
-          style={{
-            maskImage: 'linear-gradient(to right, transparent 0%, transparent 20%, black 50%, black 100%)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, transparent 20%, black 50%, black 100%)',
-          }}
-        >
-          <img
-            src="/hero.png"
-            alt="Hero"
-            className="w-full h-full object-cover object-right"
-          />
-        </div>
-      </div>
+      {/* Hero Image - background with left fade mask */}
+      <div
+        className="absolute inset-0 z-[1] hidden sm:block opacity-15"
+        style={{
+          backgroundImage: 'url(/hero.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center right',
+          maskImage: 'linear-gradient(to left, black 40%, transparent 80%)',
+          WebkitMaskImage: 'linear-gradient(to left, black 40%, transparent 80%)',
+        }}
+      />
 
       {/* Slide Indicators */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
