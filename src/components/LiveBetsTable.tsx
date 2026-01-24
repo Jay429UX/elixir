@@ -251,7 +251,7 @@ export default function LiveBetsTable() {
         </div>
 
         {/* Bottom fade mask - outside the table */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#140d24] to-transparent pointer-events-none rounded-b-xl" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-dicey-darker to-transparent pointer-events-none rounded-b-xl" />
       </div>
     </section>
   );

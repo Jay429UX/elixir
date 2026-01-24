@@ -14,14 +14,15 @@ const config: Config = {
       },
       colors: {
         dicey: {
-          dark: "#1a1229",
-          darker: "#140d24",
-          card: "#231738",
-          border: "#362452",
-          accent: "#ffffff",
+          dark: "var(--dicey-dark)",
+          darker: "var(--dicey-darker)",
+          card: "var(--dicey-card)",
+          border: "var(--dicey-border)",
+          accent: "var(--dicey-accent)",
+          "accent-light": "var(--dicey-accent-light)",
           "accent-hover": "#e5e5e5",
           gold: "#ffffff",
-          green: "#a855f7",
+          green: "#22c55e",
         },
       },
       keyframes: {

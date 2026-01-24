@@ -14,7 +14,9 @@ import Footer from "@/components/Footer";
 import ProvidersRow from "@/components/ProvidersRow";
 import GameFilters from "@/components/GameFilters";
 import ConfidentialityModal from "@/components/ConfidentialityModal";
+import ThemeSelector from "@/components/ThemeSelector";
 import { useTab } from "@/context/TabContext";
+import { useTheme } from "@/context/ThemeContext";
 
 interface Game {
   id: string;
@@ -155,6 +157,7 @@ export default function Home() {
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
   const [showConfidentialityModal, setShowConfidentialityModal] = useState(true);
   const { activeTab, isSidebarCollapsed } = useTab();
+  const { hasSelectedTheme } = useTheme();
 
   const handleGameSelect = (game: Game) => {
     setSelectedGame(game);
@@ -163,6 +166,11 @@ export default function Home() {
   const handleCloseGame = () => {
     setSelectedGame(null);
   };
+
+  // Show theme selector first if theme hasn't been selected
+  if (!hasSelectedTheme) {
+    return <ThemeSelector />;
+  }
 
   return (
     <div className="min-h-screen">

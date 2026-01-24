@@ -207,7 +207,7 @@ export default function LiveWinsFeed() {
         </div>
 
         {/* Only right gradient fade - no left fade since new wins come from left */}
-        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#140d24] to-transparent pointer-events-none z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-dicey-darker to-transparent pointer-events-none z-10" />
       </div>
     </div>
   );

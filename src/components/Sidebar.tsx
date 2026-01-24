@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useTab } from "@/context/TabContext";
+import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
@@ -217,12 +218,17 @@ export default function Sidebar() {
 
   const currentItems = activeTab === "casino" ? casinoCategories : sportsNavItems;
   const quickItems = activeTab === "casino" ? casinoNavItems : [];
+  const { theme } = useTheme();
+
+  const sidebarGradient = theme === "green"
+    ? 'radial-gradient(ellipse 120% 40% at 50% 0%, rgba(34, 197, 94, 0.15) 0%, #131514 50%)'
+    : 'radial-gradient(ellipse 120% 40% at 50% 0%, rgba(75, 45, 120, 0.25) 0%, #1a1229 50%)';
 
   return (
     <aside
       className={cn("fixed left-4 top-4 bottom-4 border border-dicey-border rounded-2xl overflow-y-auto transition-all duration-200", isSidebarCollapsed ? "w-16" : "w-60")}
       style={{
-        background: 'radial-gradient(ellipse 120% 40% at 50% 0%, rgba(75, 45, 120, 0.25) 0%, #1a1229 50%)',
+        background: sidebarGradient,
       }}
     >
       {/* Logo */}
