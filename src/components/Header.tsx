@@ -313,7 +313,7 @@ export default function Header() {
                           <span className="text-sm text-white block">Weekly Bonus</span>
                           <span className={`text-xs ${weeklyBonusAmount > 0 ? 'text-white' : 'text-gray-500'}`}>
                             {weeklyBonusAmount > 0
-                              ? <><span className="font-bold text-amber-400" style={{ textShadow: '0 0 8px rgba(251, 191, 36, 0.6)' }}>{weeklyBonusAmount.toFixed(2)} USDC</span> available</>
+                              ? <><span className="font-bold gold-shimmer">{weeklyBonusAmount.toFixed(2)} USDC</span> available</>
                               : weeklyCountdown > 0
                               ? 'Resets in countdown'
                               : 'No bonus available'}
@@ -359,7 +359,7 @@ export default function Header() {
                           <span className="text-sm text-white block">Monthly Bonus</span>
                           <span className={`text-xs ${monthlyBonusAmount > 0 ? 'text-white' : 'text-gray-500'}`}>
                             {monthlyBonusAmount > 0
-                              ? <><span className="font-bold text-amber-400" style={{ textShadow: '0 0 8px rgba(251, 191, 36, 0.6)' }}>{monthlyBonusAmount.toFixed(2)} USDC</span> available</>
+                              ? <><span className="font-bold gold-shimmer">{monthlyBonusAmount.toFixed(2)} USDC</span> available</>
                               : monthlyCountdown > 0
                               ? 'Resets in countdown'
                               : 'No bonus available'}
@@ -408,7 +408,7 @@ export default function Header() {
                           <span className="text-sm text-white block">Level Up Bonus</span>
                           <span className={`text-xs ${levelUpBonusAmount > 0 ? 'text-white' : 'text-gray-500'}`}>
                             {levelUpBonusAmount > 0
-                              ? <><span className="font-bold text-amber-400" style={{ textShadow: '0 0 8px rgba(251, 191, 36, 0.6)' }}>{levelUpBonusAmount.toFixed(2)} USDC</span> available</>
+                              ? <><span className="font-bold gold-shimmer">{levelUpBonusAmount.toFixed(2)} USDC</span> available</>
                               : 'Reach next level'}
                           </span>
                         </div>
@@ -431,7 +431,7 @@ export default function Header() {
                           <span className="text-sm text-white block">Rakeback</span>
                           <span className={`text-xs ${rakebackAmount > 0 ? 'text-white' : 'text-gray-500'}`}>
                             {rakebackAmount > 0
-                              ? <><span className="font-bold text-amber-400" style={{ textShadow: '0 0 8px rgba(251, 191, 36, 0.6)' }}>{rakebackAmount.toFixed(2)} USDC</span> available</>
+                              ? <><span className="font-bold gold-shimmer">{rakebackAmount.toFixed(2)} USDC</span> available</>
                               : rakebackCountdown > 0
                               ? 'Resets in countdown'
                               : 'No rakeback available'}

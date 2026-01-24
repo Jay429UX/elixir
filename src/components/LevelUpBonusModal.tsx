@@ -62,7 +62,7 @@ export default function LevelUpBonusModal({ isOpen, onClose, bonusAmount, onClai
               <h3 className="text-xl font-bold text-white mb-1">Congratulations!</h3>
               <p className="text-gray-400 text-center text-sm px-4">You've reached a new level and earned a bonus!</p>
               <div className="mt-3 px-5 py-2 bg-dicey-border rounded-xl">
-                <span className="text-2xl font-black text-white">{bonusAmount.toFixed(2)} USDC</span>
+                <span className="text-2xl font-black gold-shimmer">{bonusAmount.toFixed(2)} USDC</span>
               </div>
             </div>
           </div>
@@ -71,7 +71,7 @@ export default function LevelUpBonusModal({ isOpen, onClose, bonusAmount, onClai
           <div className="bg-dicey-dark/50 rounded-xl p-4 mb-4 border border-dicey-border">
             <div className="flex items-center justify-between">
               <span className="text-gray-400">Available Bonus</span>
-              <span className="text-xl font-bold text-white">{bonusAmount.toFixed(2)} USDC</span>
+              <span className="text-xl font-bold gold-shimmer">{bonusAmount.toFixed(2)} USDC</span>
             </div>
           </div>
 
