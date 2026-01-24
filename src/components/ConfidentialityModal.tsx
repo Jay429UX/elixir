@@ -43,6 +43,12 @@ export default function ConfidentialityModal({ onAccept }: ConfidentialityModalP
             This is an internal preview build. Some game thumbnails are using placeholder images from third-party sources for demonstration purposes only.
           </p>
 
+          <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4 mb-4">
+            <p className="text-purple-200 text-sm leading-relaxed text-center">
+              <span className="text-purple-400 font-medium">Tip:</span> Check the VIP dropdown and claim process in the header for examples of microanimations.
+            </p>
+          </div>
+
           <div className="bg-dicey-border/30 rounded-lg p-3 mb-6">
             <p className="text-gray-500 text-xs text-center">
               By clicking "I Understand" you agree to keep this prototype confidential.
