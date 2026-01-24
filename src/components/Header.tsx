@@ -33,10 +33,10 @@ export default function Header() {
   const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false);
   const [cryptoAssets, setCryptoAssets] = useState<CryptoAsset[]>(initialCryptoAssets);
   const [selectedCrypto, setSelectedCrypto] = useState<CryptoAsset>(initialCryptoAssets[0]);
-  const [rakebackAmount, setRakebackAmount] = useState(87.50);
-  const [weeklyBonusAmount, setWeeklyBonusAmount] = useState(125);
-  const [monthlyBonusAmount, setMonthlyBonusAmount] = useState(500);
-  const [levelUpBonusAmount, setLevelUpBonusAmount] = useState(250);
+  const [rakebackAmount, setRakebackAmount] = useState(245.13);
+  const [weeklyBonusAmount, setWeeklyBonusAmount] = useState(124.32);
+  const [monthlyBonusAmount, setMonthlyBonusAmount] = useState(523.23);
+  const [levelUpBonusAmount, setLevelUpBonusAmount] = useState(245.13);
   const [coinAnimations, setCoinAnimations] = useState<number[]>([]);
   // Countdown timers (in seconds)
   const [rakebackCountdown, setRakebackCountdown] = useState(0);
@@ -309,18 +309,15 @@ export default function Header() {
                     <div className="p-2">
                       {/* Weekly Bonus */}
                       <div className="flex items-center justify-between p-3 hover:bg-dicey-border/50 rounded-lg transition-colors">
-                        <div className="flex items-center gap-3">
-                          <span className="text-xl">🎁</span>
-                          <div>
-                            <span className="text-sm text-white block">Weekly Bonus</span>
-                            <span className="text-xs text-gray-500">
-                              {weeklyBonusAmount > 0
-                                ? `${weeklyBonusAmount.toFixed(2)} USDC available`
-                                : weeklyCountdown > 0
-                                ? 'Resets in countdown'
-                                : 'No bonus available'}
-                            </span>
-                          </div>
+                        <div>
+                          <span className="text-sm text-white block">Weekly Bonus</span>
+                          <span className={`text-xs ${weeklyBonusAmount > 0 ? 'text-white' : 'text-gray-500'}`}>
+                            {weeklyBonusAmount > 0
+                              ? <><span className="font-bold text-amber-400" style={{ textShadow: '0 0 8px rgba(251, 191, 36, 0.6)' }}>{weeklyBonusAmount.toFixed(2)} USDC</span> available</>
+                              : weeklyCountdown > 0
+                              ? 'Resets in countdown'
+                              : 'No bonus available'}
+                          </span>
                         </div>
                         {weeklyCountdown > 0 ? (
                           <span className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-dicey-border text-gray-400 tabular-nums">
@@ -358,18 +355,15 @@ export default function Header() {
 
                       {/* Monthly Bonus */}
                       <div className="flex items-center justify-between p-3 hover:bg-dicey-border/50 rounded-lg transition-colors">
-                        <div className="flex items-center gap-3">
-                          <span className="text-xl">📅</span>
-                          <div>
-                            <span className="text-sm text-white block">Monthly Bonus</span>
-                            <span className="text-xs text-gray-500">
-                              {monthlyBonusAmount > 0
-                                ? `${monthlyBonusAmount.toFixed(2)} USDC available`
-                                : monthlyCountdown > 0
-                                ? 'Resets in countdown'
-                                : 'No bonus available'}
-                            </span>
-                          </div>
+                        <div>
+                          <span className="text-sm text-white block">Monthly Bonus</span>
+                          <span className={`text-xs ${monthlyBonusAmount > 0 ? 'text-white' : 'text-gray-500'}`}>
+                            {monthlyBonusAmount > 0
+                              ? <><span className="font-bold text-amber-400" style={{ textShadow: '0 0 8px rgba(251, 191, 36, 0.6)' }}>{monthlyBonusAmount.toFixed(2)} USDC</span> available</>
+                              : monthlyCountdown > 0
+                              ? 'Resets in countdown'
+                              : 'No bonus available'}
+                          </span>
                         </div>
                         {monthlyCountdown > 0 ? (
                           <span className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-dicey-border text-gray-400 tabular-nums">
@@ -410,48 +404,38 @@ export default function Header() {
                         onClick={() => setIsLevelUpModalOpen(true)}
                         className="w-full flex items-center justify-between p-3 hover:bg-dicey-border/50 rounded-lg transition-colors text-left"
                       >
-                        <div className="flex items-center gap-3">
-                          <span className="text-xl">⬆️</span>
-                          <div>
-                            <span className="text-sm text-white block">Level Up Bonus</span>
-                            <span className="text-xs text-gray-500">
-                              {levelUpBonusAmount > 0
-                                ? `${levelUpBonusAmount.toFixed(2)} USDC available`
-                                : levelUpCountdown > 0
-                                ? 'Next level required'
-                                : 'No bonus available'}
-                            </span>
-                          </div>
-                        </div>
-                        {levelUpCountdown > 0 ? (
-                          <span className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-dicey-border text-gray-400 tabular-nums">
-                            {formatCountdown(levelUpCountdown, true)}
+                        <div>
+                          <span className="text-sm text-white block">Level Up Bonus</span>
+                          <span className={`text-xs ${levelUpBonusAmount > 0 ? 'text-white' : 'text-gray-500'}`}>
+                            {levelUpBonusAmount > 0
+                              ? <><span className="font-bold text-amber-400" style={{ textShadow: '0 0 8px rgba(251, 191, 36, 0.6)' }}>{levelUpBonusAmount.toFixed(2)} USDC</span> available</>
+                              : 'Reach next level'}
                           </span>
-                        ) : levelUpBonusAmount > 0 ? (
+                        </div>
+                        {levelUpBonusAmount > 0 ? (
                           <span className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#39ff14]/20 text-[#39ff14]">
                             View
                           </span>
                         ) : (
-                          <span className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-gray-600 text-gray-400">
-                            Claimed
+                          <span className="p-1.5 rounded-lg bg-dicey-border text-gray-400">
+                            <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
                           </span>
                         )}
                       </button>
 
                       {/* Rakeback */}
                       <div className="flex items-center justify-between p-3 hover:bg-dicey-border/50 rounded-lg transition-colors">
-                        <div className="flex items-center gap-3">
-                          <span className="text-xl">💰</span>
-                          <div>
-                            <span className="text-sm text-white block">Rakeback</span>
-                            <span className="text-xs text-gray-500">
-                              {rakebackAmount > 0
-                                ? `${rakebackAmount.toFixed(2)} USDC available`
-                                : rakebackCountdown > 0
-                                ? 'Resets in countdown'
-                                : 'No rakeback available'}
-                            </span>
-                          </div>
+                        <div>
+                          <span className="text-sm text-white block">Rakeback</span>
+                          <span className={`text-xs ${rakebackAmount > 0 ? 'text-white' : 'text-gray-500'}`}>
+                            {rakebackAmount > 0
+                              ? <><span className="font-bold text-amber-400" style={{ textShadow: '0 0 8px rgba(251, 191, 36, 0.6)' }}>{rakebackAmount.toFixed(2)} USDC</span> available</>
+                              : rakebackCountdown > 0
+                              ? 'Resets in countdown'
+                              : 'No rakeback available'}
+                          </span>
                         </div>
                         {rakebackCountdown > 0 ? (
                           <span className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-dicey-border text-gray-400 tabular-nums">
