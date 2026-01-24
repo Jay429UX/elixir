@@ -59,50 +59,47 @@ export default function HeroBanner() {
             )}
           >
             {/* Content */}
-            <div className="relative z-10 px-4 py-6 md:px-12 md:py-10 h-full flex items-center">
-              <div className="max-w-2xl">
-                <span className="inline-block px-2 py-0.5 md:px-3 md:py-1 mb-2 text-[10px] md:text-xs font-bold text-black bg-white rounded-full uppercase">
-                  {slide.title}
-                </span>
-                <h1 className="text-xl md:text-4xl font-black text-white mb-1 md:mb-2 leading-tight">
-                  {slide.subtitle}
-                </h1>
-                <p className="text-xs md:text-sm text-gray-400 mb-3 md:mb-4 font-medium line-clamp-2 md:line-clamp-none">
-                  {slide.description}
-                </p>
-                <div className="flex items-center gap-2 md:gap-3">
-                  {/* 3D Primary CTA button - Nuclear Green */}
-                  <button className="relative group/btn">
-                    {/* Bottom layer (shadow/glow) - soft uniform glow on hover */}
-                    <span className="absolute -inset-1 rounded-lg transition-all duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-md" />
-                    {/* Bubble particles on hover - hidden on mobile */}
-                    <span className="hidden md:block absolute -top-2 left-3 size-2 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.2s_ease-out_infinite]" />
-                    <span className="hidden md:block absolute -top-1 left-8 size-1.5 rounded-full bg-[#39ff14]/50 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.4s_ease-out_infinite_0.2s]" />
-                    <span className="hidden md:block absolute -top-2 right-6 size-2.5 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.4s]" />
-                    <span className="hidden md:block absolute -top-1 right-12 size-1 rounded-full bg-[#39ff14]/40 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.3s_ease-out_infinite_0.1s]" />
-                    <span className="hidden md:block absolute top-0 left-1/2 size-1.5 rounded-full bg-[#39ff14]/55 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.1s_ease-out_infinite_0.3s]" />
-                    {/* Middle layer - darker for depth */}
-                    <span className="absolute inset-0 translate-y-1 bg-[#1a5c0a] rounded-lg" />
-                    {/* Top layer (main button) with radial gradient - nuclear green */}
-                    <span
-                      className="relative block px-4 py-2 md:px-6 md:py-2.5 text-xs md:text-sm text-black font-bold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
-                      style={{
-                        background: 'radial-gradient(ellipse at 50% 0%, #39ff14 0%, #32cd32 40%, #228b22 100%)',
-                        boxShadow: 'inset 0 2px 0 rgba(255,255,255,0.25), inset 0 -2px 0 rgba(0,0,0,0.2)',
-                      }}
-                    >
-                      {/* Shimmer effect */}
-                      <span className="cta-shimmer" />
-                      <span className="relative" style={{ textShadow: '0 1px 0 rgba(255,255,255,0.3), 0 -1px 0 rgba(0,0,0,0.15)' }}>
-                        {slide.ctaText}
-                      </span>
+            <div className="relative z-10 px-4 py-6 md:px-12 md:py-8 h-full flex flex-col justify-center">
+              <h1 className="text-xl md:text-4xl font-black text-white mb-1 md:mb-2 leading-tight">
+                {slide.subtitle}
+              </h1>
+              <p className="text-xs md:text-sm text-gray-400 font-medium line-clamp-2 md:line-clamp-none max-w-md mb-3 md:mb-4">
+                {slide.description}
+              </p>
+
+              {/* Buttons - below text */}
+              <div className="flex items-center gap-3">
+                {/* 3D Primary CTA button - Nuclear Green */}
+                <button className="relative group/btn">
+                  {/* Bottom layer (shadow/glow) - soft uniform glow on hover */}
+                  <span className="absolute -inset-1 rounded-lg transition-all duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-md" />
+                  {/* Bubble particles on hover */}
+                  <span className="absolute -top-2 left-3 size-2 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.2s_ease-out_infinite]" />
+                  <span className="absolute -top-1 left-8 size-1.5 rounded-full bg-[#39ff14]/50 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.4s_ease-out_infinite_0.2s]" />
+                  <span className="absolute -top-2 right-6 size-2.5 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.4s]" />
+                  <span className="absolute -top-1 right-12 size-1 rounded-full bg-[#39ff14]/40 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.3s_ease-out_infinite_0.1s]" />
+                  <span className="absolute top-0 left-1/2 size-1.5 rounded-full bg-[#39ff14]/55 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.1s_ease-out_infinite_0.3s]" />
+                  {/* Middle layer - darker for depth */}
+                  <span className="absolute inset-0 translate-y-1 bg-[#1a5c0a] rounded-lg" />
+                  {/* Top layer (main button) with radial gradient - nuclear green */}
+                  <span
+                    className="relative block px-4 py-2 md:px-6 md:py-2.5 text-xs md:text-sm text-black font-bold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
+                    style={{
+                      background: 'radial-gradient(ellipse at 50% 0%, #39ff14 0%, #32cd32 40%, #228b22 100%)',
+                      boxShadow: 'inset 0 2px 0 rgba(255,255,255,0.25), inset 0 -2px 0 rgba(0,0,0,0.2)',
+                    }}
+                  >
+                    {/* Shimmer effect */}
+                    <span className="cta-shimmer" />
+                    <span className="relative" style={{ textShadow: '0 1px 0 rgba(255,255,255,0.3), 0 -1px 0 rgba(0,0,0,0.15)' }}>
+                      {slide.ctaText}
                     </span>
-                  </button>
-                  {/* Terms Apply - Ghost button - hidden on small mobile */}
-                  <button className="hidden sm:block px-4 py-2 md:px-6 md:py-2.5 text-xs md:text-sm text-white/70 font-bold rounded-lg hover:text-white hover:bg-white/5 transition-colors duration-200">
-                    Terms Apply
-                  </button>
-                </div>
+                  </span>
+                </button>
+                {/* Terms Apply - Ghost button */}
+                <button className="px-4 py-2 md:px-6 md:py-2 text-xs md:text-sm text-white/70 font-bold rounded-lg hover:text-white hover:bg-white/5 transition-colors duration-200">
+                  Terms Apply
+                </button>
               </div>
             </div>
           </div>

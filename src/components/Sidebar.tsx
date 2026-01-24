@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import type { DotLottie } from "@lottiefiles/dotlottie-react";
 import { useTab } from "@/context/TabContext";
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
@@ -20,6 +21,18 @@ interface OriginalGame {
 export default function Sidebar() {
   const { activeTab, setActiveTab, isSidebarCollapsed, toggleSidebar } = useTab();
   const [originalsOpen, setOriginalsOpen] = useState(false);
+  const [dotLottie, setDotLottie] = useState<DotLottie | null>(null);
+
+  // Play logo animation every 4 seconds
+  useEffect(() => {
+    if (!dotLottie) return;
+
+    const interval = setInterval(() => {
+      dotLottie.play();
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [dotLottie]);
 
   const originalGames: OriginalGame[] = [
     {
@@ -226,7 +239,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={cn("fixed left-4 top-4 bottom-4 border border-dicey-border rounded-2xl overflow-y-auto transition-all duration-200", isSidebarCollapsed ? "w-16" : "w-60")}
+      className={cn("fixed left-4 top-4 bottom-4 border border-dicey-border rounded-2xl overflow-y-auto transition-all duration-200 z-50 hidden lg:block", isSidebarCollapsed ? "w-16" : "w-60")}
       style={{
         background: sidebarGradient,
       }}
@@ -235,9 +248,10 @@ export default function Sidebar() {
       <div className="h-16 flex items-center justify-center border-b border-dicey-border">
         <a href="/" className="flex items-center">
           <DotLottieReact
-            src="/animations/Dicey-Logo.json"
+            src="/animations/dicey-dice.json"
             autoplay
             loop={false}
+            dotLottieRefCallback={setDotLottie}
             style={{ width: isSidebarCollapsed ? '43px' : '95px', height: 'auto' }}
           />
         </a>

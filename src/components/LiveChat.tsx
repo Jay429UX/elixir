@@ -7,9 +7,30 @@ interface ChatMessage {
   id: string;
   username: string;
   message: string;
+  sticker?: string;
   vipLevel: number;
   timestamp: Date;
 }
+
+// Stickers available in chat
+const stickers = [
+  { id: "rocket", emoji: "🚀", label: "Rocket" },
+  { id: "fire", emoji: "🔥", label: "Fire" },
+  { id: "money", emoji: "💰", label: "Money Bag" },
+  { id: "diamond", emoji: "💎", label: "Diamond" },
+  { id: "crown", emoji: "👑", label: "Crown" },
+  { id: "dice", emoji: "🎲", label: "Dice" },
+  { id: "slot", emoji: "🎰", label: "Slot Machine" },
+  { id: "trophy", emoji: "🏆", label: "Trophy" },
+  { id: "clover", emoji: "🍀", label: "Lucky Clover" },
+  { id: "star", emoji: "⭐", label: "Star" },
+  { id: "heart", emoji: "❤️", label: "Heart" },
+  { id: "thumbsup", emoji: "👍", label: "Thumbs Up" },
+  { id: "clap", emoji: "👏", label: "Clap" },
+  { id: "party", emoji: "🎉", label: "Party" },
+  { id: "moon", emoji: "🌙", label: "Moon" },
+  { id: "whale", emoji: "🐋", label: "Whale" },
+];
 
 interface LiveChatProps {
   isOpen: boolean;
@@ -74,6 +95,21 @@ const generateUsername = () => {
 };
 
 const generateMessage = (id: number): ChatMessage => {
+  // 15% chance of sending a sticker instead of text
+  const isSticker = Math.random() < 0.15;
+
+  if (isSticker) {
+    const randomSticker = stickers[Math.floor(Math.random() * stickers.length)];
+    return {
+      id: `msg-${id}-${Date.now()}`,
+      username: generateUsername(),
+      message: "",
+      sticker: randomSticker.emoji,
+      vipLevel: Math.floor(Math.random() * vipBadges.length),
+      timestamp: new Date(),
+    };
+  }
+
   return {
     id: `msg-${id}-${Date.now()}`,
     username: generateUsername(),
@@ -91,6 +127,7 @@ export default function LiveChat({ isOpen, onToggle }: LiveChatProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isClient, setIsClient] = useState(false);
+  const [isStickerPickerOpen, setIsStickerPickerOpen] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   // Initialize messages only on client side to avoid hydration mismatch
@@ -136,6 +173,21 @@ export default function LiveChat({ isOpen, onToggle }: LiveChatProps) {
     }
   };
 
+  const handleSendSticker = (emoji: string) => {
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: `msg-user-${Date.now()}`,
+        username: "You",
+        message: "",
+        sticker: emoji,
+        vipLevel: 3, // Diamond badge for user
+        timestamp: new Date(),
+      },
+    ]);
+    setIsStickerPickerOpen(false);
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -145,12 +197,12 @@ export default function LiveChat({ isOpen, onToggle }: LiveChatProps) {
 
   return (
     <>
-      {/* Collapsed Tab */}
+      {/* Collapsed Tab - hidden on mobile */}
       <button
         aria-label={isOpen ? "Close chat" : "Open chat"}
         onClick={onToggle}
         className={cn(
-          "fixed top-1/2 -translate-y-1/2 z-50 flex items-center gap-2 px-3 py-4 bg-dicey-card border border-dicey-border rounded-l-lg hover:bg-dicey-border transition-all duration-200",
+          "fixed top-1/2 -translate-y-1/2 z-50 items-center gap-2 px-3 py-4 bg-dicey-card border border-dicey-border rounded-l-lg hover:bg-dicey-border transition-all duration-200 hidden lg:flex",
           isOpen ? "right-80" : "right-0"
         )}
       >
@@ -173,10 +225,10 @@ export default function LiveChat({ isOpen, onToggle }: LiveChatProps) {
         </div>
       </button>
 
-      {/* Sliding Panel */}
+      {/* Sliding Panel - hidden on mobile */}
       <div
         className={cn(
-          "fixed top-0 bottom-0 w-80 bg-dicey-card border-l border-dicey-border flex flex-col z-40 transition-transform duration-200 ease-out",
+          "fixed top-0 bottom-0 w-80 bg-dicey-card border-l border-dicey-border flex-col z-40 transition-transform duration-200 ease-out hidden lg:flex",
           isOpen ? "right-0 translate-x-0" : "right-0 translate-x-full"
         )}
       >
@@ -214,14 +266,50 @@ export default function LiveChat({ isOpen, onToggle }: LiveChatProps) {
                 {msg.username}
               </span>
             </div>
-            <p className="text-sm text-white leading-relaxed">{msg.message}</p>
+            {msg.sticker ? (
+              <span className="text-4xl">{msg.sticker}</span>
+            ) : (
+              <p className="text-sm text-white leading-relaxed">{msg.message}</p>
+            )}
           </div>
         ))}
       </div>
 
       {/* Input */}
       <div className="p-3 border-t border-dicey-border">
+        {/* Sticker Picker */}
+        {isStickerPickerOpen && (
+          <div className="mb-3 p-2 bg-dicey-dark border border-dicey-border rounded-lg">
+            <div className="grid grid-cols-8 gap-1">
+              {stickers.map((sticker) => (
+                <button
+                  key={sticker.id}
+                  onClick={() => handleSendSticker(sticker.emoji)}
+                  className="p-2 text-2xl hover:bg-dicey-border rounded-lg transition-colors"
+                  title={sticker.label}
+                >
+                  {sticker.emoji}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
         <div className="flex gap-2">
+          {/* Sticker Button */}
+          <button
+            onClick={() => setIsStickerPickerOpen(!isStickerPickerOpen)}
+            className={cn(
+              "p-2 rounded-lg transition-colors duration-200",
+              isStickerPickerOpen
+                ? "bg-white text-black"
+                : "bg-dicey-dark border border-dicey-border text-gray-400 hover:text-white hover:border-gray-600"
+            )}
+            title="Stickers"
+          >
+            <svg className="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </button>
           <input
             type="text"
             value={inputValue}
