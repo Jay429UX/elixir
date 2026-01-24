@@ -63,7 +63,17 @@ export default function GameRow({
 
     calculateLayout();
     window.addEventListener("resize", calculateLayout);
-    return () => window.removeEventListener("resize", calculateLayout);
+
+    // Use ResizeObserver to detect container size changes (e.g., when chat opens/closes)
+    const resizeObserver = new ResizeObserver(calculateLayout);
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
+
+    return () => {
+      window.removeEventListener("resize", calculateLayout);
+      resizeObserver.disconnect();
+    };
   }, [games.length]);
 
   const scroll = (direction: "left" | "right") => {
@@ -129,9 +139,9 @@ export default function GameRow({
       </div>
 
       {/* Games Container */}
-      <div ref={containerRef} className="overflow-hidden">
+      <div ref={containerRef} className="overflow-hidden -mx-2 px-2">
         <div
-          className="flex transition-transform duration-500 ease-out"
+          className="flex transition-transform duration-500 ease-out py-2"
           style={{
             transform: `translateX(-${scrollPosition}px)`,
             gap: `${gap}px`,

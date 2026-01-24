@@ -191,7 +191,7 @@ export default function Home() {
       )}
 
       {/* Main Content */}
-      <main className={`pt-16 transition-all duration-300 ${isSidebarCollapsed ? 'ml-[88px]' : 'ml-[272px]'} ${isChatOpen ? 'mr-80' : 'mr-0'}`}>
+      <main className={`pt-16 transition-all duration-200 ease-out ${isSidebarCollapsed ? 'ml-[88px]' : 'ml-[272px]'} ${isChatOpen ? 'mr-80' : 'mr-0'}`}>
         <div className="p-6 max-w-[1440px] mx-auto">
           {activeTab === "casino" ? (
             <>

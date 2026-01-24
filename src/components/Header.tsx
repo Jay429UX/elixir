@@ -223,7 +223,7 @@ export default function Header() {
               <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={() => setIsVIPDropdownOpen(!isVIPDropdownOpen)}
-                  className="relative flex items-center gap-2 px-3 py-1.5 bg-dicey-border/50 hover:bg-dicey-border rounded-full transition-colors cursor-pointer"
+                  className="relative flex items-center gap-2 px-3 py-1.5 bg-dicey-border-light hover:bg-dicey-border-light/80 rounded-full transition-colors cursor-pointer"
                 >
                   {/* Rewards notification badge */}
                   {claimableCount > 0 && (
@@ -522,7 +522,7 @@ export default function Header() {
               <div className="relative" ref={walletDropdownRef}>
                 <button
                   onClick={() => setIsWalletDropdownOpen(!isWalletDropdownOpen)}
-                  className="flex items-center gap-2 px-3 py-1.5 bg-dicey-border/50 hover:bg-dicey-border rounded-full transition-colors cursor-pointer"
+                  className="flex items-center gap-2 px-3 py-1.5 bg-dicey-border-light hover:bg-dicey-border-light/80 rounded-full transition-colors cursor-pointer"
                 >
                   <img src={selectedCrypto.icon} alt={selectedCrypto.symbol} className="size-5" />
                   <span className="font-black tabular-nums gold-shimmer">
@@ -640,7 +640,7 @@ export default function Header() {
                 <button
                   onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
                   aria-label="Notifications"
-                  className="relative p-1.5 bg-dicey-border/50 hover:bg-dicey-border rounded-full transition-colors duration-200"
+                  className="relative p-1.5 bg-dicey-border-light hover:bg-dicey-border-light/80 rounded-full transition-colors duration-200"
                 >
                   <svg
                     className="size-5 text-gray-400"
@@ -736,7 +736,7 @@ export default function Header() {
               {/* User Profile */}
               <button
                 aria-label="User menu"
-                className="flex items-center gap-2 px-2 py-1.5 bg-dicey-border/50 hover:bg-dicey-border rounded-full transition-colors duration-200"
+                className="flex items-center gap-2 px-2 py-1.5 bg-dicey-border-light hover:bg-dicey-border-light/80 rounded-full transition-colors duration-200"
               >
                 <div className="size-6 bg-white rounded-full flex items-center justify-center">
                   <span className="text-xs font-medium text-black">JD</span>

@@ -186,7 +186,7 @@ export default function LiveBetsTable() {
           {/* Table Body */}
           <div className="overflow-hidden p-2 flex flex-col gap-2">
             {/* Table Header */}
-            <div className="grid grid-cols-5 gap-4 px-4 py-3 rounded-lg bg-dicey-border/20">
+            <div className="grid grid-cols-5 gap-4 px-4 py-3 rounded-lg bg-dicey-card/50">
               <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Game</span>
               <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Player</span>
               <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Wager</span>
@@ -203,7 +203,7 @@ export default function LiveBetsTable() {
                   key={bet.id}
                   className={cn(
                     "grid grid-cols-5 gap-4 px-4 py-3 rounded-lg transition-colors duration-200",
-                    index === 0 ? "animate-fade-in bg-dicey-border/30" : "bg-dicey-border/20"
+                    index === 0 ? "animate-fade-in bg-dicey-card" : "bg-dicey-card"
                   )}
                 >
                   {/* Game */}

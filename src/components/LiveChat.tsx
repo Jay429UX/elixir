@@ -200,7 +200,7 @@ export default function LiveChat({ isOpen, onToggle }: LiveChatProps) {
         {[...messages].reverse().map((msg, index) => (
           <div
             key={msg.id}
-            className={`bg-dicey-border/40 rounded-lg p-2.5 ${
+            className={`bg-dicey-border rounded-lg p-2.5 ${
               index === 0 ? 'animate-drop-in' : ''
             }`}
           >

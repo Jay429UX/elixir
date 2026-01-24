@@ -18,6 +18,7 @@ const config: Config = {
           darker: "var(--dicey-darker)",
           card: "var(--dicey-card)",
           border: "var(--dicey-border)",
+          "border-light": "var(--dicey-border-light)",
           accent: "var(--dicey-accent)",
           "accent-light": "var(--dicey-accent-light)",
           "accent-hover": "#e5e5e5",
