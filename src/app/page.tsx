@@ -13,6 +13,7 @@ import LiveBetsTable from "@/components/LiveBetsTable";
 import Footer from "@/components/Footer";
 import ProvidersRow from "@/components/ProvidersRow";
 import GameFilters from "@/components/GameFilters";
+import ConfidentialityModal from "@/components/ConfidentialityModal";
 import { useTab } from "@/context/TabContext";
 
 interface Game {
@@ -152,6 +153,7 @@ const providers = [
 export default function Home() {
   const [isChatOpen, setIsChatOpen] = useState(true);
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
+  const [showConfidentialityModal, setShowConfidentialityModal] = useState(true);
   const { activeTab, isSidebarCollapsed } = useTab();
 
   const handleGameSelect = (game: Game) => {
@@ -164,6 +166,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
+      {/* Confidentiality Modal */}
+      {showConfidentialityModal && (
+        <ConfidentialityModal onAccept={() => setShowConfidentialityModal(false)} />
+      )}
+
       <Header />
       <Sidebar />
 
