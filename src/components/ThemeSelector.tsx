@@ -83,7 +83,7 @@ export default function ThemeSelector() {
               {/* Theme Name */}
               <div>
                 <h3 className="text-xl font-bold text-white mb-1">Green Theme</h3>
-                <p className="text-sm text-gray-400">What we are currently using.</p>
+                <p className="text-sm text-gray-400">Following our current color palette, however this prototype has some visual bugs.</p>
               </div>
 
               {/* Hover Overlay */}
