@@ -21,6 +21,7 @@ interface OriginalGame {
 export default function Sidebar() {
   const { activeTab, setActiveTab, isSidebarCollapsed, toggleSidebar } = useTab();
   const [originalsOpen, setOriginalsOpen] = useState(false);
+  const [casinoOpen, setCasinoOpen] = useState(false);
   const [dotLottie, setDotLottie] = useState<DotLottie | null>(null);
 
   // Play logo animation every 4 seconds
@@ -91,84 +92,50 @@ export default function Sidebar() {
     },
   ];
 
-  const casinoNavItems: NavItem[] = [
+  // Casino dropdown items
+  const casinoDropdownItems: NavItem[] = [
     {
       icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
-      ),
-      label: "Popular",
-    },
-    {
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      ),
-      label: "Recent",
-    },
-    {
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-        </svg>
-      ),
-      label: "Favorites",
-    },
-  ];
-
-  const casinoCategories: NavItem[] = [
-    {
-      icon: (
-        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l4.59-4.58L18 11l-6 6z" />
+        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+          <rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" strokeWidth="2" />
+          <circle cx="8" cy="12" r="2" />
+          <circle cx="16" cy="12" r="2" />
+          <path d="M12 8v8" stroke="currentColor" strokeWidth="2" />
         </svg>
       ),
       label: "Slots",
     },
     {
       icon: (
-        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
           <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2" />
           <circle cx="12" cy="12" r="3" />
+          <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="currentColor" strokeWidth="1.5" />
         </svg>
       ),
       label: "Live Casino",
     },
     {
       icon: (
-        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-          <rect x="2" y="4" width="20" height="16" rx="2" fill="none" stroke="currentColor" strokeWidth="2" />
-          <path d="M8 8h2v8H8zM14 8h2v8h-2z" />
+        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="12" cy="12" r="10" />
+          <circle cx="12" cy="12" r="6" />
+          <circle cx="12" cy="12" r="2" />
+          <path d="M12 2v4M12 18v4" />
         </svg>
       ),
-      label: "Table Games",
+      label: "Roulette",
     },
     {
       icon: (
-        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <rect x="2" y="4" width="9" height="14" rx="1" />
+          <rect x="13" y="4" width="9" height="14" rx="1" />
+          <text x="6.5" y="13" fontSize="8" fill="currentColor" textAnchor="middle" stroke="none">A</text>
+          <text x="17.5" y="13" fontSize="8" fill="currentColor" textAnchor="middle" stroke="none">K</text>
         </svg>
       ),
-      label: "Game Shows",
-    },
-    {
-      icon: (
-        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" fill="none" stroke="currentColor" strokeWidth="2" />
-          <circle cx="7" cy="7" r="1.5" />
-        </svg>
-      ),
-      label: "New Releases",
-    },
-    {
-      icon: (
-        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" fill="none" stroke="currentColor" strokeWidth="2" />
-        </svg>
-      ),
-      label: "Jackpots",
+      label: "Blackjack",
     },
   ];
 
@@ -229,8 +196,6 @@ export default function Sidebar() {
     },
   ];
 
-  const currentItems = activeTab === "casino" ? casinoCategories : sportsNavItems;
-  const quickItems = activeTab === "casino" ? casinoNavItems : [];
   const { theme } = useTheme();
 
   const sidebarGradient = theme === "green"
@@ -398,16 +363,73 @@ export default function Sidebar() {
           </div>
         )}
 
-        {/* Quick Access - Casino Only */}
-        {activeTab === "casino" && quickItems.length > 0 && (
-          <div className="mb-6">
+        {/* Casino Dropdown - Casino Only */}
+        {activeTab === "casino" && (
+          <div className="mb-4">
+            {isSidebarCollapsed ? (
+              <button
+                className="w-full flex items-center justify-center p-2.5 text-gray-400 hover:text-white hover:bg-dicey-border rounded-lg transition-colors"
+                title="Casino"
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                  <rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" strokeWidth="2" />
+                  <circle cx="8" cy="12" r="2" />
+                  <circle cx="16" cy="12" r="2" />
+                  <path d="M12 8v8" stroke="currentColor" strokeWidth="2" />
+                </svg>
+              </button>
+            ) : (
+              <>
+                <button
+                  onClick={() => setCasinoOpen(!casinoOpen)}
+                  className="w-full flex items-center justify-between px-3 py-2.5 text-white bg-dicey-card hover:bg-dicey-border rounded-lg transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                      <rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" strokeWidth="2" />
+                      <circle cx="8" cy="12" r="2" />
+                      <circle cx="16" cy="12" r="2" />
+                      <path d="M12 8v8" stroke="currentColor" strokeWidth="2" />
+                    </svg>
+                    <span className="text-sm font-medium">Casino</span>
+                  </div>
+                  <svg
+                    className={cn("size-3 text-gray-400 transition-transform duration-200", casinoOpen && "rotate-180")}
+                    fill="currentColor"
+                    viewBox="0 0 12 12"
+                  >
+                    <path d="M6 9L1 4h10L6 9z" />
+                  </svg>
+                </button>
+
+                {casinoOpen && (
+                  <div className="mt-1 ml-2 border-l border-dicey-border">
+                    {casinoDropdownItems.map((item) => (
+                      <button
+                        key={item.label}
+                        className="w-full flex items-center gap-3 px-4 py-2 text-gray-400 hover:text-white hover:bg-dicey-card rounded-r-lg transition-colors"
+                      >
+                        <span className="text-gray-500">{item.icon}</span>
+                        <span className="text-sm">{item.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        )}
+
+        {/* Sports Categories - Sports Only */}
+        {activeTab === "sports" && (
+          <div className="mb-4">
             {!isSidebarCollapsed && (
               <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-2">
-                Quick Access
+                Sports
               </h3>
             )}
             <nav className="space-y-1">
-              {quickItems.map((item) => (
+              {sportsNavItems.map((item) => (
                 <button
                   key={item.label}
                   className={cn(
@@ -420,14 +442,7 @@ export default function Sidebar() {
                     {item.icon}
                   </span>
                   {!isSidebarCollapsed && (
-                    <>
-                      <span className="text-sm font-medium">{item.label}</span>
-                      {item.badge && (
-                        <span className="ml-auto text-xs px-2 py-0.5 rounded-full font-medium bg-white/10 text-gray-300">
-                          {item.badge}
-                        </span>
-                      )}
-                    </>
+                    <span className="text-sm font-medium">{item.label}</span>
                   )}
                 </button>
               ))}
@@ -435,39 +450,44 @@ export default function Sidebar() {
           </div>
         )}
 
-        {/* Categories */}
-        <div>
-          {!isSidebarCollapsed && (
-            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-2">
-              {activeTab === "casino" ? "Categories" : "Sports"}
-            </h3>
-          )}
-          <nav className="space-y-1">
-            {currentItems.map((item) => (
-              <button
-                key={item.label}
-                className={cn(
-                  "w-full flex items-center text-gray-300 hover:text-white hover:bg-dicey-card rounded-lg transition-colors duration-200 group",
-                  isSidebarCollapsed ? "justify-center p-2.5" : "gap-3 px-3 py-2.5"
-                )}
-                title={isSidebarCollapsed ? item.label : undefined}
-              >
-                <span className="text-gray-500 group-hover:text-white transition-colors duration-200">
-                  {item.icon}
-                </span>
-                {!isSidebarCollapsed && (
-                  <>
-                    <span className="text-sm font-medium">{item.label}</span>
-                    {item.badge && (
-                      <span className="ml-auto text-xs px-2 py-0.5 rounded-full font-medium bg-white/10 text-gray-300">
-                        {item.badge}
-                      </span>
-                    )}
-                  </>
-                )}
-              </button>
-            ))}
-          </nav>
+        {/* Promotions Link */}
+        <div className="mb-1">
+          <button
+            className={cn(
+              "w-full flex items-center text-gray-300 hover:text-white hover:bg-dicey-card rounded-lg transition-colors duration-200 group",
+              isSidebarCollapsed ? "justify-center p-2.5" : "gap-3 px-3 py-2.5"
+            )}
+            title={isSidebarCollapsed ? "Promotions" : undefined}
+          >
+            <span className="text-gray-500 group-hover:text-white transition-colors duration-200">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+              </svg>
+            </span>
+            {!isSidebarCollapsed && (
+              <span className="text-sm font-medium">Promotions</span>
+            )}
+          </button>
+        </div>
+
+        {/* Be the House Link */}
+        <div className="mb-4">
+          <button
+            className={cn(
+              "w-full flex items-center text-gray-300 hover:text-white hover:bg-dicey-card rounded-lg transition-colors duration-200 group",
+              isSidebarCollapsed ? "justify-center p-2.5" : "gap-3 px-3 py-2.5"
+            )}
+            title={isSidebarCollapsed ? "Be the House" : undefined}
+          >
+            <span className="text-gray-500 group-hover:text-white transition-colors duration-200">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+            </span>
+            {!isSidebarCollapsed && (
+              <span className="text-sm font-medium">Be the House</span>
+            )}
+          </button>
         </div>
 
       </div>
