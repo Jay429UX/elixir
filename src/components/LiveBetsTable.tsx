@@ -52,8 +52,8 @@ const generateUsername = () => {
   return `${adjectives[Math.floor(Math.random() * adjectives.length)]}${nouns[Math.floor(Math.random() * nouns.length)]}${num}`;
 };
 
-const generateBet = (id: number): Bet => {
-  const game = gameData[Math.floor(Math.random() * gameData.length)];
+const generateBet = (id: number, fixedGame?: { name: string; icon: string }): Bet => {
+  const game = fixedGame || gameData[Math.floor(Math.random() * gameData.length)];
   const isHighRoller = Math.random() > 0.85;
   const wager = isHighRoller
     ? Math.floor(Math.random() * 9000) + 1000
@@ -82,10 +82,17 @@ const generateBet = (id: number): Bet => {
 };
 
 // Generate initial bets
-const createInitialBets = (): Bet[] =>
-  Array.from({ length: 20 }, (_, i) => generateBet(i));
+const createInitialBets = (fixedGame?: { name: string; icon: string }): Bet[] =>
+  Array.from({ length: 20 }, (_, i) => generateBet(i, fixedGame));
 
-export default function LiveBetsTable() {
+interface LiveBetsTableProps {
+  gameFilter?: {
+    name: string;
+    icon: string;
+  };
+}
+
+export default function LiveBetsTable({ gameFilter }: LiveBetsTableProps = {}) {
   const [bets, setBets] = useState<Bet[]>([]);
   const [filter, setFilter] = useState<FilterType>("all");
   const [isClient, setIsClient] = useState(false);
@@ -93,22 +100,22 @@ export default function LiveBetsTable() {
   // Initialize bets only on client side to avoid hydration mismatch
   useEffect(() => {
     setIsClient(true);
-    setBets(createInitialBets());
-  }, []);
+    setBets(createInitialBets(gameFilter));
+  }, [gameFilter]);
 
   // Simulate incoming bets
   useEffect(() => {
     if (!isClient) return;
     const interval = setInterval(() => {
       setBets((prev) => {
-        const newBet = generateBet(prev.length);
+        const newBet = generateBet(prev.length, gameFilter);
         const newBets = [newBet, ...prev];
         return newBets.slice(0, 50); // Keep only last 50 bets
       });
     }, 800 + Math.random() * 400);
 
     return () => clearInterval(interval);
-  }, [isClient]);
+  }, [isClient, gameFilter]);
 
   const filteredBets = bets.filter((bet) => {
     if (filter === "highRollers") return bet.isHighRoller;
@@ -139,7 +146,9 @@ export default function LiveBetsTable() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
             <span className="relative inline-flex rounded-full size-2 bg-green-500"></span>
           </span>
-          <h2 className="text-lg font-semibold text-white">Live Bets</h2>
+          <h2 className="text-lg font-semibold text-white">
+            {gameFilter ? `Live Bets on ${gameFilter.name}` : "Live Bets"}
+          </h2>
         </div>
 
         {/* Filter Tabs */}
@@ -186,8 +195,13 @@ export default function LiveBetsTable() {
           {/* Table Body */}
           <div className="overflow-hidden p-2 flex flex-col gap-2">
             {/* Table Header */}
-            <div className="grid grid-cols-5 gap-4 px-4 py-3 rounded-lg bg-dicey-card/50">
-              <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Game</span>
+            <div className={cn(
+              "grid gap-4 px-4 py-3 rounded-lg bg-dicey-card/50",
+              gameFilter ? "grid-cols-4" : "grid-cols-5"
+            )}>
+              {!gameFilter && (
+                <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Game</span>
+              )}
               <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Player</span>
               <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Wager</span>
               <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Multiplier</span>
@@ -202,19 +216,22 @@ export default function LiveBetsTable() {
                 <div
                   key={bet.id}
                   className={cn(
-                    "grid grid-cols-5 gap-4 px-4 py-3 rounded-lg transition-colors duration-200",
+                    "grid gap-4 px-4 py-3 rounded-lg transition-colors duration-200",
+                    gameFilter ? "grid-cols-4" : "grid-cols-5",
                     index === 0 ? "animate-fade-in bg-dicey-card" : "bg-dicey-card"
                   )}
                 >
-                  {/* Game */}
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={bet.gameIcon}
-                      alt={bet.gameName}
-                      className="size-8 rounded-lg object-cover"
-                    />
-                    <span className="text-sm text-white font-medium truncate">{bet.gameName}</span>
-                  </div>
+                  {/* Game - only show when not filtering by game */}
+                  {!gameFilter && (
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={bet.gameIcon}
+                        alt={bet.gameName}
+                        className="size-8 rounded-lg object-cover"
+                      />
+                      <span className="text-sm text-white font-medium truncate">{bet.gameName}</span>
+                    </div>
+                  )}
 
                   {/* Player */}
                   <div className="flex items-center gap-2">

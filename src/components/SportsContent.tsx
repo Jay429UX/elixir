@@ -30,8 +30,8 @@ const featuredMatches: FeaturedMatch[] = [
     league: "UEFA Champions League",
     homeTeam: "Real Madrid",
     awayTeam: "Manchester City",
-    homeLogo: "https://media.api-sports.io/football/teams/541.png",
-    awayLogo: "https://media.api-sports.io/football/teams/50.png",
+    homeLogo: "/sports/Real_Madrid_CF.svg.webp",
+    awayLogo: "/sports/Manchester_City_FC_badge.svg.png",
     homeOdds: 2.45,
     drawOdds: 3.20,
     awayOdds: 2.80,
@@ -46,8 +46,8 @@ const featuredMatches: FeaturedMatch[] = [
     league: "NBA",
     homeTeam: "LA Lakers",
     awayTeam: "Golden State",
-    homeLogo: "https://media.api-sports.io/basketball/teams/145.png",
-    awayLogo: "https://media.api-sports.io/basketball/teams/144.png",
+    homeLogo: "/sports/58419ce2a6515b1e0ad75a69.png",
+    awayLogo: "/sports/62066c9fd7b91b0004122608.png",
     homeOdds: 1.85,
     awayOdds: 1.95,
     time: "03:30",
@@ -164,8 +164,8 @@ export default function SportsContent() {
               <div className="text-xs text-gray-400 mb-4">{match.league}</div>
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="size-12 bg-white/10 rounded-full flex items-center justify-center">
-                    <span className="text-2xl">⚽</span>
+                  <div className="size-12 bg-white/10 rounded-full flex items-center justify-center overflow-hidden p-1">
+                    <img src={match.homeLogo} alt={match.homeTeam} className="size-full object-contain" />
                   </div>
                   <div>
                     <div className="text-white font-semibold">{match.homeTeam}</div>
@@ -180,8 +180,8 @@ export default function SportsContent() {
                     <div className="text-white font-semibold">{match.awayTeam}</div>
                     {match.isLive && <div className="text-2xl font-bold text-white tabular-nums">{match.awayScore}</div>}
                   </div>
-                  <div className="size-12 bg-white/10 rounded-full flex items-center justify-center">
-                    <span className="text-2xl">⚽</span>
+                  <div className="size-12 bg-white/10 rounded-full flex items-center justify-center overflow-hidden p-1">
+                    <img src={match.awayLogo} alt={match.awayTeam} className="size-full object-contain" />
                   </div>
                 </div>
               </div>

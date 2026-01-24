@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import HeroBanner from "@/components/HeroBanner";
@@ -8,7 +9,6 @@ import GameRow from "@/components/GameRow";
 import LiveWinsFeed from "@/components/LiveWinsFeed";
 import LiveChat from "@/components/LiveChat";
 import SportsContent from "@/components/SportsContent";
-import GameScreen from "@/components/GameScreen";
 import LiveBetsTable from "@/components/LiveBetsTable";
 import Footer from "@/components/Footer";
 import ProvidersRow from "@/components/ProvidersRow";
@@ -153,18 +153,13 @@ const providers = [
 ];
 
 export default function Home() {
+  const router = useRouter();
   const [isChatOpen, setIsChatOpen] = useState(true);
-  const [selectedGame, setSelectedGame] = useState<Game | null>(null);
-  const [showConfidentialityModal, setShowConfidentialityModal] = useState(true);
   const { activeTab, isSidebarCollapsed } = useTab();
   const { hasSelectedTheme } = useTheme();
 
   const handleGameSelect = (game: Game) => {
-    setSelectedGame(game);
-  };
-
-  const handleCloseGame = () => {
-    setSelectedGame(null);
+    router.push(`/game/${game.id}`);
   };
 
   // Show theme selector first if theme hasn't been selected
@@ -174,10 +169,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      {/* Confidentiality Modal */}
-      {showConfidentialityModal && (
-        <ConfidentialityModal onAccept={() => setShowConfidentialityModal(false)} />
-      )}
+      {/* Confidentiality Modal - manages its own visibility via localStorage */}
+      <ConfidentialityModal onAccept={() => {}} />
 
       <Header />
       <Sidebar />
@@ -185,14 +178,9 @@ export default function Home() {
       {/* Live Chat */}
       <LiveChat isOpen={isChatOpen} onToggle={() => setIsChatOpen(!isChatOpen)} />
 
-      {/* Game Screen Overlay */}
-      {selectedGame && (
-        <GameScreen game={selectedGame} onClose={handleCloseGame} />
-      )}
-
       {/* Main Content */}
-      <main className={`pt-16 transition-all duration-200 ease-out ${isSidebarCollapsed ? 'ml-[88px]' : 'ml-[272px]'} ${isChatOpen ? 'mr-80' : 'mr-0'}`}>
-        <div className="p-6 max-w-[1440px] mx-auto">
+      <main className={`pt-16 transition-all duration-200 ease-out ${isSidebarCollapsed ? 'lg:ml-[88px]' : 'lg:ml-[272px]'} ${isChatOpen ? 'lg:mr-80' : 'mr-0'}`}>
+        <div className="p-4 md:p-6 max-w-[1440px] mx-auto">
           {activeTab === "casino" ? (
             <>
               <HeroBanner />

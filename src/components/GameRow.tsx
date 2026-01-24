@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import GameCard from "./GameCard";
 
-interface Game {
+export interface Game {
   id: string;
   title: string;
   provider: string;
@@ -20,6 +21,7 @@ interface GameRowProps {
   games: Game[];
   showViewAll?: boolean;
   onGameSelect?: (game: Game) => void;
+  useRouterNavigation?: boolean;
 }
 
 export default function GameRow({
@@ -28,7 +30,9 @@ export default function GameRow({
   games,
   showViewAll = true,
   onGameSelect,
+  useRouterNavigation = false,
 }: GameRowProps) {
+  const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [maxScroll, setMaxScroll] = useState(0);
@@ -158,7 +162,13 @@ export default function GameRow({
               isHot={game.isHot}
               players={game.players}
               width={cardWidth}
-              onPlay={() => onGameSelect?.(game)}
+              onPlay={() => {
+                if (useRouterNavigation) {
+                  router.push(`/game/${game.id}`);
+                } else {
+                  onGameSelect?.(game);
+                }
+              }}
             />
           ))}
         </div>

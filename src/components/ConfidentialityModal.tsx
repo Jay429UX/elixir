@@ -2,16 +2,33 @@
 
 import { useState, useEffect } from "react";
 
+const STORAGE_KEY = "dicey-confidentiality-accepted";
+
 interface ConfidentialityModalProps {
   onAccept: () => void;
 }
 
 export default function ConfidentialityModal({ onAccept }: ConfidentialityModalProps) {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
-  if (!isVisible) return null;
+  // Check localStorage on mount
+  useEffect(() => {
+    setIsClient(true);
+    const hasAccepted = localStorage.getItem(STORAGE_KEY);
+    if (!hasAccepted) {
+      setIsVisible(true);
+    } else {
+      // Already accepted, call onAccept immediately
+      onAccept();
+    }
+  }, [onAccept]);
+
+  // Don't render anything on server or before checking localStorage
+  if (!isClient || !isVisible) return null;
 
   const handleAccept = () => {
+    localStorage.setItem(STORAGE_KEY, "true");
     setIsVisible(false);
     onAccept();
   };
