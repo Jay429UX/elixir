@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/context/ThemeContext";
 
 interface Win {
   id: string;
@@ -80,6 +81,7 @@ const createInitialWins = (): Win[] => {
 };
 
 export default function LiveWinsFeed() {
+  const { theme } = useTheme();
   const [wins, setWins] = useState<Win[]>([]);
   const [isHovered, setIsHovered] = useState(false);
   const [isClient, setIsClient] = useState(false);
@@ -161,7 +163,14 @@ export default function LiveWinsFeed() {
                 </div>
 
                 {/* Card content */}
-                <div className="relative flex items-center gap-3 px-4 py-2 bg-dicey-card rounded-lg overflow-hidden">
+                <div
+                  className="relative flex items-center gap-3 px-4 py-2 bg-dicey-card rounded-lg overflow-hidden"
+                  style={{
+                    border: theme === "green"
+                      ? '1px solid rgba(110, 231, 183, 0.1)'
+                      : '1px solid rgba(196, 181, 253, 0.1)',
+                  }}
+                >
                   {/* Shimmer overlay on hover */}
                   <div className="card-shimmer opacity-0 group-hover/card:opacity-100 transition-opacity duration-200" />
                   <div className="w-10 h-12 rounded-md overflow-hidden flex-shrink-0">

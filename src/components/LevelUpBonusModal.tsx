@@ -85,14 +85,14 @@ export default function LevelUpBonusModal({ isOpen, onClose, bonusAmount, onClai
               <>
                 {/* Glow effect */}
                 <span className="absolute -inset-1 rounded-xl transition-all duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-md" />
-                {/* Bubble particles */}
+                {/* Bubble particles on hover */}
                 <span className="absolute -top-2 left-6 size-2 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.2s_ease-out_infinite]" />
                 <span className="absolute -top-1 left-16 size-1.5 rounded-full bg-[#39ff14]/50 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.4s_ease-out_infinite_0.2s]" />
                 <span className="absolute -top-2 right-12 size-2.5 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.4s]" />
                 <span className="absolute -top-1 right-24 size-1 rounded-full bg-[#39ff14]/40 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.3s_ease-out_infinite_0.1s]" />
                 <span className="absolute top-0 left-1/2 size-1.5 rounded-full bg-[#39ff14]/55 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.1s_ease-out_infinite_0.3s]" />
                 {/* Dark inset ring around button - extends bottom to cover 3D depth (translate-y-1 = 4px) */}
-                <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[6px] rounded-[14px] bg-black/40" />
+                <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[6px] rounded-[14px] bg-black/20" />
                 {/* Bottom layer for depth */}
                 <span className="absolute inset-0 translate-y-1 bg-[#1a5c0a] rounded-xl" />
                 {/* Main button */}

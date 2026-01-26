@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/context/ThemeContext";
 
 interface Match {
   id: string;
@@ -84,6 +85,7 @@ const esportsMatches: Match[] = [
 ];
 
 export default function SportsContent() {
+  const { theme } = useTheme();
   const [selectedSport, setSelectedSport] = useState<string>("all");
   const [betSlip, setBetSlip] = useState<Array<{ match: Match; selection: string; odds: number }>>([]);
 
@@ -154,6 +156,11 @@ export default function SportsContent() {
             <div
               key={match.id}
               className="bg-dicey-card rounded-xl p-5 relative overflow-hidden"
+              style={{
+                border: theme === "green"
+                  ? '1px solid rgba(110, 231, 183, 0.15)'
+                  : '1px solid rgba(196, 181, 253, 0.15)',
+              }}
             >
               {match.isLive && (
                 <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-red-500/20 text-red-400 px-2 py-1 rounded-full text-xs font-semibold">
@@ -207,6 +214,11 @@ export default function SportsContent() {
                 ? "bg-white text-black"
                 : "bg-dicey-card text-gray-300 hover:text-white"
             )}
+            style={selectedSport !== sport.id ? {
+              border: theme === "green"
+                ? '1px solid rgba(110, 231, 183, 0.1)'
+                : '1px solid rgba(196, 181, 253, 0.1)',
+            } : undefined}
           >
             <span>{sport.icon}</span>
             {sport.label}
@@ -220,7 +232,14 @@ export default function SportsContent() {
           <span className="text-2xl">📅</span>
           Upcoming Matches
         </h2>
-        <div className="bg-dicey-card rounded-xl overflow-hidden">
+        <div
+          className="bg-dicey-card rounded-xl overflow-hidden"
+          style={{
+            border: theme === "green"
+              ? '1px solid rgba(110, 231, 183, 0.1)'
+              : '1px solid rgba(196, 181, 253, 0.1)',
+          }}
+        >
           {getMatches().map((match, index) => (
             <div
               key={match.id}
@@ -297,7 +316,14 @@ export default function SportsContent() {
 
       {/* Bet Slip */}
       {betSlip.length > 0 && (
-        <div className="fixed bottom-4 right-4 w-80 bg-dicey-card rounded-xl shadow-2xl overflow-hidden z-40">
+        <div
+          className="fixed bottom-4 right-4 w-80 bg-dicey-card rounded-xl shadow-2xl overflow-hidden z-40"
+          style={{
+            border: theme === "green"
+              ? '1px solid rgba(110, 231, 183, 0.15)'
+              : '1px solid rgba(196, 181, 253, 0.15)',
+          }}
+        >
           <div className="bg-white text-black px-4 py-3 font-semibold flex items-center justify-between">
             <span>Bet Slip (<span className="tabular-nums">{betSlip.length}</span>)</span>
             <button
@@ -359,7 +385,7 @@ export default function SportsContent() {
               <span className="absolute -top-1 right-20 size-1 rounded-full bg-[#39ff14]/40 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.3s_ease-out_infinite_0.1s]" />
               <span className="absolute top-0 left-1/2 size-1.5 rounded-full bg-[#39ff14]/55 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.1s_ease-out_infinite_0.3s]" />
               {/* Dark inset ring - extends bottom to cover 3D depth */}
-              <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[6px] rounded-[14px] bg-black/40" />
+              <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[6px] rounded-[14px] bg-black/20" />
               {/* Middle layer - darker for depth */}
               <span className="absolute inset-0 translate-y-1 bg-[#1a5c0a] rounded-xl" />
               {/* Top layer (main button) with radial gradient - nuclear green */}

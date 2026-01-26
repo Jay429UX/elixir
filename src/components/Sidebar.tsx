@@ -152,7 +152,7 @@ export default function Sidebar() {
       />
       {/* Logo */}
       <div className={cn("h-16 flex items-center", isSidebarCollapsed ? "justify-center" : "justify-start pl-5")}>
-        <a href="/" className="flex items-center">
+        <a href="/" className={cn("flex items-center", isSidebarCollapsed ? "flex-col gap-1" : "gap-2")}>
           <DotLottieReact
             src="/animations/dicey-dice.json"
             autoplay
@@ -160,6 +160,24 @@ export default function Sidebar() {
             dotLottieRefCallback={setDotLottie}
             style={{ width: isSidebarCollapsed ? '43px' : '95px', height: 'auto' }}
           />
+          {/* BETA Tag */}
+          <span
+            className={cn(
+              "font-bold tracking-wider uppercase rounded",
+              isSidebarCollapsed ? "text-[7px] px-1 py-0.5" : "text-[10px] px-1.5 py-0.5"
+            )}
+            style={{
+              background: theme === "green"
+                ? 'linear-gradient(135deg, rgba(110, 231, 183, 0.2) 0%, rgba(110, 231, 183, 0.1) 100%)'
+                : 'linear-gradient(135deg, rgba(196, 181, 253, 0.2) 0%, rgba(196, 181, 253, 0.1) 100%)',
+              color: theme === "green" ? 'rgb(110, 231, 183)' : 'rgb(196, 181, 253)',
+              border: theme === "green"
+                ? '1px solid rgba(110, 231, 183, 0.3)'
+                : '1px solid rgba(196, 181, 253, 0.3)',
+            }}
+          >
+            Beta
+          </span>
         </a>
       </div>
 
@@ -183,7 +201,7 @@ export default function Sidebar() {
             <div
               className="absolute left-1 right-1 h-[calc(50%-4px)] rounded-lg transition-all duration-300"
               style={{
-                top: activeTab === "casino" ? "4px" : "calc(50% + 2px)",
+                top: activeTab === "casino" ? "4px" : "calc(50%)",
                 transitionTimingFunction: "cubic-bezier(0.34, 1.56, 0.64, 1)",
                 background: theme === "green"
                   ? 'radial-gradient(ellipse at 50% 0%, #6ee7b7 0%, #34d399 40%, #10b981 100%)'
@@ -222,7 +240,7 @@ export default function Sidebar() {
             <div
               className="absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-lg transition-all duration-300"
               style={{
-                left: activeTab === "casino" ? "4px" : "calc(50% + 2px)",
+                left: activeTab === "casino" ? "4px" : "calc(50%)",
                 transitionTimingFunction: "cubic-bezier(0.34, 1.56, 0.64, 1)",
                 background: theme === "green"
                   ? 'radial-gradient(ellipse at 50% 0%, #6ee7b7 0%, #34d399 40%, #10b981 100%)'

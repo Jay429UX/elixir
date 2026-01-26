@@ -40,6 +40,11 @@ export default function HeroBanner() {
         <div
           key={banner.id}
           className="relative flex-1 rounded-2xl overflow-hidden bg-dicey-card h-[180px] md:h-[220px]"
+          style={{
+            border: theme === "green"
+              ? '1px solid rgba(110, 231, 183, 0.15)'
+              : '1px solid rgba(196, 181, 253, 0.15)',
+          }}
         >
           {/* Content */}
           <div className="relative z-10 px-4 py-6 md:px-8 md:py-8 h-full flex flex-col justify-center">

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
-import { ChatCircle, CaretDown, Smiley, PaperPlaneTilt } from "@phosphor-icons/react";
+import { ChatCircle, Smiley, PaperPlaneTilt } from "@phosphor-icons/react";
 import { useTheme } from "@/context/ThemeContext";
 
 interface ChatMessage {
@@ -205,30 +205,46 @@ export default function LiveChat({ isOpen, onToggle }: LiveChatProps) {
         aria-label={isOpen ? "Close chat" : "Open chat"}
         onClick={onToggle}
         className={cn(
-          "fixed top-1/2 -translate-y-1/2 z-50 items-center gap-2 px-3 py-4 bg-dicey-card-elevated rounded-l-lg hover:bg-dicey-border transition-all duration-200 hidden lg:flex",
-          isOpen ? "right-80" : "right-0"
+          "fixed top-4 z-50 items-center gap-2 px-3 py-4 rounded-l-lg hover:bg-dicey-border transition-all duration-200 hidden lg:flex",
+          isOpen ? "right-[calc(320px+16px)]" : "right-0"
         )}
+        style={{
+          background: theme === "green" ? '#1e1f1e' : '#231a35',
+          borderTop: theme === "green"
+            ? '1px solid rgba(110, 231, 183, 0.15)'
+            : '1px solid rgba(196, 181, 253, 0.15)',
+          borderLeft: theme === "green"
+            ? '1px solid rgba(110, 231, 183, 0.15)'
+            : '1px solid rgba(196, 181, 253, 0.15)',
+          borderBottom: theme === "green"
+            ? '1px solid rgba(110, 231, 183, 0.15)'
+            : '1px solid rgba(196, 181, 253, 0.15)',
+        }}
       >
-        <div className="flex flex-col items-center gap-2">
-          <ChatCircle weight="fill" className="size-5 text-white" />
+        <div className="flex flex-col items-center gap-1.5">
+          {/* Green bubble indicator above chat icon */}
           <span className="relative flex size-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
             <span className="relative inline-flex rounded-full size-2 bg-green-500"></span>
           </span>
-          {/* Collapse/Expand Arrow */}
-          <CaretDown
-            weight="fill"
-            className={cn("size-3 text-gray-400 transition-transform duration-200", isOpen ? "rotate-90" : "-rotate-90")}
-          />
+          <ChatCircle weight="fill" className="size-5 text-white" />
         </div>
       </button>
 
       {/* Sliding Panel - hidden on mobile */}
       <div
         className={cn(
-          "fixed top-0 bottom-0 w-80 bg-dicey-card-elevated flex-col z-40 transition-transform duration-200 ease-out hidden lg:flex",
-          isOpen ? "right-0 translate-x-0" : "right-0 translate-x-full"
+          "fixed top-4 bottom-4 right-4 w-80 rounded-tr-2xl rounded-b-2xl flex-col z-40 transition-transform duration-200 ease-out hidden lg:flex overflow-hidden",
+          isOpen ? "translate-x-0" : "translate-x-[calc(100%+16px)]"
         )}
+        style={{
+          background: theme === "green"
+            ? 'radial-gradient(ellipse 80% 60% at 100% 0%, rgba(110, 231, 183, 0.15) 0%, transparent 50%), #1e1f1e'
+            : 'radial-gradient(ellipse 80% 60% at 100% 0%, rgba(196, 181, 253, 0.12) 0%, transparent 50%), #231a35',
+          border: theme === "green"
+            ? '1px solid rgba(110, 231, 183, 0.15)'
+            : '1px solid rgba(196, 181, 253, 0.15)',
+        }}
       >
         {/* Header */}
         <div className="px-4 py-3">
@@ -265,9 +281,7 @@ export default function LiveChat({ isOpen, onToggle }: LiveChatProps) {
         {[...messages].reverse().map((msg, index) => (
           <div
             key={msg.id}
-            className={`bg-dicey-border rounded-lg p-2.5 ${
-              index === 0 ? 'animate-drop-in' : ''
-            }`}
+            className="bg-dicey-border rounded-lg p-2.5"
           >
             <div className="flex items-center gap-1.5 mb-1">
               <img

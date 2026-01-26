@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/context/ThemeContext";
 
 interface Bet {
   id: string;
@@ -93,6 +94,7 @@ interface LiveBetsTableProps {
 }
 
 export default function LiveBetsTable({ gameFilter }: LiveBetsTableProps = {}) {
+  const { theme } = useTheme();
   const [bets, setBets] = useState<Bet[]>([]);
   const [filter, setFilter] = useState<FilterType>("all");
   const [isClient, setIsClient] = useState(false);
@@ -191,7 +193,14 @@ export default function LiveBetsTable({ gameFilter }: LiveBetsTableProps = {}) {
 
       {/* Table Container with Mask */}
       <div className="relative">
-        <div className="rounded-xl overflow-hidden">
+        <div
+          className="rounded-xl overflow-hidden"
+          style={{
+            border: theme === "green"
+              ? '1px solid rgba(110, 231, 183, 0.1)'
+              : '1px solid rgba(196, 181, 253, 0.1)',
+          }}
+        >
           {/* Table Body */}
           <div className="overflow-hidden p-2 flex flex-col gap-2">
             {/* Table Header */}
@@ -216,9 +225,8 @@ export default function LiveBetsTable({ gameFilter }: LiveBetsTableProps = {}) {
                 <div
                   key={bet.id}
                   className={cn(
-                    "grid gap-4 px-4 py-3 rounded-lg transition-colors duration-200",
-                    gameFilter ? "grid-cols-4" : "grid-cols-5",
-                    index === 0 ? "animate-fade-in bg-dicey-card" : "bg-dicey-card"
+                    "grid gap-4 px-4 py-3 rounded-lg transition-colors duration-200 bg-dicey-card",
+                    gameFilter ? "grid-cols-4" : "grid-cols-5"
                   )}
                 >
                   {/* Game - only show when not filtering by game */}

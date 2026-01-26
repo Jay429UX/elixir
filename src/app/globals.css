@@ -212,6 +212,20 @@ body::before {
   animation: fade-in 0.2s ease-out;
 }
 
+/* Tetris-style slide down animation for live bets */
+@keyframes slide-down-tetris {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-down-tetris {
+  animation: slide-down-tetris 0.25s cubic-bezier(0.37, 0, 0.63, 1);
+}
+
 /* Card hover shimmer effect */
 @keyframes card-shimmer {
   0% {

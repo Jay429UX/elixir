@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/context/ThemeContext";
 
 interface GameCardProps {
   title: string;
@@ -27,6 +28,8 @@ export default function GameCard({
   width,
   onPlay,
 }: GameCardProps) {
+  const { theme } = useTheme();
+
   return (
     <div
       className="group relative flex-shrink-0 cursor-pointer"
@@ -34,7 +37,14 @@ export default function GameCard({
       onClick={onPlay}
     >
       {/* Game Image */}
-      <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-dicey-card">
+      <div
+        className="relative aspect-[3/4] rounded-xl overflow-hidden bg-dicey-card"
+        style={{
+          border: theme === "green"
+            ? '1px solid rgba(110, 231, 183, 0.1)'
+            : '1px solid rgba(196, 181, 253, 0.1)',
+        }}
+      >
         <div
           className="absolute inset-0 bg-cover bg-center transition-transform duration-200 group-hover:scale-110"
           style={{
