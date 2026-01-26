@@ -271,7 +271,7 @@ export default function Header() {
             transform: 'translateX(-50%)'
           }}
         >
-          <div className="relative flex items-end justify-center" style={{ gap: 0, filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3))' }}>
+          <div className="relative flex items-end justify-center" style={{ gap: 0, filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15))' }}>
             {/* Left curved section - hidden on mobile */}
             <svg
               className="hidden lg:block h-[52px] w-auto text-dicey-card-elevated"
@@ -580,215 +580,215 @@ export default function Header() {
                   </div>
                 ))}
 
-          {/* Wallet Dropdown */}
-          {isWalletDropdownOpen && (
-            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-80 bg-dicey-card-elevated rounded-xl z-50 overflow-hidden" style={{ boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.3)' }}>
-              {/* Playable Balance Section */}
-              <div className="p-3">
-                <span className="text-xs text-gray-500 px-2 py-1 block mb-2">Playable Balance</span>
-
-                {/* Crypto Tokens Card */}
-                <div className="bg-white/[0.04] border border-white/[0.06] rounded-lg overflow-hidden mb-2">
-                  {cryptoAssets
-                    .filter(crypto => !hideZeroBalances || parseFloat(crypto.balance.replace(/,/g, '')) > 0)
-                    .map((crypto, index, filteredArray) => (
-                    <button
-                      key={crypto.symbol}
-                      onClick={() => {
-                        setSelectedCrypto(crypto);
-                        setIsWalletDropdownOpen(false);
-                      }}
-                      className={cn(
-                        "w-full flex items-center justify-between p-3 transition-colors",
-                        selectedCrypto.symbol === crypto.symbol
-                          ? 'bg-white/[0.06]'
-                          : 'hover:bg-white/[0.06]',
-                        index !== filteredArray.length - 1 && 'border-b border-white/[0.04]'
-                      )}
-                    >
-                      <div className="flex items-center gap-3">
-                        <img src={crypto.icon} alt={crypto.symbol} className="size-6" />
-                        <span className="text-sm font-medium text-white">{crypto.symbol}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm text-white font-medium tabular-nums">
-                          {showInFiat
-                            ? `${selectedFiat.symbol}${(crypto.usdValue * selectedFiat.rate).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-                            : crypto.balance
-                          }
+                {/* Wallet Dropdown */}
+                {isWalletDropdownOpen && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-80 bg-dicey-card-elevated rounded-xl z-50 overflow-hidden" style={{ boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.3)' }}>
+                    {/* Deposit & Withdraw Buttons */}
+                    <div className="p-3 flex gap-2">
+                      {/* 3D Primary Deposit Button - Nuclear Green */}
+                      <button
+                        onClick={() => {
+                          setIsWalletDropdownOpen(false);
+                          setIsDepositModalOpen(true);
+                        }}
+                        className="relative flex-1 group/btn"
+                      >
+                        {/* Soft uniform glow on hover */}
+                        <span className="absolute -inset-1 rounded-lg transition-all duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-md" />
+                        {/* Bubble particles on hover */}
+                        <span className="absolute -top-1 left-2 size-1.5 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.2s_ease-out_infinite]" />
+                        <span className="absolute -top-0.5 left-6 size-1 rounded-full bg-[#39ff14]/50 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.4s_ease-out_infinite_0.2s]" />
+                        <span className="absolute -top-1 right-4 size-1.5 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.4s]" />
+                        <span className="absolute top-0 left-1/2 size-1 rounded-full bg-[#39ff14]/55 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.1s_ease-out_infinite_0.3s]" />
+                        {/* Dark inset ring - extends bottom to cover 3D depth */}
+                        <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[4px] rounded-[10px] bg-black/20" />
+                        {/* Middle layer - darker for depth */}
+                        <span className="absolute inset-0 translate-y-0.5 bg-[#1a5c0a] rounded-lg" />
+                        {/* Top layer with radial gradient */}
+                        <span
+                          className="relative flex items-center justify-center gap-2 px-4 py-2.5 text-black text-sm font-semibold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
+                          style={{
+                            background: 'radial-gradient(ellipse at 50% 0%, #39ff14 0%, #32cd32 40%, #228b22 100%)',
+                            boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(0,0,0,0.2)',
+                          }}
+                        >
+                          <span className="cta-shimmer" />
+                          <Plus weight="bold" className="size-4 relative" />
+                          <span className="relative" style={{ textShadow: '0 1px 0 rgba(255,255,255,0.3), 0 -1px 0 rgba(0,0,0,0.15)' }}>Deposit</span>
                         </span>
-                        {selectedCrypto.symbol === crypto.symbol && (
-                          <svg className="size-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                          </svg>
-                        )}
+                      </button>
+                      <button
+                        onClick={() => {
+                          setIsWalletDropdownOpen(false);
+                          setIsWithdrawModalOpen(true);
+                        }}
+                        className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-dicey-border text-white rounded-lg text-sm font-semibold hover:bg-dicey-border/80 transition-colors duration-200"
+                      >
+                        <ArrowUp weight="bold" className="size-4" />
+                        Withdraw
+                      </button>
+                    </div>
+
+                    {/* Playable Balance Section */}
+                    <div className="p-3 pt-0">
+                      <span className="text-xs text-gray-500 px-2 py-1 block mb-2">Playable Balance</span>
+
+                      {/* Crypto Tokens Card */}
+                      <div className="bg-white/[0.04] border border-white/[0.06] rounded-lg overflow-hidden mb-2">
+                        {cryptoAssets
+                          .filter(crypto => !hideZeroBalances || parseFloat(crypto.balance.replace(/,/g, '')) > 0)
+                          .map((crypto, index, filteredArray) => (
+                          <button
+                            key={crypto.symbol}
+                            onClick={() => {
+                              setSelectedCrypto(crypto);
+                              setIsWalletDropdownOpen(false);
+                            }}
+                            className={cn(
+                              "w-full flex items-center justify-between p-3 transition-colors",
+                              selectedCrypto.symbol === crypto.symbol
+                                ? 'bg-white/[0.06]'
+                                : 'hover:bg-white/[0.06]',
+                              index !== filteredArray.length - 1 && 'border-b border-white/[0.04]'
+                            )}
+                          >
+                            <div className="flex items-center gap-3">
+                              <img src={crypto.icon} alt={crypto.symbol} className="size-6" />
+                              <span className="text-sm font-medium text-white">{crypto.symbol}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm text-white font-medium tabular-nums">
+                                {showInFiat
+                                  ? `${selectedFiat.symbol}${(crypto.usdValue * selectedFiat.rate).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                                  : crypto.balance
+                                }
+                              </span>
+                              {selectedCrypto.symbol === crypto.symbol && (
+                                <svg className="size-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                </svg>
+                              )}
+                            </div>
+                          </button>
+                        ))}
                       </div>
-                    </button>
-                  ))}
-                </div>
 
-                {/* Be the House Card */}
-                <button className="w-full bg-white/[0.04] border border-white/[0.06] rounded-lg p-3 mb-2 flex items-center justify-between hover:bg-white/[0.08] transition-colors">
-                  <div className="flex items-center gap-3">
-                    <div className="size-6 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center">
-                      <svg className="size-3.5 text-white" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </div>
-                    <span className="text-sm font-medium text-white">Be the House</span>
-                  </div>
-                  <span className="text-sm text-white font-medium tabular-nums">$2,001.00</span>
-                </button>
+                      {/* Be the House Card */}
+                      <button className="w-full bg-white/[0.04] border border-white/[0.06] rounded-lg p-3 mb-2 flex items-center justify-between hover:bg-white/[0.08] transition-colors">
+                        <div className="flex items-center gap-3">
+                          <div className="size-6 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center">
+                            <svg className="size-3.5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </div>
+                          <span className="text-sm font-medium text-white">Be the House</span>
+                        </div>
+                        <span className="text-sm text-white font-medium tabular-nums">$2,001.00</span>
+                      </button>
 
-                {/* Shared Pots Card */}
-                <button className="w-full bg-white/[0.04] border border-white/[0.06] rounded-lg p-3 flex items-center justify-between hover:bg-white/[0.08] transition-colors">
-                  <div className="flex items-center gap-3">
-                    <div className="size-6 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center">
-                      <svg className="size-3.5 text-white" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                        <circle cx="9" cy="7" r="4" strokeWidth="2" stroke="currentColor" fill="none" />
-                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </div>
-                    <span className="text-sm font-medium text-white">Shared Pots</span>
-                  </div>
-                  <span className="text-sm text-gray-500 font-medium tabular-nums">$0.00</span>
-                </button>
+                      {/* Shared Pots Card */}
+                      <button className="w-full bg-white/[0.04] border border-white/[0.06] rounded-lg p-3 flex items-center justify-between hover:bg-white/[0.08] transition-colors">
+                        <div className="flex items-center gap-3">
+                          <div className="size-6 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center">
+                            <svg className="size-3.5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                              <circle cx="9" cy="7" r="4" strokeWidth="2" stroke="currentColor" fill="none" />
+                              <path d="M23 21v-2a4 4 0 0 0-3-3.87" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                              <path d="M16 3.13a4 4 0 0 1 0 7.75" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </div>
+                          <span className="text-sm font-medium text-white">Shared Pots</span>
+                        </div>
+                        <span className="text-sm text-gray-500 font-medium tabular-nums">$0.00</span>
+                      </button>
 
-                {/* Settings Section */}
-                <div className="mt-3 pt-3 border-t border-white/[0.04] space-y-2">
-                  {/* Show in Fiat Toggle */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-gray-400">Show in fiat</span>
-                      {showInFiat && (
-                        <div className="relative">
+                      {/* Settings Section */}
+                      <div className="mt-3 pt-3 border-t border-white/[0.04] space-y-2">
+                        {/* Show in Fiat Toggle */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-gray-400">Show in fiat</span>
+                            {showInFiat && (
+                              <div className="relative">
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setIsFiatSelectorOpen(!isFiatSelectorOpen);
+                                  }}
+                                  className="flex items-center gap-1 px-2 py-0.5 bg-dicey-border/50 hover:bg-dicey-border rounded text-xs text-white transition-colors"
+                                >
+                                  {selectedFiat.code}
+                                  <CaretDown weight="fill" className={cn("size-2.5 text-gray-400 transition-transform", isFiatSelectorOpen && "rotate-180")} />
+                                </button>
+                                {isFiatSelectorOpen && (
+                                  <div className="absolute top-full left-0 mt-1 bg-dicey-dark rounded-lg overflow-hidden z-10 min-w-[80px] max-h-48 overflow-y-auto">
+                                    {fiatCurrencies.map((fiat) => (
+                                      <button
+                                        key={fiat.code}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setSelectedFiat(fiat);
+                                          setIsFiatSelectorOpen(false);
+                                        }}
+                                        className={cn(
+                                          "w-full px-3 py-1.5 text-xs text-left transition-colors",
+                                          selectedFiat.code === fiat.code
+                                            ? "bg-dicey-border text-white"
+                                            : "text-gray-400 hover:bg-dicey-border/50 hover:text-white"
+                                        )}
+                                      >
+                                        {fiat.symbol} {fiat.code}
+                                      </button>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
-                              setIsFiatSelectorOpen(!isFiatSelectorOpen);
+                              setShowInFiat(!showInFiat);
+                              if (!showInFiat) setIsFiatSelectorOpen(false);
                             }}
-                            className="flex items-center gap-1 px-2 py-0.5 bg-dicey-border/50 hover:bg-dicey-border rounded text-xs text-white transition-colors"
+                            className={cn(
+                              "relative w-9 h-5 rounded-full transition-colors",
+                              showInFiat ? "bg-green-500" : "bg-dicey-border"
+                            )}
                           >
-                            {selectedFiat.code}
-                            <CaretDown weight="fill" className={cn("size-2.5 text-gray-400 transition-transform", isFiatSelectorOpen && "rotate-180")} />
+                            <span
+                              className={cn(
+                                "absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform",
+                                showInFiat && "translate-x-4"
+                              )}
+                            />
                           </button>
-                          {isFiatSelectorOpen && (
-                            <div className="absolute top-full left-0 mt-1 bg-dicey-dark rounded-lg overflow-hidden z-10 min-w-[80px] max-h-48 overflow-y-auto">
-                              {fiatCurrencies.map((fiat) => (
-                                <button
-                                  key={fiat.code}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setSelectedFiat(fiat);
-                                    setIsFiatSelectorOpen(false);
-                                  }}
-                                  className={cn(
-                                    "w-full px-3 py-1.5 text-xs text-left transition-colors",
-                                    selectedFiat.code === fiat.code
-                                      ? "bg-dicey-border text-white"
-                                      : "text-gray-400 hover:bg-dicey-border/50 hover:text-white"
-                                  )}
-                                >
-                                  {fiat.symbol} {fiat.code}
-                                </button>
-                              ))}
-                            </div>
-                          )}
                         </div>
-                      )}
+
+                        {/* Hide Zero Balances Toggle */}
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs text-gray-400">Hide zero balances</span>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setHideZeroBalances(!hideZeroBalances);
+                            }}
+                            className={cn(
+                              "relative w-9 h-5 rounded-full transition-colors",
+                              hideZeroBalances ? "bg-green-500" : "bg-dicey-border"
+                            )}
+                          >
+                            <span
+                              className={cn(
+                                "absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform",
+                                hideZeroBalances && "translate-x-4"
+                              )}
+                            />
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setShowInFiat(!showInFiat);
-                        if (!showInFiat) setIsFiatSelectorOpen(false);
-                      }}
-                      className={cn(
-                        "relative w-9 h-5 rounded-full transition-colors",
-                        showInFiat ? "bg-green-500" : "bg-dicey-border"
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          "absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform",
-                          showInFiat && "translate-x-4"
-                        )}
-                      />
-                    </button>
                   </div>
-
-                  {/* Hide Zero Balances Toggle */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-400">Hide zero balances</span>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setHideZeroBalances(!hideZeroBalances);
-                      }}
-                      className={cn(
-                        "relative w-9 h-5 rounded-full transition-colors",
-                        hideZeroBalances ? "bg-green-500" : "bg-dicey-border"
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          "absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform",
-                          hideZeroBalances && "translate-x-4"
-                        )}
-                      />
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Deposit & Withdraw Buttons */}
-              <div className="p-3 flex gap-2">
-                {/* 3D Primary Deposit Button - Nuclear Green */}
-                <button
-                  onClick={() => {
-                    setIsWalletDropdownOpen(false);
-                    setIsDepositModalOpen(true);
-                  }}
-                  className="relative flex-1 group/btn"
-                >
-                  {/* Soft uniform glow on hover */}
-                  <span className="absolute -inset-1 rounded-lg transition-all duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-md" />
-                  {/* Bubble particles on hover */}
-                  <span className="absolute -top-1 left-2 size-1.5 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.2s_ease-out_infinite]" />
-                  <span className="absolute -top-0.5 left-6 size-1 rounded-full bg-[#39ff14]/50 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.4s_ease-out_infinite_0.2s]" />
-                  <span className="absolute -top-1 right-4 size-1.5 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.4s]" />
-                  <span className="absolute top-0 left-1/2 size-1 rounded-full bg-[#39ff14]/55 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.1s_ease-out_infinite_0.3s]" />
-                  {/* Dark inset ring - extends bottom to cover 3D depth */}
-                  <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[4px] rounded-[10px] bg-black/20" />
-                  {/* Middle layer - darker for depth */}
-                  <span className="absolute inset-0 translate-y-0.5 bg-[#1a5c0a] rounded-lg" />
-                  {/* Top layer with radial gradient */}
-                  <span
-                    className="relative flex items-center justify-center gap-2 px-4 py-2.5 text-black text-sm font-semibold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
-                    style={{
-                      background: 'radial-gradient(ellipse at 50% 0%, #39ff14 0%, #32cd32 40%, #228b22 100%)',
-                      boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(0,0,0,0.2)',
-                    }}
-                  >
-                    <span className="cta-shimmer" />
-                    <Plus weight="bold" className="size-4 relative" />
-                    <span className="relative" style={{ textShadow: '0 1px 0 rgba(255,255,255,0.3), 0 -1px 0 rgba(0,0,0,0.15)' }}>Deposit</span>
-                  </span>
-                </button>
-                <button
-                  onClick={() => {
-                    setIsWalletDropdownOpen(false);
-                    setIsWithdrawModalOpen(true);
-                  }}
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-dicey-border text-white rounded-lg text-sm font-semibold hover:bg-dicey-border/80 transition-colors duration-200"
-                >
-                  <ArrowUp weight="bold" className="size-4" />
-                  Withdraw
-                </button>
-              </div>
-            </div>
                 )}
               </div>
 

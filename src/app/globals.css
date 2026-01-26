@@ -28,7 +28,7 @@
   --dicey-border-light: #383b39;
   --dicey-accent: #22c55e;
   --dicey-accent-light: rgba(34, 197, 94, 0.25);
-  --dicey-gradient-start: rgba(34, 120, 60, 0.25);
+  --dicey-gradient-start: transparent;
 }
 
 * {

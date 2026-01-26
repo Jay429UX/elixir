@@ -24,7 +24,6 @@ import {
   GameController as EsportsIcon,
   Gift as PromotionsIcon,
   Bank as HouseIcon,
-  CaretDown,
   SidebarSimple,
   Spade as CasinoIcon,
 } from "@phosphor-icons/react";
@@ -42,8 +41,6 @@ interface OriginalGame {
 
 export default function Sidebar() {
   const { activeTab, setActiveTab, isSidebarCollapsed, toggleSidebar } = useTab();
-  const [originalsOpen, setOriginalsOpen] = useState(false);
-  const [casinoOpen, setCasinoOpen] = useState(false);
   const [dotLottie, setDotLottie] = useState<DotLottie | null>(null);
 
   // Play logo animation every 4 seconds
@@ -199,7 +196,7 @@ export default function Sidebar() {
           <div className="relative flex flex-col rounded-xl p-1 mb-6" style={{ background: theme === "green" ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.35)' }}>
             {/* Animated sliding indicator - theme-aware lighter shade */}
             <div
-              className="absolute left-1 right-1 h-[calc(50%-4px)] rounded-lg transition-all duration-300"
+              className="absolute left-1 right-1 h-[calc(50%-4px)] rounded-lg transition-all duration-300 overflow-hidden"
               style={{
                 top: activeTab === "casino" ? "4px" : "calc(50%)",
                 transitionTimingFunction: "cubic-bezier(0.34, 1.56, 0.64, 1)",
@@ -208,37 +205,45 @@ export default function Sidebar() {
                   : 'radial-gradient(ellipse at 50% 0%, #c4b5fd 0%, #a78bfa 40%, #8b5cf6 100%)',
                 boxShadow: 'inset 0 2px 0 rgba(255,255,255,0.3), inset 0 -2px 0 rgba(0,0,0,0.15), 0 2px 4px rgba(0,0,0,0.3)',
               }}
-            />
+            >
+              <span className="cta-shimmer card-shimmer-active" />
+            </div>
             <button
               onClick={() => setActiveTab("casino")}
-              className={cn(
-                "relative z-10 p-2.5 rounded-lg transition-colors duration-300 flex items-center justify-center",
-                activeTab === "casino"
-                  ? "text-black"
-                  : "text-gray-400 hover:text-white"
-              )}
+              className="relative z-10 p-2.5 rounded-lg transition-colors duration-300 flex items-center justify-center"
               title="Casino"
             >
-              <CasinoIcon weight="fill" className="size-5" />
+              <span
+                className="flex items-center justify-center transition-all duration-300"
+                style={activeTab === "casino" ? {
+                  color: theme === "green" ? '#065f46' : '#4c1d95',
+                  filter: 'drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.4)) drop-shadow(-0.5px -0.5px 0px rgba(0, 0, 0, 0.3))',
+                } : { color: '#9ca3af' }}
+              >
+                <CasinoIcon weight="fill" className="size-5" />
+              </span>
             </button>
             <button
               onClick={() => setActiveTab("sports")}
-              className={cn(
-                "relative z-10 p-2.5 rounded-lg transition-colors duration-300 flex items-center justify-center",
-                activeTab === "sports"
-                  ? "text-black"
-                  : "text-gray-400 hover:text-white"
-              )}
+              className="relative z-10 p-2.5 rounded-lg transition-colors duration-300 flex items-center justify-center"
               title="Sports"
             >
-              <FootballIcon weight="fill" className="size-5" />
+              <span
+                className="flex items-center justify-center transition-all duration-300"
+                style={activeTab === "sports" ? {
+                  color: theme === "green" ? '#065f46' : '#4c1d95',
+                  filter: 'drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.4)) drop-shadow(-0.5px -0.5px 0px rgba(0, 0, 0, 0.3))',
+                } : { color: '#9ca3af' }}
+              >
+                <FootballIcon weight="fill" className="size-5" />
+              </span>
             </button>
           </div>
         ) : (
           <div className="relative flex rounded-xl p-1 mb-6" style={{ background: theme === "green" ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.35)' }}>
             {/* Animated sliding indicator - theme-aware lighter shade */}
             <div
-              className="absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-lg transition-all duration-300"
+              className="absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-lg transition-all duration-300 overflow-hidden"
               style={{
                 left: activeTab === "casino" ? "4px" : "calc(50%)",
                 transitionTimingFunction: "cubic-bezier(0.34, 1.56, 0.64, 1)",
@@ -247,119 +252,94 @@ export default function Sidebar() {
                   : 'radial-gradient(ellipse at 50% 0%, #c4b5fd 0%, #a78bfa 40%, #8b5cf6 100%)',
                 boxShadow: 'inset 0 2px 0 rgba(255,255,255,0.3), inset 0 -2px 0 rgba(0,0,0,0.15), 0 2px 4px rgba(0,0,0,0.3)',
               }}
-            />
+            >
+              <span className="cta-shimmer card-shimmer-active" />
+            </div>
             <button
               onClick={() => setActiveTab("casino")}
-              className={cn(
-                "relative z-10 flex-1 flex items-center justify-center py-2.5 px-4 rounded-lg transition-colors duration-300",
-                activeTab === "casino"
-                  ? "text-black"
-                  : "text-gray-400 hover:text-white"
-              )}
+              className="relative z-10 flex-1 flex items-center justify-center py-2.5 px-4 rounded-lg transition-colors duration-300"
               title="Casino"
             >
-              <CasinoIcon weight="fill" className="size-5" />
+              <span
+                className="flex items-center justify-center transition-all duration-300"
+                style={activeTab === "casino" ? {
+                  color: theme === "green" ? '#065f46' : '#4c1d95',
+                  filter: 'drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.4)) drop-shadow(-0.5px -0.5px 0px rgba(0, 0, 0, 0.3))',
+                } : { color: '#9ca3af' }}
+              >
+                <CasinoIcon weight="fill" className="size-5" />
+              </span>
             </button>
             <button
               onClick={() => setActiveTab("sports")}
-              className={cn(
-                "relative z-10 flex-1 flex items-center justify-center py-2.5 px-4 rounded-lg transition-colors duration-300",
-                activeTab === "sports"
-                  ? "text-black"
-                  : "text-gray-400 hover:text-white"
-              )}
+              className="relative z-10 flex-1 flex items-center justify-center py-2.5 px-4 rounded-lg transition-colors duration-300"
               title="Sports"
             >
-              <FootballIcon weight="fill" className="size-5" />
+              <span
+                className="flex items-center justify-center transition-all duration-300"
+                style={activeTab === "sports" ? {
+                  color: theme === "green" ? '#065f46' : '#4c1d95',
+                  filter: 'drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.4)) drop-shadow(-0.5px -0.5px 0px rgba(0, 0, 0, 0.3))',
+                } : { color: '#9ca3af' }}
+              >
+                <FootballIcon weight="fill" className="size-5" />
+              </span>
             </button>
           </div>
         )}
 
-        {/* Original Games - Casino Only */}
-        {activeTab === "casino" && (
-          <div className="mb-6">
-            {isSidebarCollapsed ? (
-              <button
-                className="w-full flex items-center justify-center p-2.5 text-gray-400 hover:text-white hover:bg-dicey-border rounded-lg transition-colors"
-                title="Original Games"
-              >
-                <OriginalsIcon weight="fill" className="w-5 h-5" />
-              </button>
-            ) : (
-              <>
-                <button
-                  onClick={() => setOriginalsOpen(!originalsOpen)}
-                  className="w-full flex items-center justify-between px-3 py-2.5 text-white bg-dicey-card hover:bg-dicey-border rounded-lg transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <OriginalsIcon weight="fill" className="w-5 h-5" />
-                    <span className="text-sm font-medium">Original Games</span>
-                  </div>
-                  <CaretDown
-                    weight="fill"
-                    className={cn("size-3 text-gray-400 transition-transform duration-200", originalsOpen && "rotate-180")}
-                  />
-                </button>
-
-                {originalsOpen && (
-                  <div className="mt-1 ml-2">
-                    {originalGames.map((game) => (
-                      <button
-                        key={game.label}
-                        className="w-full flex items-center gap-3 px-4 py-2 text-gray-400 hover:text-white hover:bg-dicey-card rounded-r-lg transition-colors"
-                      >
-                        <span className="text-gray-500">{game.icon}</span>
-                        <span className="text-sm">{game.label}</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </>
-            )}
-          </div>
-        )}
-
-        {/* Casino Dropdown - Casino Only */}
+        {/* Casino Navigation - Casino Only */}
         {activeTab === "casino" && (
           <div className="mb-4">
-            {isSidebarCollapsed ? (
-              <button
-                className="w-full flex items-center justify-center p-2.5 text-gray-400 hover:text-white hover:bg-dicey-border rounded-lg transition-colors"
-                title="Casino"
-              >
-                <SlotsIcon weight="fill" className="w-5 h-5" />
-              </button>
-            ) : (
-              <>
-                <button
-                  onClick={() => setCasinoOpen(!casinoOpen)}
-                  className="w-full flex items-center justify-between px-3 py-2.5 text-white bg-dicey-card hover:bg-dicey-border rounded-lg transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <SlotsIcon weight="fill" className="w-5 h-5" />
-                    <span className="text-sm font-medium">Casino</span>
-                  </div>
-                  <CaretDown
-                    weight="fill"
-                    className={cn("size-3 text-gray-400 transition-transform duration-200", casinoOpen && "rotate-180")}
-                  />
-                </button>
-
-                {casinoOpen && (
-                  <div className="mt-1 ml-2">
-                    {casinoDropdownItems.map((item) => (
-                      <button
-                        key={item.label}
-                        className="w-full flex items-center gap-3 px-4 py-2 text-gray-400 hover:text-white hover:bg-dicey-card rounded-r-lg transition-colors"
-                      >
-                        <span className="text-gray-500">{item.icon}</span>
-                        <span className="text-sm">{item.label}</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </>
+            {!isSidebarCollapsed && (
+              <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-2">
+                Original Games
+              </h3>
             )}
+            <nav className="space-y-1">
+              {originalGames.map((game) => (
+                <button
+                  key={game.label}
+                  className={cn(
+                    "w-full flex items-center text-gray-300 hover:text-white hover:bg-dicey-card rounded-lg transition-colors duration-200 group",
+                    isSidebarCollapsed ? "justify-center p-2.5" : "gap-3 px-3 py-2.5"
+                  )}
+                  title={isSidebarCollapsed ? game.label : undefined}
+                >
+                  <span className="text-gray-500 group-hover:text-white transition-colors duration-200">
+                    {game.icon}
+                  </span>
+                  {!isSidebarCollapsed && (
+                    <span className="text-sm font-medium">{game.label}</span>
+                  )}
+                </button>
+              ))}
+            </nav>
+
+            {!isSidebarCollapsed && (
+              <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 mt-6 px-2">
+                Casino
+              </h3>
+            )}
+            <nav className="space-y-1">
+              {casinoDropdownItems.map((item) => (
+                <button
+                  key={item.label}
+                  className={cn(
+                    "w-full flex items-center text-gray-300 hover:text-white hover:bg-dicey-card rounded-lg transition-colors duration-200 group",
+                    isSidebarCollapsed ? "justify-center p-2.5" : "gap-3 px-3 py-2.5"
+                  )}
+                  title={isSidebarCollapsed ? item.label : undefined}
+                >
+                  <span className="text-gray-500 group-hover:text-white transition-colors duration-200">
+                    {item.icon}
+                  </span>
+                  {!isSidebarCollapsed && (
+                    <span className="text-sm font-medium">{item.label}</span>
+                  )}
+                </button>
+              ))}
+            </nav>
           </div>
         )}
 

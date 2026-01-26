@@ -147,8 +147,7 @@ export default function SportsContent() {
     <div className="space-y-6">
       {/* Featured Matches */}
       <div>
-        <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-          <span className="text-2xl">🔥</span>
+        <h2 className="text-xl font-bold text-white mb-4">
           Featured Matches
         </h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -228,8 +227,7 @@ export default function SportsContent() {
 
       {/* Matches List */}
       <div>
-        <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-          <span className="text-2xl">📅</span>
+        <h2 className="text-xl font-bold text-white mb-4">
           Upcoming Matches
         </h2>
         <div
