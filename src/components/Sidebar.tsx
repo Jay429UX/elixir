@@ -148,7 +148,7 @@ export default function Sidebar() {
         }}
       />
       {/* Logo */}
-      <div className={cn("h-16 flex items-center", isSidebarCollapsed ? "justify-center" : "justify-start pl-5")}>
+      <div className={cn("h-16 flex items-center", isSidebarCollapsed ? "justify-center" : "justify-start pl-3 lg:pl-5")}>
         <a href="/" className={cn("flex items-center", isSidebarCollapsed ? "flex-col gap-1" : "gap-2")}>
           <DotLottieReact
             src="/animations/dicey-dice.json"
@@ -179,7 +179,7 @@ export default function Sidebar() {
       </div>
 
       {/* Separator */}
-      <div className={cn("mx-auto mb-4", isSidebarCollapsed ? "w-8" : "mx-5")}>
+      <div className={cn("mx-auto mb-4", isSidebarCollapsed ? "w-8" : "mx-3 lg:mx-5")}>
         <div
           className="h-px"
           style={{
@@ -190,7 +190,7 @@ export default function Sidebar() {
         />
       </div>
 
-      <div className={`${isSidebarCollapsed ? 'p-2 pt-0' : 'p-5 pt-0'}`}>
+      <div className={`${isSidebarCollapsed ? 'p-2 pt-0' : 'p-3 lg:p-5 pt-0'}`}>
         {/* Casino / Sports Toggle */}
         {isSidebarCollapsed ? (
           <div className="relative flex flex-col rounded-xl p-1 mb-6" style={{ background: theme === "green" ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.35)' }}>
