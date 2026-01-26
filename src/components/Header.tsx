@@ -371,11 +371,11 @@ export default function Header() {
                       {/* Daily Bonus */}
                       <div className="flex items-center justify-between p-3 bg-white/[0.06] border border-white/[0.08] rounded-xl">
                         <div className="flex items-center gap-3">
-                          <div className="size-8 flex-shrink-0">
+                          <div className={cn("size-8 flex-shrink-0", dailyBonusAmount <= 0 && "grayscale opacity-50")}>
                             <DotLottieReact
                               src="/animations/bonus-coin.lottie"
-                              autoplay
-                              loop
+                              autoplay={dailyBonusAmount > 0}
+                              loop={dailyBonusAmount > 0}
                             />
                           </div>
                           <div>
@@ -430,11 +430,11 @@ export default function Header() {
                         className="w-full flex items-center justify-between p-3 bg-white/[0.06] border border-white/[0.08] rounded-xl text-left hover:bg-white/[0.08] transition-colors"
                       >
                         <div className="flex items-center gap-3">
-                          <div className="size-8 flex-shrink-0">
+                          <div className={cn("size-8 flex-shrink-0", levelUpBonusAmount <= 0 && "grayscale opacity-50")}>
                             <DotLottieReact
                               src="/animations/bonus-coin.lottie"
-                              autoplay
-                              loop
+                              autoplay={levelUpBonusAmount > 0}
+                              loop={levelUpBonusAmount > 0}
                             />
                           </div>
                           <div>
@@ -460,11 +460,11 @@ export default function Header() {
                       {/* Rakeback */}
                       <div className="flex items-center justify-between p-3 bg-white/[0.06] border border-white/[0.08] rounded-xl">
                         <div className="flex items-center gap-3">
-                          <div className="size-8 flex-shrink-0">
+                          <div className={cn("size-8 flex-shrink-0", rakebackAmount <= 0 && "grayscale opacity-50")}>
                             <DotLottieReact
                               src="/animations/bonus-coin.lottie"
-                              autoplay
-                              loop
+                              autoplay={rakebackAmount > 0}
+                              loop={rakebackAmount > 0}
                             />
                           </div>
                           <div>
