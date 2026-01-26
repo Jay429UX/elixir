@@ -152,7 +152,7 @@ export default function LiveBetsTable({ gameFilter }: LiveBetsTableProps = {}) {
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex bg-dicey-card border border-dicey-border rounded-lg p-1">
+        <div className="flex bg-dicey-card rounded-lg p-1">
           <button
             onClick={() => setFilter("all")}
             className={cn(

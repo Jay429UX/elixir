@@ -161,7 +161,7 @@ export default function LiveWinsFeed() {
                 </div>
 
                 {/* Card content */}
-                <div className="relative flex items-center gap-3 px-4 py-2 bg-dicey-card border border-dicey-border rounded-lg group-hover/card:border-transparent overflow-hidden">
+                <div className="relative flex items-center gap-3 px-4 py-2 bg-dicey-card rounded-lg overflow-hidden">
                   {/* Shimmer overlay on hover */}
                   <div className="card-shimmer opacity-0 group-hover/card:opacity-100 transition-opacity duration-200" />
                   <div className="w-10 h-12 rounded-md overflow-hidden flex-shrink-0">

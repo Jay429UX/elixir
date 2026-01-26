@@ -35,7 +35,7 @@ export default function ConfidentialityModal({ onAccept }: ConfidentialityModalP
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm">
-      <div className="relative w-full max-w-md mx-4 bg-dicey-card border border-dicey-border rounded-2xl overflow-hidden">
+      <div className="relative w-full max-w-md mx-4 bg-dicey-card rounded-2xl overflow-hidden">
         {/* Header */}
         <div className="p-6 pb-0">
           <div className="flex items-center justify-center mb-4">
@@ -84,6 +84,8 @@ export default function ConfidentialityModal({ onAccept }: ConfidentialityModalP
             className="relative w-full group/btn"
           >
             <span className="absolute -inset-1 rounded-xl transition-all duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-md" />
+            {/* Dark inset ring - extends bottom to cover 3D depth */}
+            <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[6px] rounded-[14px] bg-black/40" />
             <span className="absolute inset-0 translate-y-1 bg-[#1a5c0a] rounded-xl" />
             <span
               className="relative block w-full px-6 py-3 text-black font-bold rounded-xl transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden text-center"

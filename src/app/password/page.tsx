@@ -78,6 +78,8 @@ export default function PasswordPage() {
               className="relative w-full group/btn disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span className="absolute -inset-1 rounded-xl transition-all duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-md" />
+              {/* Dark inset ring - extends bottom to cover 3D depth */}
+              <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[6px] rounded-[14px] bg-black/40" />
               <span className="absolute inset-0 translate-y-1 bg-[#1a5c0a] rounded-xl" />
               <span
                 className="relative block w-full px-6 py-3 text-black font-bold rounded-xl transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden text-center"

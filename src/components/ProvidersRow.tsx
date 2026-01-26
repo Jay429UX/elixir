@@ -83,7 +83,7 @@ export default function ProvidersRow({
             onClick={() => scroll("left")}
             disabled={scrollPosition === 0}
             aria-label="Scroll left"
-            className={`size-7 flex items-center justify-center bg-dicey-card hover:bg-dicey-border border border-dicey-border rounded-md transition-colors ${
+            className={`size-7 flex items-center justify-center bg-dicey-card hover:bg-dicey-border rounded-md transition-colors ${
               scrollPosition === 0 ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
@@ -101,7 +101,7 @@ export default function ProvidersRow({
             onClick={() => scroll("right")}
             disabled={scrollPosition >= maxScroll}
             aria-label="Scroll right"
-            className={`size-7 flex items-center justify-center bg-dicey-card hover:bg-dicey-border border border-dicey-border rounded-md transition-colors ${
+            className={`size-7 flex items-center justify-center bg-dicey-card hover:bg-dicey-border rounded-md transition-colors ${
               scrollPosition >= maxScroll ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
@@ -130,7 +130,7 @@ export default function ProvidersRow({
           {providers.map((provider) => (
             <button
               key={provider.id}
-              className="group flex flex-col items-center justify-center gap-3 p-6 bg-dicey-card border border-dicey-border rounded-xl hover:border-white/20 hover:bg-dicey-border/50 transition-all duration-200 shrink-0"
+              className="group flex flex-col items-center justify-center gap-3 p-6 bg-dicey-card rounded-xl hover:bg-dicey-border/50 transition-all duration-200 shrink-0"
               style={{ width: cardWidth, height: cardWidth * 0.85 }}
             >
               <img

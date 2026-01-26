@@ -71,9 +71,9 @@ export default function WithdrawModal({ isOpen, onClose, cryptoAssets }: Withdra
       />
 
       {/* Modal */}
-      <div className="relative w-full max-w-md bg-dicey-card border border-dicey-border rounded-2xl overflow-hidden" style={{ boxShadow: '0 25px 50px rgba(0, 0, 0, 0.5)' }}>
+      <div className="relative w-full max-w-md bg-dicey-card rounded-2xl overflow-hidden" style={{ boxShadow: '0 25px 50px rgba(0, 0, 0, 0.5)' }}>
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-dicey-border">
+        <div className="flex items-center justify-between p-4">
           <div className="flex items-center gap-3">
             {selectedCrypto && (
               <button
@@ -109,7 +109,7 @@ export default function WithdrawModal({ isOpen, onClose, cryptoAssets }: Withdra
                 <button
                   key={crypto.symbol}
                   onClick={() => setSelectedCrypto(crypto)}
-                  className="w-full flex items-center justify-between p-4 bg-dicey-dark hover:bg-dicey-border/50 border border-dicey-border rounded-xl transition-colors"
+                  className="w-full flex items-center justify-between p-4 bg-dicey-dark hover:bg-dicey-border/50 rounded-xl transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <img src={crypto.icon} alt={crypto.symbol} className="size-8" />
@@ -154,7 +154,7 @@ export default function WithdrawModal({ isOpen, onClose, cryptoAssets }: Withdra
                 value={withdrawAddress}
                 onChange={(e) => setWithdrawAddress(e.target.value)}
                 placeholder={`Enter ${selectedCrypto.symbol} address`}
-                className="w-full p-3 bg-dicey-dark border border-dicey-border rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-gray-500 font-mono text-sm"
+                className="w-full p-3 bg-dicey-dark rounded-xl text-white placeholder-gray-500 focus:outline-none font-mono text-sm"
               />
             </div>
 
@@ -167,7 +167,7 @@ export default function WithdrawModal({ isOpen, onClose, cryptoAssets }: Withdra
                   value={withdrawAmount}
                   onChange={(e) => setWithdrawAmount(e.target.value)}
                   placeholder="0.00"
-                  className="w-full p-3 pr-20 bg-dicey-dark border border-dicey-border rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-gray-500 tabular-nums"
+                  className="w-full p-3 pr-20 bg-dicey-dark rounded-xl text-white placeholder-gray-500 focus:outline-none tabular-nums"
                 />
                 <button
                   onClick={handleMaxAmount}
@@ -179,7 +179,7 @@ export default function WithdrawModal({ isOpen, onClose, cryptoAssets }: Withdra
             </div>
 
             {/* Network Info */}
-            <div className="space-y-2 p-3 bg-dicey-dark/50 border border-dicey-border rounded-xl mb-4">
+            <div className="space-y-2 p-3 bg-dicey-dark/50 rounded-xl mb-4">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-gray-500">Network</span>
                 <span className="text-white">{networkInfo[selectedCrypto.symbol]?.network}</span>
@@ -193,7 +193,7 @@ export default function WithdrawModal({ isOpen, onClose, cryptoAssets }: Withdra
                 <span className="text-white">{networkInfo[selectedCrypto.symbol]?.minWithdraw}</span>
               </div>
               {withdrawAmount && (
-                <div className="flex items-center justify-between text-sm pt-2 border-t border-dicey-border">
+                <div className="flex items-center justify-between text-sm pt-2">
                   <span className="text-gray-500">You will receive</span>
                   <span className="text-green-400 font-medium">
                     ~{(parseFloat(withdrawAmount) - parseFloat(networkInfo[selectedCrypto.symbol]?.fee.split(" ")[0] || "0")).toFixed(4)} {selectedCrypto.symbol}
@@ -216,6 +216,8 @@ export default function WithdrawModal({ isOpen, onClose, cryptoAssets }: Withdra
               <span className="absolute -top-2 right-6 size-2.5 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.4s]" />
               <span className="absolute -top-1 right-12 size-1 rounded-full bg-[#39ff14]/40 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.3s_ease-out_infinite_0.1s]" />
               <span className="absolute top-0 left-1/2 size-1.5 rounded-full bg-[#39ff14]/55 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.1s_ease-out_infinite_0.3s]" />
+              {/* Dark inset ring - extends bottom to cover 3D depth */}
+              <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[6px] rounded-[14px] bg-black/40" />
               <span className="absolute inset-0 translate-y-1 bg-[#1a5c0a] rounded-xl" />
               <span
                 className="relative block px-8 py-3 text-black font-bold rounded-xl transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"

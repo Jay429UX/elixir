@@ -72,9 +72,9 @@ export default function DepositModal({ isOpen, onClose, cryptoAssets }: DepositM
       />
 
       {/* Modal */}
-      <div className="relative w-full max-w-md bg-dicey-card border border-dicey-border rounded-2xl overflow-hidden" style={{ boxShadow: '0 25px 50px rgba(0, 0, 0, 0.5)' }}>
+      <div className="relative w-full max-w-md bg-dicey-card rounded-2xl overflow-hidden" style={{ boxShadow: '0 25px 50px rgba(0, 0, 0, 0.5)' }}>
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-dicey-border">
+        <div className="flex items-center justify-between p-4">
           <div className="flex items-center gap-3">
             {selectedCrypto && (
               <button
@@ -110,7 +110,7 @@ export default function DepositModal({ isOpen, onClose, cryptoAssets }: DepositM
                 <button
                   key={crypto.symbol}
                   onClick={() => setSelectedCrypto(crypto)}
-                  className="w-full flex items-center justify-between p-4 bg-dicey-dark hover:bg-dicey-border/50 border border-dicey-border rounded-xl transition-colors"
+                  className="w-full flex items-center justify-between p-4 bg-dicey-dark hover:bg-dicey-border/50 rounded-xl transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <img src={crypto.icon} alt={crypto.symbol} className="size-8" />
@@ -153,7 +153,7 @@ export default function DepositModal({ isOpen, onClose, cryptoAssets }: DepositM
             {/* Wallet Address */}
             <div className="mb-4">
               <label className="text-sm text-gray-400 mb-2 block">Deposit Address</label>
-              <div className="flex items-center gap-2 p-3 bg-dicey-dark border border-dicey-border rounded-xl">
+              <div className="flex items-center gap-2 p-3 bg-dicey-dark rounded-xl">
                 <span className="flex-1 text-sm text-white font-mono break-all">
                   {walletAddresses[selectedCrypto.symbol]}
                 </span>
@@ -178,7 +178,7 @@ export default function DepositModal({ isOpen, onClose, cryptoAssets }: DepositM
             </div>
 
             {/* Network Info */}
-            <div className="space-y-2 p-3 bg-dicey-dark/50 border border-dicey-border rounded-xl">
+            <div className="space-y-2 p-3 bg-dicey-dark/50 rounded-xl">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-gray-500">Network</span>
                 <span className="text-white">{networkInfo[selectedCrypto.symbol]?.network}</span>

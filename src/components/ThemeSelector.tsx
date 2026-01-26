@@ -27,9 +27,9 @@ export default function ThemeSelector() {
             className="group relative rounded-2xl overflow-hidden transition-all duration-300 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-black"
           >
             {/* Preview Card */}
-            <div className="bg-[#1a1229] border-2 border-[#362452] rounded-2xl p-6 h-full">
+            <div className="bg-[#1a1229] rounded-2xl p-6 h-full">
               {/* Mini Preview */}
-              <div className="bg-[#231738] rounded-xl p-4 mb-4 border border-[#362452]">
+              <div className="bg-[#231738] rounded-xl p-4 mb-4">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-purple-700" />
                   <div className="flex-1">
@@ -62,9 +62,9 @@ export default function ThemeSelector() {
             className="group relative rounded-2xl overflow-hidden transition-all duration-300 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-black"
           >
             {/* Preview Card */}
-            <div className="bg-[#131514] border-2 border-[#2a2d2b] rounded-2xl p-6 h-full">
+            <div className="bg-[#131514] rounded-2xl p-6 h-full">
               {/* Mini Preview */}
-              <div className="bg-[#1f2120] rounded-xl p-4 mb-4 border border-[#2a2d2b]">
+              <div className="bg-[#1f2120] rounded-xl p-4 mb-4">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-green-700" />
                   <div className="flex-1">

@@ -24,9 +24,9 @@ export default function LevelUpBonusModal({ isOpen, onClose, bonusAmount, onClai
       />
 
       {/* Modal */}
-      <div className="relative w-full max-w-lg bg-dicey-card border border-dicey-border rounded-2xl overflow-hidden" style={{ boxShadow: '0 25px 50px rgba(0, 0, 0, 0.5)' }}>
+      <div className="relative w-full max-w-lg bg-dicey-card rounded-2xl overflow-hidden" style={{ boxShadow: '0 25px 50px rgba(0, 0, 0, 0.5)' }}>
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-dicey-border">
+        <div className="flex items-center justify-between p-4">
           <div className="flex items-center gap-3">
             <span className="text-2xl">⬆️</span>
             <h2 className="text-lg font-bold text-white">Level Up Bonus</h2>
@@ -45,7 +45,7 @@ export default function LevelUpBonusModal({ isOpen, onClose, bonusAmount, onClai
         {/* Content */}
         <div className="p-4">
           {/* Animation Container */}
-          <div className="relative w-full bg-dicey-dark rounded-xl overflow-hidden border border-dicey-border mb-4">
+          <div className="relative w-full bg-dicey-dark rounded-xl overflow-hidden mb-4">
             <iframe
               src="https://placeholder.com/level-up-animation"
               className="absolute inset-0 w-full h-full"
@@ -68,7 +68,7 @@ export default function LevelUpBonusModal({ isOpen, onClose, bonusAmount, onClai
           </div>
 
           {/* Bonus Info */}
-          <div className="bg-dicey-dark/50 rounded-xl p-4 mb-4 border border-dicey-border">
+          <div className="bg-dicey-dark/50 rounded-xl p-4 mb-4">
             <div className="flex items-center justify-between">
               <span className="text-gray-400">Available Bonus</span>
               <span className="text-xl font-bold gold-shimmer">{bonusAmount.toFixed(2)} USDC</span>
@@ -91,6 +91,8 @@ export default function LevelUpBonusModal({ isOpen, onClose, bonusAmount, onClai
                 <span className="absolute -top-2 right-12 size-2.5 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.4s]" />
                 <span className="absolute -top-1 right-24 size-1 rounded-full bg-[#39ff14]/40 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.3s_ease-out_infinite_0.1s]" />
                 <span className="absolute top-0 left-1/2 size-1.5 rounded-full bg-[#39ff14]/55 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.1s_ease-out_infinite_0.3s]" />
+                {/* Dark inset ring around button - extends bottom to cover 3D depth (translate-y-1 = 4px) */}
+                <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[6px] rounded-[14px] bg-black/40" />
                 {/* Bottom layer for depth */}
                 <span className="absolute inset-0 translate-y-1 bg-[#1a5c0a] rounded-xl" />
                 {/* Main button */}

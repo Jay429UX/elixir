@@ -10,6 +10,7 @@ interface GameCardProps {
   isNew?: boolean;
   isHot?: boolean;
   players?: number;
+  rtp?: number;
   width?: number;
   onPlay?: () => void;
 }
@@ -22,6 +23,7 @@ export default function GameCard({
   isNew,
   isHot,
   players,
+  rtp,
   width,
   onPlay,
 }: GameCardProps) {
@@ -32,7 +34,7 @@ export default function GameCard({
       onClick={onPlay}
     >
       {/* Game Image */}
-      <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-dicey-card border border-dicey-border">
+      <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-dicey-card">
         <div
           className="absolute inset-0 bg-cover bg-center transition-transform duration-200 group-hover:scale-110"
           style={{
@@ -54,16 +56,11 @@ export default function GameCard({
               NEW
             </span>
           )}
-          {isHot && (
-            <span className="px-2 py-1 bg-orange-500 text-white text-xs font-medium rounded-md">
-              HOT
-            </span>
-          )}
         </div>
 
         {/* Players Count */}
         {players && (
-          <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-1 bg-black/60 text-white text-xs rounded-md border border-white/10">
+          <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-1 bg-black/60 text-white text-xs rounded-md">
             <svg className="size-3" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
             </svg>
@@ -86,6 +83,16 @@ export default function GameCard({
             </svg>
           </button>
         </div>
+
+        {/* RTP Badge - Shows on hover */}
+        {rtp && (
+          <div className="absolute bottom-2 left-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <div className="flex items-center justify-center gap-1 px-2 py-1.5 bg-black/80 backdrop-blur-sm text-white text-xs font-medium rounded-lg">
+              <span className="text-gray-400">RTP</span>
+              <span className="text-white tabular-nums">{rtp.toFixed(2)}%</span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

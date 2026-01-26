@@ -13,6 +13,7 @@ export interface Game {
   isNew?: boolean;
   isHot?: boolean;
   players?: number;
+  rtp?: number;
 }
 
 interface GameRowProps {
@@ -108,7 +109,7 @@ export default function GameRow({
           <button
             onClick={() => scroll("left")}
             disabled={scrollPosition === 0}
-            className={`size-7 flex items-center justify-center bg-dicey-card hover:bg-dicey-border border border-dicey-border rounded-md transition-colors ${
+            className={`size-7 flex items-center justify-center bg-dicey-card hover:bg-dicey-border rounded-md transition-colors ${
               scrollPosition === 0 ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
@@ -125,7 +126,7 @@ export default function GameRow({
           <button
             onClick={() => scroll("right")}
             disabled={scrollPosition >= maxScroll}
-            className={`size-7 flex items-center justify-center bg-dicey-card hover:bg-dicey-border border border-dicey-border rounded-md transition-colors ${
+            className={`size-7 flex items-center justify-center bg-dicey-card hover:bg-dicey-border rounded-md transition-colors ${
               scrollPosition >= maxScroll ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
@@ -161,6 +162,7 @@ export default function GameRow({
               isNew={game.isNew}
               isHot={game.isHot}
               players={game.players}
+              rtp={game.rtp}
               width={cardWidth}
               onPlay={() => {
                 if (useRouterNavigation) {

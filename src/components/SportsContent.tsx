@@ -153,7 +153,7 @@ export default function SportsContent() {
           {featuredMatches.map((match) => (
             <div
               key={match.id}
-              className="bg-dicey-card border border-dicey-border rounded-xl p-5 relative overflow-hidden"
+              className="bg-dicey-card rounded-xl p-5 relative overflow-hidden"
             >
               {match.isLive && (
                 <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-red-500/20 text-red-400 px-2 py-1 rounded-full text-xs font-semibold">
@@ -205,7 +205,7 @@ export default function SportsContent() {
               "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-200",
               selectedSport === sport.id
                 ? "bg-white text-black"
-                : "bg-dicey-card border border-dicey-border text-gray-300 hover:text-white"
+                : "bg-dicey-card text-gray-300 hover:text-white"
             )}
           >
             <span>{sport.icon}</span>
@@ -220,14 +220,11 @@ export default function SportsContent() {
           <span className="text-2xl">📅</span>
           Upcoming Matches
         </h2>
-        <div className="bg-dicey-card border border-dicey-border rounded-xl overflow-hidden">
+        <div className="bg-dicey-card rounded-xl overflow-hidden">
           {getMatches().map((match, index) => (
             <div
               key={match.id}
-              className={cn(
-                "p-4 flex items-center justify-between hover:bg-dicey-border/30 transition-colors duration-200",
-                index !== getMatches().length - 1 && "border-b border-dicey-border"
-              )}
+              className="p-4 flex items-center justify-between hover:bg-dicey-border/30 transition-colors duration-200"
             >
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
@@ -300,7 +297,7 @@ export default function SportsContent() {
 
       {/* Bet Slip */}
       {betSlip.length > 0 && (
-        <div className="fixed bottom-4 right-4 w-80 bg-dicey-card border border-dicey-border rounded-xl shadow-2xl overflow-hidden z-40">
+        <div className="fixed bottom-4 right-4 w-80 bg-dicey-card rounded-xl shadow-2xl overflow-hidden z-40">
           <div className="bg-white text-black px-4 py-3 font-semibold flex items-center justify-between">
             <span>Bet Slip (<span className="tabular-nums">{betSlip.length}</span>)</span>
             <button
@@ -336,7 +333,7 @@ export default function SportsContent() {
               </div>
             ))}
           </div>
-          <div className="p-4 border-t border-dicey-border">
+          <div className="p-4">
             <div className="flex items-center justify-between mb-3">
               <span className="text-gray-400 text-sm">Total Odds</span>
               <span className="text-white font-bold tabular-nums">
@@ -361,6 +358,8 @@ export default function SportsContent() {
               <span className="absolute -top-2 right-10 size-2.5 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.4s]" />
               <span className="absolute -top-1 right-20 size-1 rounded-full bg-[#39ff14]/40 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.3s_ease-out_infinite_0.1s]" />
               <span className="absolute top-0 left-1/2 size-1.5 rounded-full bg-[#39ff14]/55 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.1s_ease-out_infinite_0.3s]" />
+              {/* Dark inset ring - extends bottom to cover 3D depth */}
+              <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[6px] rounded-[14px] bg-black/40" />
               {/* Middle layer - darker for depth */}
               <span className="absolute inset-0 translate-y-1 bg-[#1a5c0a] rounded-xl" />
               {/* Top layer (main button) with radial gradient - nuclear green */}

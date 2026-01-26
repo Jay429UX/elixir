@@ -9,13 +9,13 @@ interface GameFiltersProps {
 }
 
 const sortOptions = [
-  { id: "default", label: "Default", icon: "↺" },
-  { id: "popularity-desc", label: "Most Popular", icon: "🔥" },
-  { id: "popularity-asc", label: "Least Popular", icon: "📉" },
-  { id: "newest", label: "Newest First", icon: "✨" },
-  { id: "oldest", label: "Oldest First", icon: "📅" },
-  { id: "a-z", label: "A → Z", icon: "🔤" },
-  { id: "z-a", label: "Z → A", icon: "🔤" },
+  { id: "default", label: "Default" },
+  { id: "popularity-desc", label: "Most Popular" },
+  { id: "popularity-asc", label: "Least Popular" },
+  { id: "newest", label: "Newest First" },
+  { id: "oldest", label: "Oldest First" },
+  { id: "a-z", label: "A → Z" },
+  { id: "z-a", label: "Z → A" },
 ];
 
 const categories = [
@@ -106,7 +106,7 @@ export default function GameFilters({ onSortChange, onCategoryChange }: GameFilt
         <div className="relative">
           <button
             onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}
-            className="flex items-center gap-2 px-4 py-2.5 bg-dicey-card border border-dicey-border rounded-xl text-sm text-gray-300 hover:text-white hover:border-gray-500 transition-colors"
+            className="flex items-center gap-2 px-4 py-2.5 bg-dicey-card rounded-xl text-sm text-gray-300 hover:text-white transition-colors"
           >
             <span className="text-gray-400">{selectedCategory?.icon}</span>
             <span>{selectedCategory?.label}</span>
@@ -127,7 +127,7 @@ export default function GameFilters({ onSortChange, onCategoryChange }: GameFilt
                 className="fixed inset-0 z-10"
                 onClick={() => setIsCategoryDropdownOpen(false)}
               />
-              <div className="absolute left-0 top-full mt-2 w-48 bg-dicey-card border border-dicey-border rounded-xl shadow-xl z-20 overflow-hidden">
+              <div className="absolute left-0 top-full mt-2 w-48 bg-dicey-card rounded-xl shadow-xl z-20 overflow-hidden">
                 {categories.map((category) => (
                   <button
                     key={category.id}
@@ -160,7 +160,7 @@ export default function GameFilters({ onSortChange, onCategoryChange }: GameFilt
         <div className="relative">
           <button
             onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
-            className="flex items-center gap-2 px-4 py-2.5 bg-dicey-card border border-dicey-border rounded-xl text-sm text-gray-300 hover:text-white hover:border-gray-500 transition-colors"
+            className="flex items-center gap-2 px-4 py-2.5 bg-dicey-card rounded-xl text-sm text-gray-300 hover:text-white transition-colors"
           >
             <svg className="size-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
@@ -183,19 +183,18 @@ export default function GameFilters({ onSortChange, onCategoryChange }: GameFilt
                 className="fixed inset-0 z-10"
                 onClick={() => setIsSortDropdownOpen(false)}
               />
-              <div className="absolute right-0 top-full mt-2 w-48 bg-dicey-card border border-dicey-border rounded-xl shadow-xl z-20 overflow-hidden">
+              <div className="absolute right-0 top-full mt-2 w-48 bg-dicey-card rounded-xl shadow-xl z-20 overflow-hidden">
                 {sortOptions.map((option) => (
                   <button
                     key={option.id}
                     onClick={() => handleSortChange(option.id)}
                     className={cn(
-                      "w-full px-4 py-2.5 text-left text-sm transition-colors flex items-center gap-2",
+                      "w-full px-4 py-2.5 text-left text-sm transition-colors flex items-center",
                       activeSort === option.id
                         ? "bg-white/10 text-white"
                         : "text-gray-400 hover:bg-dicey-border/50 hover:text-white"
                     )}
                   >
-                    <span className="text-xs">{option.icon}</span>
                     <span>{option.label}</span>
                     {activeSort === option.id && (
                       <svg className="size-4 ml-auto text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

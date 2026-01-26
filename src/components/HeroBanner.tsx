@@ -46,7 +46,7 @@ export default function HeroBanner() {
   }, []);
 
   return (
-    <div className="relative mb-4 rounded-2xl overflow-hidden bg-dicey-card border border-dicey-border h-[180px] md:h-[220px]">
+    <div className="relative mb-4 rounded-2xl overflow-hidden bg-dicey-card h-[180px] md:h-[220px]">
 
       {/* Slides Container */}
       <div className="relative h-full">
@@ -79,6 +79,8 @@ export default function HeroBanner() {
                   <span className="absolute -top-2 right-6 size-2.5 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.4s]" />
                   <span className="absolute -top-1 right-12 size-1 rounded-full bg-[#39ff14]/40 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.3s_ease-out_infinite_0.1s]" />
                   <span className="absolute top-0 left-1/2 size-1.5 rounded-full bg-[#39ff14]/55 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.1s_ease-out_infinite_0.3s]" />
+                  {/* Dark inset ring - extends bottom to cover 3D depth */}
+                  <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[6px] rounded-[10px] bg-black/40" />
                   {/* Middle layer - darker for depth */}
                   <span className="absolute inset-0 translate-y-1 bg-[#1a5c0a] rounded-lg" />
                   {/* Top layer (main button) with radial gradient - nuclear green */}

@@ -90,7 +90,7 @@ export default function GamePage({ params }: GamePageProps) {
           {/* Controls Bar - Above Game */}
           <div className="w-full max-w-5xl flex items-center justify-between mb-3">
             {/* Left - Back & Game Info */}
-            <div className="flex items-center gap-3 px-3 py-2 bg-dicey-card border border-dicey-border rounded-xl">
+            <div className="flex items-center gap-3 px-3 py-2 bg-dicey-card rounded-xl">
               <button
                 onClick={handleClose}
                 className="flex items-center gap-2 px-3 py-1.5 bg-dicey-border/50 hover:bg-dicey-border rounded-lg transition-colors duration-200"
@@ -117,7 +117,7 @@ export default function GamePage({ params }: GamePageProps) {
             </div>
 
             {/* Right - Settings */}
-            <div className="flex items-center gap-1 px-2 py-2 bg-dicey-card border border-dicey-border rounded-xl">
+            <div className="flex items-center gap-1 px-2 py-2 bg-dicey-card rounded-xl">
               {/* Favorite */}
               <button
                 aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
@@ -172,7 +172,7 @@ export default function GamePage({ params }: GamePageProps) {
           </div>
 
           {/* Game Container */}
-          <div className="relative w-full max-w-5xl aspect-video bg-dicey-card rounded-2xl border border-dicey-border overflow-hidden">
+          <div className="relative w-full max-w-5xl aspect-video bg-dicey-card rounded-2xl overflow-hidden">
             {/* Placeholder Game Screen */}
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-dicey-dark">
               {/* Game Image as Background */}
@@ -207,7 +207,7 @@ export default function GamePage({ params }: GamePageProps) {
                 </div>
 
                 {/* Game will load here text */}
-                <div className="mt-8 px-6 py-3 bg-dicey-border/30 rounded-xl border border-dicey-border">
+                <div className="mt-8 px-6 py-3 bg-dicey-border/30 rounded-xl">
                   <span className="text-gray-500 text-sm">Game iframe will be embedded here</span>
                 </div>
               </div>
