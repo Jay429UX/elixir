@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useTab } from "@/context/TabContext";
+import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import DepositModal from "./DepositModal";
 import WithdrawModal from "./WithdrawModal";
@@ -76,6 +77,7 @@ const initialCryptoAssets: CryptoAsset[] = [
 
 export default function Header() {
   const { isSidebarCollapsed } = useTab();
+  const { theme } = useTheme();
   const [isVIPDropdownOpen, setIsVIPDropdownOpen] = useState(false);
   const [isWalletDropdownOpen, setIsWalletDropdownOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -269,7 +271,7 @@ export default function Header() {
             transform: 'translateX(-50%)'
           }}
         >
-          <div className="relative flex items-end justify-center" style={{ gap: 0 }}>
+          <div className="relative flex items-end justify-center" style={{ gap: 0, filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3))' }}>
             {/* Left curved section - hidden on mobile */}
             <svg
               className="hidden lg:block h-[52px] w-auto text-dicey-card-elevated"
@@ -282,9 +284,21 @@ export default function Header() {
 
             {/* Center content */}
             <div
-              className="flex items-center gap-2 lg:gap-4 h-14 lg:h-[52px] bg-dicey-card-elevated px-2 lg:px-4 w-full lg:w-auto justify-center"
+              className="relative flex items-center gap-2 lg:gap-4 h-14 lg:h-[52px] bg-dicey-card-elevated px-2 lg:px-4 w-full lg:w-auto justify-center"
               style={{ margin: '0 -1px' }}
             >
+              {/* Bottom border glow - centered, fades at edges */}
+              <div
+                className="absolute bottom-0 left-4 right-4 h-px"
+                style={{
+                  background: theme === "green"
+                    ? 'linear-gradient(to right, transparent, rgba(110, 231, 183, 0.4), transparent)'
+                    : 'linear-gradient(to right, transparent, rgba(196, 181, 253, 0.4), transparent)',
+                  boxShadow: theme === "green"
+                    ? '0 0 8px rgba(110, 231, 183, 0.3)'
+                    : '0 0 8px rgba(196, 181, 253, 0.3)',
+                }}
+              />
               {/* VIP Progress with Dropdown */}
               <div className="relative" ref={dropdownRef}>
                 <button
@@ -369,7 +383,7 @@ export default function Header() {
                     {/* Rewards Section */}
                     <div className="p-2 space-y-2">
                       {/* Daily Bonus */}
-                      <div className="flex items-center justify-between p-3 bg-white/[0.06] border border-white/[0.08] rounded-xl">
+                      <div className="flex items-center justify-between p-3 bg-white/[0.06] rounded-xl">
                         <div className="flex items-center gap-3">
                           <div className={cn("size-8 flex-shrink-0", dailyBonusAmount <= 0 && "grayscale opacity-50")}>
                             <DotLottieReact
@@ -404,7 +418,7 @@ export default function Header() {
                                 <span className="absolute -inset-0.5 rounded-lg transition-all duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-sm" />
                                 <span className="absolute -top-1 left-1 size-1 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.2s_ease-out_infinite]" />
                                 <span className="absolute -top-0.5 right-2 size-1 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.2s]" />
-                                <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[4px] rounded-[10px] bg-black/40" />
+                                <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[4px] rounded-[10px] bg-black/20" />
                                 <span className="absolute inset-0 translate-y-0.5 bg-[#1a5c0a] rounded-lg" />
                                 <span
                                   className="relative block px-3 py-1.5 text-xs text-black font-semibold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
@@ -427,7 +441,7 @@ export default function Header() {
                       {/* Level Up Bonus */}
                       <button
                         onClick={() => setIsLevelUpModalOpen(true)}
-                        className="w-full flex items-center justify-between p-3 bg-white/[0.06] border border-white/[0.08] rounded-xl text-left hover:bg-white/[0.08] transition-colors"
+                        className="w-full flex items-center justify-between p-3 bg-white/[0.06] rounded-xl text-left hover:bg-white/[0.08] transition-colors"
                       >
                         <div className="flex items-center gap-3">
                           <div className={cn("size-8 flex-shrink-0", levelUpBonusAmount <= 0 && "grayscale opacity-50")}>
@@ -458,7 +472,7 @@ export default function Header() {
                       </button>
 
                       {/* Rakeback */}
-                      <div className="flex items-center justify-between p-3 bg-white/[0.06] border border-white/[0.08] rounded-xl">
+                      <div className="flex items-center justify-between p-3 bg-white/[0.06] rounded-xl">
                         <div className="flex items-center gap-3">
                           <div className={cn("size-8 flex-shrink-0", rakebackAmount <= 0 && "grayscale opacity-50")}>
                             <DotLottieReact
@@ -493,7 +507,7 @@ export default function Header() {
                                 <span className="absolute -inset-0.5 rounded-lg transition-all duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-sm" />
                                 <span className="absolute -top-1 left-1 size-1 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.2s_ease-out_infinite]" />
                                 <span className="absolute -top-0.5 right-2 size-1 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.2s]" />
-                                <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[4px] rounded-[10px] bg-black/40" />
+                                <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[4px] rounded-[10px] bg-black/20" />
                                 <span className="absolute inset-0 translate-y-0.5 bg-[#1a5c0a] rounded-lg" />
                                 <span
                                   className="relative block px-3 py-1.5 text-xs text-black font-semibold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
@@ -526,7 +540,17 @@ export default function Header() {
               </div>
 
               {/* Divider - hidden on mobile */}
-              <div className="hidden sm:block w-px h-6 bg-dicey-border" />
+              <div
+                className="hidden sm:block w-px h-6 rounded-full"
+                style={{
+                  background: theme === "green"
+                    ? 'linear-gradient(to bottom, transparent, rgba(110, 231, 183, 0.5), transparent)'
+                    : 'linear-gradient(to bottom, transparent, rgba(196, 181, 253, 0.5), transparent)',
+                  boxShadow: theme === "green"
+                    ? '0 0 8px rgba(110, 231, 183, 0.3)'
+                    : '0 0 8px rgba(196, 181, 253, 0.3)',
+                }}
+              />
 
               {/* Wallet Balance */}
               <div className="relative" ref={walletDropdownRef}>
@@ -737,7 +761,7 @@ export default function Header() {
                   <span className="absolute -top-1 right-4 size-1.5 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.4s]" />
                   <span className="absolute top-0 left-1/2 size-1 rounded-full bg-[#39ff14]/55 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.1s_ease-out_infinite_0.3s]" />
                   {/* Dark inset ring - extends bottom to cover 3D depth */}
-                  <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[4px] rounded-[10px] bg-black/40" />
+                  <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[4px] rounded-[10px] bg-black/20" />
                   {/* Middle layer - darker for depth */}
                   <span className="absolute inset-0 translate-y-0.5 bg-[#1a5c0a] rounded-lg" />
                   {/* Top layer with radial gradient */}
@@ -769,7 +793,17 @@ export default function Header() {
               </div>
 
               {/* Divider - hidden on mobile */}
-              <div className="hidden sm:block w-px h-6 bg-dicey-border" />
+              <div
+                className="hidden sm:block w-px h-6 rounded-full"
+                style={{
+                  background: theme === "green"
+                    ? 'linear-gradient(to bottom, transparent, rgba(110, 231, 183, 0.5), transparent)'
+                    : 'linear-gradient(to bottom, transparent, rgba(196, 181, 253, 0.5), transparent)',
+                  boxShadow: theme === "green"
+                    ? '0 0 8px rgba(110, 231, 183, 0.3)'
+                    : '0 0 8px rgba(196, 181, 253, 0.3)',
+                }}
+              />
 
               {/* Notifications */}
               <div className="relative" ref={notificationsRef}>
@@ -853,7 +887,17 @@ export default function Header() {
               </div>
 
               {/* Divider - hidden on mobile */}
-              <div className="hidden sm:block w-px h-6 bg-dicey-border" />
+              <div
+                className="hidden sm:block w-px h-6 rounded-full"
+                style={{
+                  background: theme === "green"
+                    ? 'linear-gradient(to bottom, transparent, rgba(110, 231, 183, 0.5), transparent)'
+                    : 'linear-gradient(to bottom, transparent, rgba(196, 181, 253, 0.5), transparent)',
+                  boxShadow: theme === "green"
+                    ? '0 0 8px rgba(110, 231, 183, 0.3)'
+                    : '0 0 8px rgba(196, 181, 253, 0.3)',
+                }}
+              />
 
               {/* User Profile */}
               <div className="relative" ref={userDropdownRef}>

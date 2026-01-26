@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { ChatCircle, CaretDown, Smiley, PaperPlaneTilt } from "@phosphor-icons/react";
+import { useTheme } from "@/context/ThemeContext";
 
 interface ChatMessage {
   id: string;
@@ -125,6 +126,7 @@ const createInitialMessages = (): ChatMessage[] =>
   Array.from({ length: 50 }, (_, i) => generateMessage(i));
 
 export default function LiveChat({ isOpen, onToggle }: LiveChatProps) {
+  const { theme } = useTheme();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isClient, setIsClient] = useState(false);
@@ -240,6 +242,21 @@ export default function LiveChat({ isOpen, onToggle }: LiveChatProps) {
           </div>
         </div>
 
+        {/* Separator with inner glow */}
+        <div className="mx-4">
+          <div
+            className="h-px rounded-full"
+            style={{
+              background: theme === "green"
+                ? 'linear-gradient(to right, transparent, rgba(110, 231, 183, 0.5), transparent)'
+                : 'linear-gradient(to right, transparent, rgba(196, 181, 253, 0.5), transparent)',
+              boxShadow: theme === "green"
+                ? '0 0 8px rgba(110, 231, 183, 0.3)'
+                : '0 0 8px rgba(196, 181, 253, 0.3)',
+            }}
+          />
+        </div>
+
       {/* Messages */}
       <div
         ref={chatContainerRef}
@@ -269,6 +286,21 @@ export default function LiveChat({ isOpen, onToggle }: LiveChatProps) {
             )}
           </div>
         ))}
+      </div>
+
+      {/* Separator with inner glow */}
+      <div className="mx-4">
+        <div
+          className="h-px rounded-full"
+          style={{
+            background: theme === "green"
+              ? 'linear-gradient(to right, transparent, rgba(110, 231, 183, 0.5), transparent)'
+              : 'linear-gradient(to right, transparent, rgba(196, 181, 253, 0.5), transparent)',
+            boxShadow: theme === "green"
+              ? '0 0 8px rgba(110, 231, 183, 0.3)'
+              : '0 0 8px rgba(196, 181, 253, 0.3)',
+          }}
+        />
       </div>
 
       {/* Input */}

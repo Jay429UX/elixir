@@ -130,18 +130,28 @@ export default function Sidebar() {
   const { theme } = useTheme();
 
   const sidebarGradient = theme === "green"
-    ? 'radial-gradient(ellipse 120% 40% at 50% 0%, rgba(34, 197, 94, 0.15) 0%, #262827 50%)'
-    : 'radial-gradient(ellipse 120% 40% at 50% 0%, rgba(75, 45, 120, 0.25) 0%, #2a1d42 50%)';
+    ? 'radial-gradient(ellipse 80% 60% at 0% 0%, rgba(110, 231, 183, 0.25) 0%, transparent 50%), #262827'
+    : 'radial-gradient(ellipse 80% 60% at 0% 0%, rgba(196, 181, 253, 0.2) 0%, transparent 50%), #2a1d42';
 
   return (
     <aside
       className={cn("fixed left-4 top-4 bottom-4 rounded-2xl overflow-y-auto transition-all duration-200 z-50 hidden lg:block", isSidebarCollapsed ? "w-16" : "w-60")}
       style={{
         background: sidebarGradient,
+        border: theme === "green"
+          ? '1px solid rgba(110, 231, 183, 0.15)'
+          : '1px solid rgba(196, 181, 253, 0.15)',
       }}
     >
+      {/* Noise texture overlay */}
+      <div
+        className="pointer-events-none absolute inset-0 rounded-2xl opacity-[0.03]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+        }}
+      />
       {/* Logo */}
-      <div className="h-16 flex items-center justify-center">
+      <div className={cn("h-16 flex items-center", isSidebarCollapsed ? "justify-center" : "justify-start pl-5")}>
         <a href="/" className="flex items-center">
           <DotLottieReact
             src="/animations/dicey-dice.json"
@@ -153,43 +163,40 @@ export default function Sidebar() {
         </a>
       </div>
 
-      <div className={`${isSidebarCollapsed ? 'p-2' : 'p-5'}`}>
+      {/* Separator */}
+      <div className={cn("mx-auto mb-4", isSidebarCollapsed ? "w-8" : "mx-5")}>
+        <div
+          className="h-px"
+          style={{
+            background: theme === "green"
+              ? 'linear-gradient(to right, transparent, rgba(110, 231, 183, 0.5), transparent)'
+              : 'linear-gradient(to right, transparent, rgba(196, 181, 253, 0.5), transparent)',
+          }}
+        />
+      </div>
+
+      <div className={`${isSidebarCollapsed ? 'p-2 pt-0' : 'p-5 pt-0'}`}>
         {/* Casino / Sports Toggle */}
         {isSidebarCollapsed ? (
-          <div className="flex flex-col gap-2 mb-6">
+          <div className="relative flex flex-col rounded-xl p-1 mb-6" style={{ background: theme === "green" ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.35)' }}>
+            {/* Animated sliding indicator - theme-aware lighter shade */}
+            <div
+              className="absolute left-1 right-1 h-[calc(50%-4px)] rounded-lg transition-all duration-300"
+              style={{
+                top: activeTab === "casino" ? "4px" : "calc(50% + 2px)",
+                transitionTimingFunction: "cubic-bezier(0.34, 1.56, 0.64, 1)",
+                background: theme === "green"
+                  ? 'radial-gradient(ellipse at 50% 0%, #6ee7b7 0%, #34d399 40%, #10b981 100%)'
+                  : 'radial-gradient(ellipse at 50% 0%, #c4b5fd 0%, #a78bfa 40%, #8b5cf6 100%)',
+                boxShadow: 'inset 0 2px 0 rgba(255,255,255,0.3), inset 0 -2px 0 rgba(0,0,0,0.15), 0 2px 4px rgba(0,0,0,0.3)',
+              }}
+            />
             <button
               onClick={() => setActiveTab("casino")}
               className={cn(
-                "p-2.5 rounded-lg transition-all duration-200 flex items-center justify-center",
+                "relative z-10 p-2.5 rounded-lg transition-colors duration-300 flex items-center justify-center",
                 activeTab === "casino"
-                  ? "bg-white text-black"
-                  : "text-gray-400 hover:text-white hover:bg-dicey-border"
-              )}
-              title="Casino"
-            >
-              <CasinoIcon weight="fill" className="size-5" />
-            </button>
-            <button
-              onClick={() => setActiveTab("sports")}
-              className={cn(
-                "p-2.5 rounded-lg transition-all duration-200 flex items-center justify-center",
-                activeTab === "sports"
-                  ? "bg-white text-black"
-                  : "text-gray-400 hover:text-white hover:bg-dicey-border"
-              )}
-              title="Sports"
-            >
-              <FootballIcon weight="fill" className="size-5" />
-            </button>
-          </div>
-        ) : (
-          <div className="flex bg-dicey-darker rounded-xl p-1 mb-6">
-            <button
-              onClick={() => setActiveTab("casino")}
-              className={cn(
-                "flex-1 flex items-center justify-center py-2.5 px-4 rounded-lg transition-all duration-200",
-                activeTab === "casino"
-                  ? "bg-white text-black"
+                  ? "text-black"
                   : "text-gray-400 hover:text-white"
               )}
               title="Casino"
@@ -199,9 +206,48 @@ export default function Sidebar() {
             <button
               onClick={() => setActiveTab("sports")}
               className={cn(
-                "flex-1 flex items-center justify-center py-2.5 px-4 rounded-lg transition-all duration-200",
+                "relative z-10 p-2.5 rounded-lg transition-colors duration-300 flex items-center justify-center",
                 activeTab === "sports"
-                  ? "bg-white text-black"
+                  ? "text-black"
+                  : "text-gray-400 hover:text-white"
+              )}
+              title="Sports"
+            >
+              <FootballIcon weight="fill" className="size-5" />
+            </button>
+          </div>
+        ) : (
+          <div className="relative flex rounded-xl p-1 mb-6" style={{ background: theme === "green" ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.35)' }}>
+            {/* Animated sliding indicator - theme-aware lighter shade */}
+            <div
+              className="absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-lg transition-all duration-300"
+              style={{
+                left: activeTab === "casino" ? "4px" : "calc(50% + 2px)",
+                transitionTimingFunction: "cubic-bezier(0.34, 1.56, 0.64, 1)",
+                background: theme === "green"
+                  ? 'radial-gradient(ellipse at 50% 0%, #6ee7b7 0%, #34d399 40%, #10b981 100%)'
+                  : 'radial-gradient(ellipse at 50% 0%, #c4b5fd 0%, #a78bfa 40%, #8b5cf6 100%)',
+                boxShadow: 'inset 0 2px 0 rgba(255,255,255,0.3), inset 0 -2px 0 rgba(0,0,0,0.15), 0 2px 4px rgba(0,0,0,0.3)',
+              }}
+            />
+            <button
+              onClick={() => setActiveTab("casino")}
+              className={cn(
+                "relative z-10 flex-1 flex items-center justify-center py-2.5 px-4 rounded-lg transition-colors duration-300",
+                activeTab === "casino"
+                  ? "text-black"
+                  : "text-gray-400 hover:text-white"
+              )}
+              title="Casino"
+            >
+              <CasinoIcon weight="fill" className="size-5" />
+            </button>
+            <button
+              onClick={() => setActiveTab("sports")}
+              className={cn(
+                "relative z-10 flex-1 flex items-center justify-center py-2.5 px-4 rounded-lg transition-colors duration-300",
+                activeTab === "sports"
+                  ? "text-black"
                   : "text-gray-400 hover:text-white"
               )}
               title="Sports"
@@ -368,10 +414,21 @@ export default function Sidebar() {
       </div>
 
       {/* Bottom Section - Powered by & Toggle */}
-      <div className="absolute bottom-0 left-0 right-0" style={{ background: 'inherit' }}>
+      <div className="absolute bottom-0 left-0 right-0">
+        {/* Separator */}
+        <div className={cn("mx-auto mb-2", isSidebarCollapsed ? "w-8" : "mx-5")}>
+          <div
+            className="h-px"
+            style={{
+              background: theme === "green"
+                ? 'linear-gradient(to right, transparent, rgba(110, 231, 183, 0.5), transparent)'
+                : 'linear-gradient(to right, transparent, rgba(196, 181, 253, 0.5), transparent)',
+            }}
+          />
+        </div>
         {/* Powered by Magic Eden - only when expanded */}
         {!isSidebarCollapsed && (
-          <div className="p-3 flex flex-col items-center gap-1">
+          <div className="px-5 pb-2 pt-0 flex items-center gap-1.5">
             <span className="text-[10px] text-gray-500">Built & Powered by</span>
             <img
               src="/magic-eden-logo.svg"
