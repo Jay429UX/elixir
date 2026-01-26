@@ -26,6 +26,7 @@ import {
   Bank as HouseIcon,
   SidebarSimple,
   Spade as CasinoIcon,
+  CaretDown,
 } from "@phosphor-icons/react";
 
 interface NavItem {
@@ -42,6 +43,8 @@ interface OriginalGame {
 export default function Sidebar() {
   const { activeTab, setActiveTab, isSidebarCollapsed, toggleSidebar } = useTab();
   const [dotLottie, setDotLottie] = useState<DotLottie | null>(null);
+  const [isOriginalsOpen, setIsOriginalsOpen] = useState(true);
+  const [isCasinoOpen, setIsCasinoOpen] = useState(true);
 
   // Play logo animation every 4 seconds
   useEffect(() => {
@@ -131,23 +134,54 @@ export default function Sidebar() {
     : 'radial-gradient(ellipse 80% 60% at 0% 0%, rgba(196, 181, 253, 0.2) 0%, transparent 50%), #2a1d42';
 
   return (
-    <aside
-      className={cn("fixed left-4 top-4 bottom-4 rounded-2xl overflow-y-auto transition-all duration-200 z-50 hidden lg:block", isSidebarCollapsed ? "w-16" : "w-60")}
-      style={{
-        background: sidebarGradient,
-        border: theme === "green"
-          ? '1px solid rgba(110, 231, 183, 0.15)'
-          : '1px solid rgba(196, 181, 253, 0.15)',
-      }}
-    >
-      {/* Noise texture overlay */}
-      <div
-        className="pointer-events-none absolute inset-0 rounded-2xl opacity-[0.03]"
+    <>
+      {/* Collapse/Expand Toggle Tab - Outside sidebar, connected to right edge */}
+      <button
+        aria-label={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+        onClick={toggleSidebar}
+        className={cn(
+          "fixed top-4 z-50 items-center gap-2 px-3 py-4 rounded-r-lg hover:bg-dicey-border transition-all duration-200 hidden lg:flex",
+          isSidebarCollapsed ? "left-[calc(16px+64px)]" : "left-[calc(16px+240px)]"
+        )}
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          background: theme === "green" ? '#262827' : '#2a1d42',
+          borderTop: theme === "green"
+            ? '1px solid rgba(110, 231, 183, 0.15)'
+            : '1px solid rgba(196, 181, 253, 0.15)',
+          borderRight: theme === "green"
+            ? '1px solid rgba(110, 231, 183, 0.15)'
+            : '1px solid rgba(196, 181, 253, 0.15)',
+          borderBottom: theme === "green"
+            ? '1px solid rgba(110, 231, 183, 0.15)'
+            : '1px solid rgba(196, 181, 253, 0.15)',
         }}
-      />
-      {/* Logo */}
+      >
+        <SidebarSimple
+          weight="fill"
+          className={cn("size-5 text-white", !isSidebarCollapsed && "scale-x-[-1]")}
+        />
+      </button>
+
+      <aside
+        className={cn("fixed left-4 top-4 bottom-4 overflow-y-auto transition-all duration-200 z-50 hidden lg:block", isSidebarCollapsed ? "w-16" : "w-60")}
+        style={{
+          background: sidebarGradient,
+          border: theme === "green"
+            ? '1px solid rgba(110, 231, 183, 0.15)'
+            : '1px solid rgba(196, 181, 253, 0.15)',
+          borderRadius: '16px 0 16px 16px',
+        }}
+      >
+        {/* Noise texture overlay */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.03]"
+          style={{ borderRadius: '16px 0 16px 16px' }}
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          }}
+        />
+
+        {/* Logo */}
       <div className={cn("h-16 flex items-center", isSidebarCollapsed ? "justify-center" : "justify-start pl-2 lg:pl-5")}>
         <a href="/" className={cn("flex items-center", isSidebarCollapsed ? "flex-col gap-1" : "gap-2")}>
           <DotLottieReact
@@ -179,7 +213,7 @@ export default function Sidebar() {
       </div>
 
       {/* Separator */}
-      <div className={cn("mx-auto mb-2", isSidebarCollapsed ? "w-8" : "mx-2 lg:mx-5")}>
+      <div className={cn("mx-auto mb-1", isSidebarCollapsed ? "w-8" : "mx-2 lg:mx-5")}>
         <div
           className="h-px"
           style={{
@@ -190,10 +224,10 @@ export default function Sidebar() {
         />
       </div>
 
-      <div className={`${isSidebarCollapsed ? 'p-2 pt-0' : 'p-2 lg:p-5 pt-0'}`}>
+      <div className={`${isSidebarCollapsed ? 'p-2 pt-0 pb-14' : 'p-2 lg:p-5 pt-0 pb-14'}`}>
         {/* Casino / Sports Toggle */}
         {isSidebarCollapsed ? (
-          <div className="relative flex flex-col rounded-xl p-1 mb-6" style={{ background: theme === "green" ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.35)' }}>
+          <div className="relative flex flex-col rounded-xl p-1 mb-3" style={{ background: theme === "green" ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.35)' }}>
             {/* Animated sliding indicator - theme-aware lighter shade */}
             <div
               className="absolute left-1 right-1 h-[calc(50%-4px)] rounded-lg transition-all duration-300 overflow-hidden"
@@ -240,7 +274,7 @@ export default function Sidebar() {
             </button>
           </div>
         ) : (
-          <div className="relative flex rounded-xl p-1 mb-6" style={{ background: theme === "green" ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.35)' }}>
+          <div className="relative flex rounded-xl p-1 mb-3" style={{ background: theme === "green" ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.35)' }}>
             {/* Animated sliding indicator - theme-aware lighter shade */}
             <div
               className="absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-lg transition-all duration-300 overflow-hidden"
@@ -290,56 +324,138 @@ export default function Sidebar() {
 
         {/* Casino Navigation - Casino Only */}
         {activeTab === "casino" && (
-          <div className="mb-4">
-            {!isSidebarCollapsed && (
-              <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-2">
-                Original Games
-              </h3>
-            )}
-            <nav className="space-y-1">
-              {originalGames.map((game) => (
+          <div className="mb-4 space-y-1">
+            {/* Original Games Dropdown */}
+            {!isSidebarCollapsed ? (
+              <div>
                 <button
-                  key={game.label}
-                  className={cn(
-                    "w-full flex items-center text-gray-300 hover:text-white hover:bg-dicey-card rounded-lg transition-colors duration-200 group",
-                    isSidebarCollapsed ? "justify-center p-2.5" : "gap-3 px-3 py-2.5"
-                  )}
-                  title={isSidebarCollapsed ? game.label : undefined}
+                  onClick={() => setIsOriginalsOpen(!isOriginalsOpen)}
+                  className="w-full flex items-center justify-between text-gray-400 hover:text-white px-2 py-2 rounded-lg transition-colors duration-200 group"
                 >
-                  <span className="text-gray-500 group-hover:text-white transition-colors duration-200">
-                    {game.icon}
-                  </span>
-                  {!isSidebarCollapsed && (
-                    <span className="text-sm font-medium">{game.label}</span>
-                  )}
+                  <div className="flex items-center gap-2">
+                    <DiceIcon weight="duotone" className="w-4 h-4" />
+                    <span className="text-xs font-semibold uppercase tracking-wider">Original Games</span>
+                  </div>
+                  <CaretDown
+                    weight="bold"
+                    className={cn(
+                      "w-3 h-3 transition-transform duration-200",
+                      isOriginalsOpen && "rotate-180"
+                    )}
+                  />
                 </button>
-              ))}
-            </nav>
+                <div className={cn(
+                  "overflow-hidden transition-all duration-200",
+                  isOriginalsOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                )}>
+                  <nav className="space-y-0.5 pl-2">
+                    {originalGames.map((game) => (
+                      <button
+                        key={game.label}
+                        className="w-full flex items-center gap-3 px-3 py-2 text-gray-300 hover:text-white hover:bg-dicey-card rounded-lg transition-colors duration-200 group"
+                      >
+                        <span className="text-gray-500 group-hover:text-white transition-colors duration-200">
+                          {game.icon}
+                        </span>
+                        <span className="text-sm font-medium">{game.label}</span>
+                      </button>
+                    ))}
+                  </nav>
+                </div>
+              </div>
+            ) : (
+              <nav className="space-y-1">
+                {originalGames.map((game) => (
+                  <button
+                    key={game.label}
+                    className="w-full flex items-center justify-center p-2.5 text-gray-300 hover:text-white hover:bg-dicey-card rounded-lg transition-colors duration-200 group"
+                    title={game.label}
+                  >
+                    <span className="text-gray-500 group-hover:text-white transition-colors duration-200">
+                      {game.icon}
+                    </span>
+                  </button>
+                ))}
+              </nav>
+            )}
 
-            {!isSidebarCollapsed && (
-              <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 mt-6 px-2">
-                Casino
-              </h3>
-            )}
-            <nav className="space-y-1">
-              {casinoDropdownItems.map((item) => (
+            {/* Separator between Original Games and Casino */}
+            <div className={cn("my-2", isSidebarCollapsed ? "mx-auto w-8" : "mx-2")}>
+              <div
+                className="h-px"
+                style={{
+                  background: theme === "green"
+                    ? 'linear-gradient(to right, transparent, rgba(110, 231, 183, 0.3), transparent)'
+                    : 'linear-gradient(to right, transparent, rgba(196, 181, 253, 0.3), transparent)',
+                }}
+              />
+            </div>
+
+            {/* Casino Dropdown */}
+            {!isSidebarCollapsed ? (
+              <div>
                 <button
-                  key={item.label}
-                  className={cn(
-                    "w-full flex items-center text-gray-300 hover:text-white hover:bg-dicey-card rounded-lg transition-colors duration-200 group",
-                    isSidebarCollapsed ? "justify-center p-2.5" : "gap-3 px-3 py-2.5"
-                  )}
-                  title={isSidebarCollapsed ? item.label : undefined}
+                  onClick={() => setIsCasinoOpen(!isCasinoOpen)}
+                  className="w-full flex items-center justify-between text-gray-400 hover:text-white px-2 py-2 rounded-lg transition-colors duration-200 group"
                 >
-                  <span className="text-gray-500 group-hover:text-white transition-colors duration-200">
-                    {item.icon}
-                  </span>
-                  {!isSidebarCollapsed && (
-                    <span className="text-sm font-medium">{item.label}</span>
-                  )}
+                  <div className="flex items-center gap-2">
+                    <CasinoIcon weight="fill" className="w-4 h-4" />
+                    <span className="text-xs font-semibold uppercase tracking-wider">Casino</span>
+                  </div>
+                  <CaretDown
+                    weight="bold"
+                    className={cn(
+                      "w-3 h-3 transition-transform duration-200",
+                      isCasinoOpen && "rotate-180"
+                    )}
+                  />
                 </button>
-              ))}
-            </nav>
+                <div className={cn(
+                  "overflow-hidden transition-all duration-200",
+                  isCasinoOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                )}>
+                  <nav className="space-y-0.5 pl-2">
+                    {casinoDropdownItems.map((item) => (
+                      <button
+                        key={item.label}
+                        className="w-full flex items-center gap-3 px-3 py-2 text-gray-300 hover:text-white hover:bg-dicey-card rounded-lg transition-colors duration-200 group"
+                      >
+                        <span className="text-gray-500 group-hover:text-white transition-colors duration-200">
+                          {item.icon}
+                        </span>
+                        <span className="text-sm font-medium">{item.label}</span>
+                      </button>
+                    ))}
+                  </nav>
+                </div>
+              </div>
+            ) : (
+              <nav className="space-y-1">
+                {casinoDropdownItems.map((item) => (
+                  <button
+                    key={item.label}
+                    className="w-full flex items-center justify-center p-2.5 text-gray-300 hover:text-white hover:bg-dicey-card rounded-lg transition-colors duration-200 group"
+                    title={item.label}
+                  >
+                    <span className="text-gray-500 group-hover:text-white transition-colors duration-200">
+                      {item.icon}
+                    </span>
+                  </button>
+                ))}
+              </nav>
+            )}
+
+            {/* Separator after Casino section */}
+            <div className={cn("my-2", isSidebarCollapsed ? "mx-auto w-8" : "mx-2")}>
+              <div
+                className="h-px"
+                style={{
+                  background: theme === "green"
+                    ? 'linear-gradient(to right, transparent, rgba(110, 231, 183, 0.3), transparent)'
+                    : 'linear-gradient(to right, transparent, rgba(196, 181, 253, 0.3), transparent)',
+                }}
+              />
+            </div>
           </div>
         )}
 
@@ -370,6 +486,18 @@ export default function Sidebar() {
                 </button>
               ))}
             </nav>
+
+            {/* Separator after Sports section */}
+            <div className={cn("my-2", isSidebarCollapsed ? "mx-auto w-8" : "mx-2")}>
+              <div
+                className="h-px"
+                style={{
+                  background: theme === "green"
+                    ? 'linear-gradient(to right, transparent, rgba(110, 231, 183, 0.3), transparent)'
+                    : 'linear-gradient(to right, transparent, rgba(196, 181, 253, 0.3), transparent)',
+                }}
+              />
+            </div>
           </div>
         )}
 
@@ -411,8 +539,15 @@ export default function Sidebar() {
 
       </div>
 
-      {/* Bottom Section - Powered by & Toggle */}
-      <div className="absolute bottom-0 left-0 right-0">
+      {/* Bottom Section - Powered by */}
+      <div
+        className="absolute bottom-0 left-0 right-0 pt-4 pb-3"
+        style={{
+          background: theme === "green"
+            ? 'linear-gradient(to top, #262827 70%, transparent 100%)'
+            : 'linear-gradient(to top, #2a1d42 70%, transparent 100%)',
+        }}
+      >
         {/* Separator */}
         <div className={cn("mx-auto mb-2", isSidebarCollapsed ? "w-8" : "mx-5")}>
           <div
@@ -426,7 +561,7 @@ export default function Sidebar() {
         </div>
         {/* Powered by Magic Eden - only when expanded */}
         {!isSidebarCollapsed && (
-          <div className="px-5 pb-2 pt-0 flex items-center gap-1.5">
+          <div className="px-5 flex items-center gap-1.5">
             <span className="text-[10px] text-gray-500">Built & Powered by</span>
             <img
               src="/magic-eden-logo.svg"
@@ -435,24 +570,18 @@ export default function Sidebar() {
             />
           </div>
         )}
-        {/* Collapse/Expand Toggle Button */}
-        <button
-          aria-label={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-          onClick={toggleSidebar}
-          className={cn(
-            "w-full flex items-center gap-3 p-3 text-gray-400 hover:text-white hover:bg-dicey-border/50 transition-colors duration-200",
-            isSidebarCollapsed ? "justify-center" : "justify-start"
-          )}
-        >
-          <SidebarSimple
-            weight="fill"
-            className={cn("size-5", !isSidebarCollapsed && "scale-x-[-1]")}
-          />
-          {!isSidebarCollapsed && (
-            <span className="text-sm">Collapse</span>
-          )}
-        </button>
+        {/* When collapsed, show Magic Eden icon */}
+        {isSidebarCollapsed && (
+          <div className="flex justify-center">
+            <img
+              src="/magic-eden-logo.svg"
+              alt="Magic Eden"
+              className="h-3 opacity-60 hover:opacity-100 transition-opacity"
+            />
+          </div>
+        )}
       </div>
     </aside>
+    </>
   );
 }
