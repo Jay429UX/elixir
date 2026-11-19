@@ -86,7 +86,7 @@ export default function ShowreelPlayer() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [speed, setSpeed] = useState<0.5 | 1 | 1.25>(1);
   const [loopActOnly, setLoopActOnly] = useState(false);
-  const [cleanMode, setCleanMode] = useState(false);
+  const [cleanMode, setCleanMode] = useState(true);
   const [backdrop, setBackdrop] = useState<BackdropMode>("alchemy");
   const [replayNonce, setReplayNonce] = useState(0);
 
