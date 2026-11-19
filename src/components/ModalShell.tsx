@@ -20,12 +20,15 @@ export default function ModalShell({ isOpen, onClose, labelledBy, children, retu
     if (!isOpen || !dialogRef.current) return;
     const dialog = dialogRef.current;
     const trigger = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    const previousOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+    const previousBodyOverflow = document.body.style.overflow;
     dialog.showModal();
+    document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
     return () => {
       dialog.close();
-      document.body.style.overflow = previousOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+      document.body.style.overflow = previousBodyOverflow;
       const returnTarget = returnFocusTo ? document.querySelector<HTMLElement>(returnFocusTo) : trigger;
       if (returnTarget?.isConnected) returnTarget.focus({ preventScroll: true });
     };
