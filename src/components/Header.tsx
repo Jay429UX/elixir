@@ -657,19 +657,6 @@ export default function Header() {
                         ))}
                       </div>
 
-                      {/* Be the House Card */}
-                      <button className="w-full bg-white/[0.04] border border-white/[0.06] rounded-lg p-3 mb-2 flex items-center justify-between hover:bg-white/[0.08] transition-colors">
-                        <div className="flex items-center gap-3">
-                          <div className="size-6 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center">
-                            <svg className="size-3.5 text-white" viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                          </div>
-                          <span className="text-sm font-medium text-white">Be the House</span>
-                        </div>
-                        <span className="text-sm text-white font-medium tabular-nums">$2,001.00</span>
-                      </button>
-
                       {/* Shared Pots Card */}
                       <button className="w-full bg-white/[0.04] border border-white/[0.06] rounded-lg p-3 flex items-center justify-between hover:bg-white/[0.08] transition-colors">
                         <div className="flex items-center gap-3">

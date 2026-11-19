@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import CoinJump from "@/components/ui/CoinJump";
 import { useTab } from "@/context/TabContext";
 import { cn } from "@/lib/utils";
 import PrimaryButton from "@/components/ui/PrimaryButton";
@@ -23,7 +22,6 @@ import {
   BiSolidBall as AmericanFootballIcon,
   BiSolidJoystick as EsportsIcon,
   BiSolidGift as PromotionsIcon,
-  BiSolidBank as HouseIcon,
   BiSolidDiamond as CasinoIcon,
 } from "react-icons/bi";
 
@@ -42,7 +40,6 @@ export default function Sidebar() {
   const { activeTab, setActiveTab, activeSport, setActiveSport, isSidebarCollapsed, toggleSidebar } = useTab();
   const [isOriginalsOpen, setIsOriginalsOpen] = useState(true);
   const [isCasinoOpen, setIsCasinoOpen] = useState(false);
-  const [coinJump, setCoinJump] = useState(0);
 
   const originalGames: OriginalGame[] = [
     {
@@ -475,48 +472,25 @@ export default function Sidebar() {
           </button>
         </div>
 
-        {/* Be the House Link */}
-        <div className="mb-4">
-          <button
-            className={cn(
-              "w-full flex items-center text-gray-300 hover:text-white hover:bg-dicey-card rounded-lg transition-colors duration-200 group",
-              isSidebarCollapsed ? "justify-center p-2.5" : "gap-3 px-3 py-2.5"
-            )}
-            title={isSidebarCollapsed ? "Be the House" : undefined}
-          >
-            <span className="text-gray-500 group-hover:text-white transition-colors duration-200">
-              <HouseIcon className="w-5 h-5" />
-            </span>
-            {!isSidebarCollapsed && (
-              <span className="text-sm font-medium">Be the House</span>
-            )}
-          </button>
-        </div>
-
         {/* Promotion offer (expanded only) */}
         {!isSidebarCollapsed && (
-          <div className="relative mt-2 mb-16">
-            {/* Background clips to the rounded card; the coin below is outside this clip so it can jump out */}
-            <div className="absolute inset-0 overflow-hidden rounded-xl">
-              <img
-                src="/promo-offer.webp"
-                alt=""
-                className="absolute inset-0 h-full w-full object-cover object-[20%_center]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1b052b] via-[#1b052b]/80 to-[#1b052b]/30" />
-            </div>
+          <div className="relative mt-2 mb-16 overflow-hidden rounded-xl">
+            <img
+              src="/promo-offer.webp"
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover object-[20%_center]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#1b052b] via-[#1b052b]/80 to-[#1b052b]/30" />
             <div className="relative flex flex-col items-start p-3 pt-14">
               <p className="text-[11px] font-semibold leading-[13px] text-lime-300">Weekend offer</p>
               <p className="hero-headline mt-1 text-xl leading-[22px] text-white">50 free spins</p>
               <p className="mt-1 text-[11px] leading-[14px] text-purple-200">On your next deposit of $20 or more</p>
               <PrimaryButton
-                onClick={() => setCoinJump((n) => n + 1)}
                 className="mt-3 w-full [&_.ui-button-face]:py-2 [&_.ui-button-face]:text-xs [&_.ui-button-glow]:hidden [&_.ui-button-ring]:hidden"
               >
                 Get offer
               </PrimaryButton>
             </div>
-            {coinJump > 0 && <CoinJump key={coinJump} onDone={() => setCoinJump(0)} />}
           </div>
         )}
 

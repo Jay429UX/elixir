@@ -352,6 +352,21 @@ export default function ShowreelPlayer() {
             {/* Continuous Real-Time WebGL Viscous Green Goo Perimeter Frame (All Acts) */}
             <GooFrameShader className="pointer-events-none absolute inset-0 z-30 size-full mix-blend-overlay" />
 
+            {/* Act 07 King Foreground Layer (Above GooFrameShader so blend mode never affects him) */}
+            {actIndex === 6 && (
+              <video
+                key={`act-6-king-${replayNonce}`}
+                src="/animations/king-peek-coin.webm"
+                poster="/animations/king-peek-poster.png"
+                autoPlay
+                loop
+                muted
+                playsInline
+                aria-hidden="true"
+                className="sr-king-peek-in pointer-events-none absolute bottom-0 right-1 z-40 hidden w-[295px] drop-shadow-[0_24px_40px_rgba(0,0,0,0.65)] sm:block sm:right-3 sm:w-[380px]"
+              />
+            )}
+
             {/* ==============================================================
                 ACT 01 · THE SPARK (0.0s - 3.6s)
                ============================================================== */}
@@ -1220,18 +1235,6 @@ export default function ShowreelPlayer() {
                     <span className="text-[9px] font-semibold text-cyan-200/90 sm:text-[11px]">Diamond</span>
                   </div>
                 </div>
-
-                {/* King Popping Up at Bottom Right (Larger) */}
-                <video
-                  src="/animations/king-peek-coin.webm"
-                  poster="/animations/king-peek-poster.png"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  aria-hidden="true"
-                  className="sr-king-peek-in pointer-events-none absolute bottom-0 right-1 z-20 hidden w-[295px] drop-shadow-[0_24px_40px_rgba(0,0,0,0.65)] sm:block sm:right-3 sm:w-[380px]"
-                />
 
                 {/* Editorial Craft Caption: All Animated SVG */}
                 <div
