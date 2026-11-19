@@ -14,7 +14,6 @@ import {
   BiPause,
   BiRevision,
   BiFullscreen,
-  BiExitFullscreen,
   BiRepeat,
 } from "react-icons/bi";
 
@@ -156,17 +155,13 @@ export default function ShowreelPlayer() {
         setIsPlaying((p) => !p);
       } else if (e.key === "r" || e.key === "R") {
         restartReel();
-      } else if (e.key === "f" || e.key === "F") {
-        setCleanMode((c) => !c);
-      } else if (e.key === "Escape" && cleanMode) {
-        setCleanMode(false);
       } else if (e.key >= "1" && e.key <= "9") {
         jumpToAct(Number(e.key) - 1);
       }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [cleanMode, jumpToAct, restartReel]);
+  }, [jumpToAct, restartReel]);
 
   const speedStyle = { "--sr-speed": speed } as CSSProperties;
 
@@ -1633,17 +1628,6 @@ export default function ShowreelPlayer() {
               </div>
             )}
 
-            {/* Subtle Clean Mode Exit Pill (bottom-right on hover) */}
-            {cleanMode && (
-              <button
-                type="button"
-                onClick={() => setCleanMode(false)}
-                className="absolute bottom-3 right-3 z-40 inline-flex items-center gap-1.5 rounded-lg border border-white/15 bg-black/65 px-2.5 py-1.5 text-[11px] font-semibold text-white/75 opacity-25 hover:opacity-100 transition-opacity backdrop-blur-md"
-              >
-                <BiExitFullscreen className="size-3.5" />
-                Exit Clean Mode (Esc)
-              </button>
-            )}
           </div>
 
           {/* ================================================================
