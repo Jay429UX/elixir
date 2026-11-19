@@ -1,5 +1,16 @@
 "use client";
 
+import { useState } from "react";
+import ModalShell from "./ModalShell";
+import VipBadge from "@/components/ui/VipBadge";
+import DeepLiquidShader from "@/components/ui/DeepLiquidShader";
+import PrimaryButton from "./ui/PrimaryButton";
+import ModalCloseButton from "./ui/ModalCloseButton";
+
+/* Placeholder ranks until real rank data exists: moving up from Diamond V to Sapphire I */
+const FROM = { label: "Diamond V", badge: "/vip/elixir/tier4.svg" };
+const TO = { label: "Sapphire I", badge: "/vip/elixir/tier5.svg" };
+
 interface LevelUpBonusModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -8,7 +19,7 @@ interface LevelUpBonusModalProps {
 }
 
 export default function LevelUpBonusModal({ isOpen, onClose, bonusAmount, onClaim }: LevelUpBonusModalProps) {
-  if (!isOpen) return null;
+  const [replayKey, setReplayKey] = useState(0);
 
   const handleClaim = () => {
     onClaim();
@@ -16,108 +27,82 @@ export default function LevelUpBonusModal({ isOpen, onClose, bonusAmount, onClai
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-        onClick={onClose}
-      />
+    <ModalShell isOpen={isOpen} onClose={onClose} labelledBy="level-up-bonus-title" returnFocusTo=".vip-trigger">
+
+      <div className="relative my-auto w-full max-w-lg shrink-0 pt-[144px] sm:pt-[198px]">
+        {/* Transparent king animation overlaps the top edge of the card. */}
+        <img
+          src="/animations/king-peek-poster.png"
+          alt=""
+          aria-hidden="true"
+          width={1280}
+          height={694}
+          className="pointer-events-none absolute left-1/2 top-0 z-10 hidden h-auto w-[280px] max-w-full -translate-x-1/2 sm:w-[380px] motion-reduce:block"
+        />
+        <video
+          src="/animations/king-peek-coin.webm"
+          autoPlay
+          loop
+          muted
+          playsInline
+          aria-hidden="true"
+          width={1280}
+          height={694}
+          className="pointer-events-none absolute left-1/2 top-0 z-10 h-auto w-[280px] max-w-full -translate-x-1/2 sm:w-[380px] motion-reduce:hidden"
+        />
 
       {/* Modal */}
-      <div className="relative w-full max-w-lg bg-dicey-card rounded-2xl overflow-hidden" style={{ boxShadow: '0 25px 50px rgba(0, 0, 0, 0.5)' }}>
+      <div className="ui-modal-panel relative w-full overflow-hidden" style={{ boxShadow: '0 25px 50px rgba(0, 0, 0, 0.5)' }}>
         {/* Header */}
-        <div className="flex items-center justify-between p-4">
-          <div className="flex items-center gap-3">
-            <span className="text-2xl">⬆️</span>
-            <h2 className="text-lg font-bold text-white">Level Up Bonus</h2>
-          </div>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-dicey-border rounded-lg transition-colors"
-            aria-label="Close modal"
-          >
-            <svg className="size-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+        <div className="flex items-center justify-between px-5 py-4 sm:px-6">
+          <h2 id="level-up-bonus-title" className="ui-modal-title">Level Up Bonus</h2>
+          <ModalCloseButton onClick={onClose} label="Close level up bonus" />
         </div>
 
         {/* Content */}
-        <div className="p-4">
-          {/* Animation Container */}
-          <div className="relative w-full bg-dicey-dark rounded-xl overflow-hidden mb-4">
-            <iframe
-              src="https://placeholder.com/level-up-animation"
-              className="absolute inset-0 w-full h-full"
-              title="Level Up Bonus Animation"
-              style={{ border: 'none' }}
-            />
-            {/* Content */}
-            <div className="relative flex flex-col items-center justify-center py-6 bg-gradient-to-br from-dicey-card to-dicey-dark">
-              <img
-                src="/vip/Icon 1 (diamant)-_4mW1oBJ.png"
-                alt="VIP Badge"
-                className="w-20 h-20 object-contain mb-3 animate-bounce drop-shadow-[0_0_20px_rgba(56,189,248,0.5)]"
-              />
-              <h3 className="text-xl font-bold text-white mb-1">Congratulations!</h3>
-              <p className="text-gray-400 text-center text-sm px-4">You've reached a new level and earned a bonus!</p>
-              <div className="mt-3 px-5 py-2 bg-dicey-border rounded-xl">
-                <span className="text-2xl font-black gold-shimmer">{bonusAmount.toFixed(2)} USDC</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Bonus Info */}
-          <div className="bg-dicey-dark/50 rounded-xl p-4 mb-4">
-            <div className="flex items-center justify-between">
-              <span className="text-gray-400">Available Bonus</span>
-              <span className="text-xl font-bold gold-shimmer">{bonusAmount.toFixed(2)} USDC</span>
+        <div className="px-5 pb-6 sm:px-6">
+          {/* Gradient panel: centered badge showcase above bubbling potion floor */}
+          <div className="lu-gradient relative mb-4 min-h-[440px] w-full overflow-hidden rounded-xl pt-9 text-center">
+            <DeepLiquidShader className="absolute inset-x-0 bottom-0 h-[52%] w-full" />
+            <div className="relative z-10">
+              <button
+                type="button"
+                key={replayKey}
+                onClick={() => setReplayKey((k) => k + 1)}
+                aria-label={`Replay ${TO.label} badge animation`}
+                className="lu-badge-stage group relative mx-auto block w-fit cursor-pointer rounded-3xl p-2"
+              >
+                <div
+                  aria-hidden="true"
+                  className="lu-badge-halo pointer-events-none absolute inset-1 rounded-full bg-[radial-gradient(circle,rgba(59,130,246,0.45)_0%,rgba(139,92,246,0.18)_48%,transparent_72%)] blur-xl"
+                />
+                <div className="lu-badge-lock relative flex justify-center">
+                  <VipBadge src={TO.badge} alt={TO.label} level={1} sheen animated className="size-32 sm:size-36" />
+                </div>
+                <div className="lu-badge-shadow-wrap mx-auto -mt-1.5 flex justify-center">
+                  <div
+                    aria-hidden="true"
+                    className="lu-badge-shadow h-3.5 w-28 rounded-full bg-black/80 blur-md"
+                  />
+                </div>
+              </button>
+              <h3 className="hero-headline relative mt-1 text-3xl uppercase text-white [text-shadow:none]">Rank up!</h3>
+              <p className="ui-body relative mt-1 px-5">You moved from {FROM.label} to {TO.label}.</p>
             </div>
           </div>
 
           {/* Claim Button */}
-          <button
-            onClick={handleClaim}
-            disabled={bonusAmount <= 0}
-            className={bonusAmount > 0 ? "relative group/btn w-full" : "w-full px-6 py-4 text-base font-bold rounded-xl bg-gray-600 text-gray-400 cursor-not-allowed"}
-          >
+          <PrimaryButton onClick={handleClaim} disabled={bonusAmount <= 0} className="w-full">
             {bonusAmount > 0 ? (
-              <>
-                {/* Glow effect */}
-                <span className="absolute -inset-1 rounded-xl transition-all duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-md" />
-                {/* Bubble particles on hover */}
-                <span className="absolute -top-2 left-6 size-2 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.2s_ease-out_infinite]" />
-                <span className="absolute -top-1 left-16 size-1.5 rounded-full bg-[#39ff14]/50 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.4s_ease-out_infinite_0.2s]" />
-                <span className="absolute -top-2 right-12 size-2.5 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.4s]" />
-                <span className="absolute -top-1 right-24 size-1 rounded-full bg-[#39ff14]/40 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.3s_ease-out_infinite_0.1s]" />
-                <span className="absolute top-0 left-1/2 size-1.5 rounded-full bg-[#39ff14]/55 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.1s_ease-out_infinite_0.3s]" />
-                {/* Dark inset ring around button - extends bottom to cover 3D depth (translate-y-1 = 4px) */}
-                <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[6px] rounded-[14px] bg-black/20" />
-                {/* Bottom layer for depth */}
-                <span className="absolute inset-0 translate-y-1 bg-[#1a5c0a] rounded-xl" />
-                {/* Main button */}
-                <span
-                  className="relative block px-6 py-4 text-base text-black font-bold rounded-xl transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
-                  style={{
-                    background: 'radial-gradient(ellipse at 50% 0%, #39ff14 0%, #32cd32 40%, #228b22 100%)',
-                    boxShadow: 'inset 0 2px 0 rgba(255,255,255,0.25), inset 0 -2px 0 rgba(0,0,0,0.2)',
-                  }}
-                >
-                  <span className="cta-shimmer" />
-                  <span className="relative flex items-center justify-center gap-2" style={{ textShadow: '0 1px 0 rgba(255,255,255,0.3), 0 -1px 0 rgba(0,0,0,0.15)' }}>
-                    <svg className="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    Claim {bonusAmount.toFixed(2)} USDC
-                  </span>
-                </span>
-              </>
-            ) : (
-              'No Bonus Available'
-            )}
-          </button>
+              <span className="inline-flex items-center gap-1.5">
+                Claim {bonusAmount.toFixed(2)}
+                <img src="/crypto/usdc.svg" alt="USDC" className="size-5" />
+              </span>
+            ) : 'No Bonus Available'}
+          </PrimaryButton>
         </div>
       </div>
-    </div>
+      </div>
+    </ModalShell>
   );
 }

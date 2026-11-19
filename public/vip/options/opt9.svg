@@ -1,0 +1,66 @@
+<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024">
+<defs>
+<linearGradient id="gold" x1="180" y1="70" x2="850" y2="940" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff283" /><stop offset="0.3" stop-color="#ffd524" /><stop offset="0.65" stop-color="#ffbf00" /><stop offset="1" stop-color="#df9000" /></linearGradient>
+<linearGradient id="purple" x1="110" y1="100" x2="890" y2="910" gradientUnits="userSpaceOnUse"><stop stop-color="#8505aa" /><stop offset="0.55" stop-color="#500966" /><stop offset="1" stop-color="#30053f" /></linearGradient>
+<linearGradient id="glass" x1="350" y1="402" x2="710" y2="870" gradientUnits="userSpaceOnUse"><stop stop-color="#71bd75" /><stop offset="0.35" stop-color="#438f3e" /><stop offset="1" stop-color="#488c37" /></linearGradient>
+<linearGradient id="potion" x1="389" y1="631" x2="664" y2="896" gradientUnits="userSpaceOnUse"><stop stop-color="#08d000" /><stop offset="0.5" stop-color="#00a900" /><stop offset="1" stop-color="#37db00" /></linearGradient>
+<linearGradient id="crown" x1="405" y1="184" x2="601" y2="358" gradientUnits="userSpaceOnUse"><stop stop-color="#fff56d" /><stop offset="0.45" stop-color="#ffdc13" /><stop offset="1" stop-color="#eda500" /></linearGradient>
+</defs>
+<g id="tile">
+<rect x="20" y="20" width="984" height="984" rx="235" fill="url(#gold)" stroke="#925300" stroke-width="14" />
+<rect x="35" y="34" width="954" height="954" rx="220" fill="none" stroke="#fff27a" stroke-width="12" />
+<rect x="69" y="72" width="884" height="880" rx="196" fill="url(#purple)" stroke="#ffe13a" stroke-width="8" />
+<path d="M73 383V273C73 163 161 75 271 75H752C836 75 897 119 929 182 765 88 618 110 477 117 293 123 162 208 73 383Z" fill="#9207ab" opacity=".45" />
+<path d="M951 592V753C951 863 865 949 754 949H403C633 920 845 787 951 592Z" fill="#7b0989" opacity=".4" />
+</g>
+<g id="sparkles" fill="#ffd400" stroke="#27042f" stroke-width="13" stroke-linejoin="round">
+<path d="M238 405C226 462 214 473 164 488 214 502 226 517 238 570 249 517 263 502 309 488 261 475 248 461 238 405Z" />
+<path d="M765 326C755 372 743 390 699 402 742 412 755 429 765 477 779 430 789 414 830 402 788 389 775 373 765 326Z" />
+<path d="M818 624C810 660 797 677 761 687 798 697 808 713 818 748 827 713 840 697 871 687 840 677 827 663 818 624Z" />
+</g>
+<g id="flask" stroke="#240329" stroke-linejoin="round">
+<path d="M416 394H605V464C605 481 616 488 637 500 713 548 755 622 755 707 755 840 647 939 508 939 360 939 246 839 246 709 246 615 302 538 393 492 412 482 416 478 416 459Z" fill="#cbffbf" stroke-width="20" />
+<path d="M446 406H575V463C575 497 590 513 617 529 685 571 720 635 720 706 720 818 625 906 508 906 379 906 279 819 279 709 279 626 326 563 408 520 436 505 447 487 447 461Z" fill="url(#glass)" stroke="none" />
+<path d="M447 407H469V463C469 503 448 524 418 541 364 571 331 609 310 657L289 652C310 592 350 546 405 516 436 500 447 486 447 459Z" fill="#9cde98" stroke="none" />
+<path d="M296 627C338 588 397 619 453 637 504 656 549 603 611 600 656 595 695 607 703 622 714 652 720 680 720 706 720 819 626 907 508 907 381 907 279 821 279 709 279 681 285 653 296 627Z" fill="url(#potion)" stroke="none" />
+<path d="M295 627C345 589 404 623 459 641 512 659 550 601 615 599 655 596 691 605 698 620 689 637 643 633 603 641 531 652 483 694 432 693 376 694 337 646 295 627Z" fill="#a5fa00" stroke="none" />
+<path d="M303 623C358 598 410 627 460 646 513 668 559 615 610 611 644 607 676 613 687 620" fill="none" stroke="#d0ff60" stroke-width="12" stroke-linecap="round" />
+<path d="M709 654C722 778 630 888 508 896 590 903 670 857 702 794 725 749 724 694 709 654Z" fill="#8df600" stroke="none" />
+<g fill="#a5f600" stroke="#179900" stroke-width="10">
+<circle cx="530" cy="511" r="34" />
+<circle cx="483" cy="568" r="21" />
+<circle cx="596" cy="713" r="49" />
+<circle cx="423" cy="785" r="62" />
+<circle cx="535" cy="811" r="25" />
+</g>
+<g fill="#f6ffd9" stroke="none">
+<path d="M512 493C528 480 547 490 531 503 514 519 501 509 512 493Z" />
+<path d="M472 556C481 548 491 554 481 563 471 572 466 565 472 556Z" />
+<path d="M566 691C579 675 608 672 599 688 587 705 570 719 564 708 562 703 563 697 566 691Z" />
+<path d="M384 756C397 738 418 734 427 744 436 754 414 765 403 778 387 795 372 778 384 756Z" />
+<path d="M521 799C531 790 544 794 537 802 525 816 513 811 521 799Z" />
+<path d="M310 647C324 603 362 555 402 535 421 525 440 537 434 553 431 563 413 574 397 591 377 612 363 637 352 663 342 692 318 683 312 674 306 667 307 658 310 647Z" />
+</g>
+<path d="M397 379C396 360 624 360 627 381L625 403C621 417 597 422 575 416 527 408 475 414 432 419 410 419 394 407 397 393Z" fill="#caffc0" stroke-width="18" />
+<path d="M412 388C467 376 555 377 607 388" fill="none" stroke="#ebffe1" stroke-width="12" stroke-linecap="round" />
+</g>
+<g stroke="#27032f" stroke-width="18" stroke-linejoin="round">
+<path d="M321 202L423 233 510 133 599 233 702 195 657 337 366 338Z" fill="url(#crown)" />
+<path d="M339 218L423 247 511 153 597 247 683 217" fill="none" stroke="#fff17b" stroke-width="12" />
+<path d="M374 335L349 239 421 321 461 321 509 172 551 320 600 322 678 238 650 337Z" fill="#ffc500" stroke="none" opacity=".45" />
+<path d="M511 194L559 246 511 296 463 246Z" fill="#980bda" stroke-width="10" />
+<path d="M511 207L511 245 476 245Z" fill="#e995ff" stroke="none" />
+<path d="M511 245L549 246 512 285Z" fill="#6703ae" stroke="none" />
+<path d="M511 207L549 246H511Z" fill="#bb36ef" stroke="none" />
+<path d="M371 329C412 309 473 309 510 309 572 309 625 316 651 331 680 349 672 382 645 393L635 377C593 360 432 359 389 379L382 398C354 391 341 351 371 329Z" fill="url(#gold)" />
+<path d="M372 350C419 322 592 324 648 349" fill="none" stroke="#fff06b" stroke-width="10" stroke-linecap="round" />
+<circle cx="320" cy="192" r="38" fill="url(#gold)" stroke-width="16" />
+<circle cx="702" cy="192" r="38" fill="url(#gold)" stroke-width="16" />
+<circle cx="511" cy="120" r="45" fill="url(#gold)" stroke-width="17" />
+<g fill="#ffffe6" stroke="none">
+<ellipse cx="312" cy="179" rx="14" ry="9" transform="rotate(-40 312 179)" />
+<ellipse cx="695" cy="179" rx="14" ry="9" transform="rotate(-40 695 179)" />
+<ellipse cx="501" cy="105" rx="15" ry="10" transform="rotate(-40 501 105)" />
+</g>
+</g>
+</svg>

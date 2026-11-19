@@ -1,0 +1,93 @@
+/* 8 options for the 100x+ Live Wins card border */
+
+@keyframes wc-flow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes wc-fizz-pop {
+  0% { opacity: 0; transform: translateY(4px) scale(0.4); }
+  25% { opacity: 0.95; transform: translateY(-2px) scale(1); }
+  75% { opacity: 0.8; transform: translateY(-10px) scale(1.15); }
+  100% { opacity: 0; transform: translateY(-16px) scale(0.3); }
+}
+
+/* 02: Carbonated rise inside card */
+@keyframes wc-carb-rise {
+  0% { opacity: 0; transform: translateY(10px) scale(0.5); }
+  25% { opacity: 0.85; }
+  100% { opacity: 0; transform: translateY(-48px) scale(1.1); }
+}
+.wc-carb-dot {
+  position: absolute;
+  bottom: 2px;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 30% 30%, #fff 0%, #9dff78 50%, #39ff14 100%);
+  pointer-events: none;
+  animation: wc-carb-rise 2.1s ease-out infinite;
+}
+
+/* 03: Orbiting conic spark */
+@keyframes wc-spin {
+  to { transform: rotate(360deg); }
+}
+.wc-orbit-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 9px;
+  padding: 1.5px;
+}
+.wc-orbit-wrap::before {
+  content: "";
+  position: absolute;
+  inset: -140%;
+  background: conic-gradient(from 0deg, transparent 0deg, transparent 285deg, #39ff14 335deg, #b8ff7a 355deg, transparent 360deg);
+  animation: wc-spin 2.6s linear infinite;
+}
+
+/* 04: Breathing rim */
+@keyframes wc-breathe {
+  0%, 100% {
+    border-color: rgba(57, 255, 20, 0.35);
+    box-shadow: 0 0 8px rgba(57, 255, 20, 0.14);
+  }
+  50% {
+    border-color: rgba(57, 255, 20, 0.9);
+    box-shadow: 0 0 18px rgba(57, 255, 20, 0.35), inset 0 0 14px rgba(57, 255, 20, 0.08);
+  }
+}
+.wc-breathe {
+  animation: wc-breathe 2.4s ease-in-out infinite;
+}
+
+/* 06: Diagonal lime sheen */
+@keyframes wc-sheen {
+  0% { transform: translateX(-140%) skewX(-22deg); }
+  45%, 100% { transform: translateX(260%) skewX(-22deg); }
+}
+.wc-sheen-bar {
+  position: absolute;
+  inset: 0;
+  width: 45%;
+  background: linear-gradient(90deg, transparent, rgba(57, 255, 20, 0.16), rgba(255, 255, 255, 0.18), transparent);
+  pointer-events: none;
+  animation: wc-sheen 2.8s ease-out infinite;
+}
+
+/* 08: Emerald-purple cauldron flow */
+.wc-cauldron-border {
+  background: linear-gradient(90deg, #39ff14, #22c55e, #a855f7, #39ff14);
+  background-size: 200% 100%;
+  animation: wc-flow 3s linear infinite;
+  box-shadow: 0 0 16px rgba(57, 255, 20, 0.22), 0 0 24px rgba(168, 85, 247, 0.18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wc-carb-dot,
+  .wc-orbit-wrap::before,
+  .wc-breathe,
+  .wc-sheen-bar,
+  .wc-cauldron-border {
+    animation: none !important;
+  }
+}

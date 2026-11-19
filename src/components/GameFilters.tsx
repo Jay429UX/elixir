@@ -1,6 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import {
+  BiSolidDiamond,
+  BiSolidGame,
+  BiSolidGridAlt,
+  BiSolidPurchaseTag,
+  BiSolidTrophy,
+  BiSolidVideo,
+} from "react-icons/bi";
 import { cn } from "@/lib/utils";
 
 interface GameFiltersProps {
@@ -22,59 +30,32 @@ const categories = [
   {
     id: "all",
     label: "All Games",
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-      </svg>
-    ),
+    icon: <BiSolidGridAlt className="size-5" />,
   },
   {
     id: "slots",
     label: "Slots",
-    icon: (
-      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l4.59-4.58L18 11l-6 6z" />
-      </svg>
-    ),
+    icon: <BiSolidDiamond className="size-5" />,
   },
   {
     id: "live",
     label: "Live Casino",
-    icon: (
-      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2" />
-        <circle cx="12" cy="12" r="3" />
-      </svg>
-    ),
+    icon: <BiSolidVideo className="size-5" />,
   },
   {
     id: "table",
     label: "Table Games",
-    icon: (
-      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-        <rect x="2" y="4" width="20" height="16" rx="2" fill="none" stroke="currentColor" strokeWidth="2" />
-        <path d="M8 8h2v8H8zM14 8h2v8h-2z" />
-      </svg>
-    ),
+    icon: <BiSolidGame className="size-5" />,
   },
   {
     id: "jackpot",
     label: "Jackpots",
-    icon: (
-      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" fill="none" stroke="currentColor" strokeWidth="2" />
-      </svg>
-    ),
+    icon: <BiSolidTrophy className="size-5" />,
   },
   {
     id: "new",
     label: "New Releases",
-    icon: (
-      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" fill="none" stroke="currentColor" strokeWidth="2" />
-        <circle cx="7" cy="7" r="1.5" />
-      </svg>
-    ),
+    icon: <BiSolidPurchaseTag className="size-5" />,
   },
 ];
 
@@ -106,10 +87,14 @@ export default function GameFilters({ onSortChange, onCategoryChange }: GameFilt
         <div className="relative">
           <button
             onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}
-            className="flex items-center gap-2 px-4 py-2.5 bg-dicey-card rounded-xl text-sm text-gray-300 hover:text-white transition-colors"
+            aria-label={`Filter games: ${selectedCategory?.label}`}
+            aria-haspopup="menu"
+            aria-expanded={isCategoryDropdownOpen}
+            title={`Filter: ${selectedCategory?.label}`}
+            className="relative flex items-center gap-2 px-3.5 py-2.5 bg-dicey-card rounded-xl text-sm text-gray-300 hover:text-white transition-colors"
           >
             <span className="text-gray-400">{selectedCategory?.icon}</span>
-            <span>{selectedCategory?.label}</span>
+            {activeCategory !== "all" && <span aria-hidden="true" className="absolute right-1.5 top-1.5 size-1.5 rounded-full bg-lime-300" />}
             <svg
               className={cn("size-4 text-gray-500 transition-transform", isCategoryDropdownOpen && "rotate-180")}
               fill="none"
@@ -160,12 +145,16 @@ export default function GameFilters({ onSortChange, onCategoryChange }: GameFilt
         <div className="relative">
           <button
             onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
-            className="flex items-center gap-2 px-4 py-2.5 bg-dicey-card rounded-xl text-sm text-gray-300 hover:text-white transition-colors"
+            aria-label={`Sort games: ${selectedSortLabel}`}
+            aria-haspopup="menu"
+            aria-expanded={isSortDropdownOpen}
+            title={`Sort: ${selectedSortLabel}`}
+            className="relative flex items-center gap-2 px-3.5 py-2.5 bg-dicey-card rounded-xl text-sm text-gray-300 hover:text-white transition-colors"
           >
             <svg className="size-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
             </svg>
-            <span>Sort: {selectedSortLabel}</span>
+            {activeSort !== "default" && <span aria-hidden="true" className="absolute right-1.5 top-1.5 size-1.5 rounded-full bg-lime-300" />}
             <svg
               className={cn("size-4 text-gray-500 transition-transform", isSortDropdownOpen && "rotate-180")}
               fill="none"

@@ -1,0 +1,188 @@
+/* Layered SVG animations for Kingdom & Elixir badges (64x64 viewBox) */
+
+.kb-stage svg .kb-frame,
+.kb-stage svg .kb-core,
+.kb-stage svg .kb-crown,
+.kb-stage svg .kb-top,
+.kb-stage svg .kb-wings,
+.kb-stage svg .kb-rays,
+.kb-stage svg .kb-pips {
+  transform-box: view-box;
+  transform-origin: 32px 32px;
+}
+
+.kb-stage svg .kb-banner {
+  transform-box: view-box;
+  transform-origin: 32px 15px;
+}
+
+.kb-stage svg .kb-liquid,
+.kb-stage svg .kb-bubbles circle,
+.kb-stage svg .kb-glint {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* ================= ENTRANCE: Forge & Lock Rank-Up ================= */
+@keyframes kb-frame-in {
+  0% { opacity: 0; transform: scale(0.5); }
+  70% { opacity: 1; transform: scale(1.08); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes kb-core-fill {
+  0% { opacity: 0; transform: scale(0.4); }
+  75% { opacity: 1; transform: scale(1.06); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes kb-crown-drop {
+  0% { opacity: 0; transform: translateY(-10px) scale(0.8); }
+  72% { opacity: 1; transform: translateY(1.5px) scale(1.05); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes kb-bubble-pop {
+  0% { opacity: 0; transform: translateY(6px) scale(0.2); }
+  75% { opacity: 1; transform: translateY(-1px) scale(1.15); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes kb-pips-lock {
+  0% { opacity: 0; transform: translateY(4px) scale(0.75); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes kb-glint-sweep {
+  0%, 40% { opacity: 0; transform: translateX(-18px) rotate(-25deg); }
+  65% { opacity: 0.9; }
+  100% { opacity: 0; transform: translateX(22px) rotate(-25deg); }
+}
+
+@keyframes kb-wings-spread {
+  0% { opacity: 0; transform: scaleX(0.42) translateY(3px); }
+  72% { opacity: 1; transform: scaleX(1.07) translateY(-0.5px); }
+  100% { opacity: 1; transform: scaleX(1) translateY(0); }
+}
+
+@keyframes kb-banner-unfurl {
+  0% { opacity: 0; transform: scaleY(0.18); }
+  75% { opacity: 1; transform: scaleY(1.06); }
+  100% { opacity: 1; transform: scaleY(1); }
+}
+
+@keyframes kb-rays-flare {
+  0% { opacity: 0; transform: scale(0.55) translateY(5px); }
+  72% { opacity: 1; transform: scale(1.07) translateY(-0.5px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.kb-mode-entrance svg .kb-frame {
+  animation: kb-frame-in 480ms cubic-bezier(0.22, 1.35, 0.36, 1) both;
+}
+.kb-mode-entrance svg .kb-rays {
+  animation: kb-rays-flare 500ms cubic-bezier(0.22, 1.35, 0.36, 1) 180ms both;
+}
+.kb-mode-entrance svg .kb-wings {
+  animation: kb-wings-spread 480ms cubic-bezier(0.22, 1.35, 0.36, 1) 140ms both;
+}
+.kb-mode-entrance svg .kb-banner {
+  animation: kb-banner-unfurl 500ms cubic-bezier(0.22, 1.25, 0.36, 1) 120ms both;
+}
+.kb-mode-entrance svg .kb-core,
+.kb-mode-entrance svg .kb-liquid {
+  animation: kb-core-fill 460ms cubic-bezier(0.22, 1, 0.36, 1) 110ms both;
+}
+.kb-mode-entrance svg .kb-crown,
+.kb-mode-entrance svg .kb-top {
+  animation: kb-crown-drop 460ms cubic-bezier(0.22, 1.35, 0.36, 1) 210ms both;
+}
+.kb-mode-entrance svg .kb-b1 {
+  animation: kb-bubble-pop 380ms ease-out 280ms both;
+}
+.kb-mode-entrance svg .kb-b2 {
+  animation: kb-bubble-pop 380ms ease-out 360ms both;
+}
+.kb-mode-entrance svg .kb-b3 {
+  animation: kb-bubble-pop 380ms ease-out 440ms both;
+}
+.kb-mode-entrance svg .kb-pips {
+  animation: kb-pips-lock 340ms ease-out 340ms both;
+}
+.kb-mode-entrance svg .kb-glint {
+  animation: kb-glint-sweep 850ms ease-out 420ms both;
+}
+
+/* ================= IDLE LOOP: Living Alchemy & Sheen ================= */
+@keyframes kb-liquid-slosh {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+@keyframes kb-bubble-rise {
+  0% { opacity: 0; transform: translateY(5px) scale(0.5); }
+  35% { opacity: 0.95; }
+  85% { opacity: 0.85; }
+  100% { opacity: 0; transform: translateY(-7px) scale(1.1); }
+}
+
+@keyframes kb-core-pulse {
+  0%, 100% { opacity: 0.94; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+
+@keyframes kb-idle-glint {
+  0%, 72%, 100% { opacity: 0; transform: translateX(-20px) rotate(-25deg); }
+  84% { opacity: 0.65; }
+  94% { opacity: 0; transform: translateX(22px) rotate(-25deg); }
+}
+
+.kb-mode-idle svg .kb-liquid {
+  animation: kb-liquid-slosh 3.2s ease-in-out infinite;
+}
+.kb-mode-idle svg .kb-b1 {
+  animation: kb-bubble-rise 2.4s ease-in-out infinite;
+}
+.kb-mode-idle svg .kb-b2 {
+  animation: kb-bubble-rise 2.8s ease-in-out 0.7s infinite;
+}
+.kb-mode-idle svg .kb-b3 {
+  animation: kb-bubble-rise 3.1s ease-in-out 1.4s infinite;
+}
+@keyframes kb-wings-breathe {
+  0%, 100% { transform: scaleX(1) translateY(0); }
+  50% { transform: scaleX(1.045) translateY(-1px); }
+}
+
+@keyframes kb-banner-sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+@keyframes kb-rays-gleam {
+  0%, 100% { opacity: 0.94; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.03); }
+}
+
+.kb-mode-idle svg .kb-core {
+  animation: kb-core-pulse 2.8s ease-in-out infinite;
+}
+.kb-mode-idle svg .kb-rays {
+  animation: kb-rays-gleam 3.1s ease-in-out infinite;
+}
+.kb-mode-idle svg .kb-wings {
+  animation: kb-wings-breathe 2.6s ease-in-out infinite;
+}
+.kb-mode-idle svg .kb-banner {
+  animation: kb-banner-sway 3.4s ease-in-out infinite;
+}
+.kb-mode-idle svg .kb-glint {
+  animation: kb-idle-glint 4.5s ease-in-out infinite;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .kb-stage svg * {
+    animation: none !important;
+  }
+}

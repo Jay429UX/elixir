@@ -1,0 +1,43 @@
+<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024">
+  <title>Gold VIP potion rank badge</title>
+  <defs>
+    <linearGradient id="gold-grad" x1="250" y1="110" x2="770" y2="900" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff31a" />
+      <stop offset=".48" stop-color="#ffbb00" />
+      <stop offset=".75" stop-color="#ffe500" />
+      <stop offset="1" stop-color="#ffad00" />
+    </linearGradient>
+    <radialGradient id="purple-grad" cx=".48" cy=".44" r=".72">
+      <stop offset="0" stop-color="#680699" />
+      <stop offset="1" stop-color="#39005b" />
+    </radialGradient>
+    <linearGradient id="flask-grad" x1="350" y1="400" x2="674" y2="750" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff324" />
+      <stop offset=".55" stop-color="#ffd900" />
+      <stop offset="1" stop-color="#ffb900" />
+    </linearGradient>
+    <linearGradient id="liquid-grad" x1="435" y1="560" x2="570" y2="778" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#baff00" />
+      <stop offset=".48" stop-color="#6cf400" />
+      <stop offset="1" stop-color="#00d900" />
+    </linearGradient>
+  </defs>
+  <g id="badge" stroke-linejoin="round">
+    <path d="M526 17 933 253Q947 261 947 279V745Q947 761 933 770L526 1005Q511 1014 497 1005L89 770Q74 762 74 745V279Q74 263 89 254L497 17Q511 8 526 17Z" fill="url(#gold-grad)" stroke="#160717" stroke-width="18" />
+    <path d="M87 275 511 29 934 275" fill="none" stroke="#fff529" stroke-width="7" />
+    <path d="M87 275 139 307V721L87 750Z" fill="#ffad00" />
+    <path d="M934 275 887 307V721L934 750Z" fill="#ffc800" />
+    <path d="M139 721 511 951 887 721" fill="none" stroke="#fff12a" stroke-width="7" />
+    <path d="M511 91 881 310V720L511 940 140 720V310Z" fill="#60f000" stroke="#19071d" stroke-width="12" />
+    <path d="M511 137 841 332V698L511 895 180 698V332Z" fill="url(#purple-grad)" stroke="#19071d" stroke-width="13" />
+  </g>
+  <g id="potion" stroke="#17051b" stroke-linejoin="round">
+    <path d="M435 302 417 233Q412 212 434 208Q510 198 587 208Q609 211 604 233L586 302Z" fill="url(#gold-grad)" stroke-width="20" />
+    <path d="M420 353V407Q420 424 407 430C327 469 277 538 277 618 277 736 382 828 510 828S743 736 743 618C743 538 694 468 615 431Q602 425 602 408V353Z" fill="url(#flask-grad)" stroke-width="20" />
+    <path d="M463 364V415Q464 443 443 455C386 482 347 521 332 574 367 551 401 547 432 553 487 558 532 598 588 600 627 604 661 591 689 574 674 521 639 482 581 455Q558 443 559 417V364Z" fill="#ffbf00" stroke="none" />
+    <path d="M330 588C387 546 434 546 484 567S581 627 685 577C714 690 624 776 511 776 400 776 315 697 330 588Z" fill="url(#liquid-grad)" stroke="#008b00" stroke-width="15" />
+    <path d="M408 577C379 584 357 607 354 635 351 654 359 672 370 671 381 670 380 654 383 644 389 623 403 607 420 594 433 584 423 573 408 577Z" fill="#fff" stroke="none" />
+    <path d="M415 290H606C626 290 642 306 642 326S626 363 606 363H415C394 363 378 347 378 327S394 290 415 290Z" fill="url(#gold-grad)" stroke-width="20" />
+    <path d="M409 310Q414 306 427 306H601" fill="none" stroke="#fff538" stroke-width="7" stroke-linecap="round" />
+  </g>
+</svg>

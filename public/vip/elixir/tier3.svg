@@ -1,0 +1,41 @@
+<svg viewBox="-6 -6 140 140" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+  <defs>
+    <linearGradient id="tl-gold" x1="16" y1="8" x2="64" y2="48" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/><stop offset="45%" stop-color="#fef08a"/><stop offset="100%" stop-color="#eab308"/></linearGradient>
+    <linearGradient id="tr-gold" x1="64" y1="8" x2="112" y2="48" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fef08a"/><stop offset="100%" stop-color="#eab308"/></linearGradient>
+    <linearGradient id="l-gold" x1="16" y1="36" x2="36" y2="92" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fef08a"/><stop offset="100%" stop-color="#854d0e"/></linearGradient>
+    <linearGradient id="r-gold" x1="92" y1="36" x2="112" y2="92" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#eab308"/><stop offset="100%" stop-color="#854d0e"/></linearGradient>
+    <linearGradient id="bl-gold" x1="16" y1="84" x2="64" y2="120" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#eab308"/><stop offset="100%" stop-color="#854d0e"/></linearGradient>
+    <linearGradient id="br-gold" x1="64" y1="92" x2="112" y2="116" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#854d0e"/><stop offset="100%" stop-color="#1b0e08"/></linearGradient>
+    <radialGradient id="core-gold" cx="38%" cy="32%" r="68%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/><stop offset="26%" stop-color="#fde047"/><stop offset="72%" stop-color="#a16207"/><stop offset="100%" stop-color="#090412"/></radialGradient>
+    <linearGradient id="table-gold" x1="42" y1="36" x2="86" y2="90" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.72"/><stop offset="45%" stop-color="#fde047" stop-opacity="0.86"/><stop offset="100%" stop-color="#a16207" stop-opacity="0.96"/></linearGradient>
+  </defs>
+  <g class="b-core">
+    <g class="sv-bezel"><path d="M64 6L114 35V93L64 122L14 93V35L64 6Z" fill="#090412" stroke="#090412" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M64 6L64 26L31 45L14 35L64 6Z" fill="url(#tl-gold)"/>
+    <path d="M64 6L114 35L97 45L64 26L64 6Z" fill="url(#tr-gold)"/>
+    <path d="M14 35L31 45V83L14 93V35Z" fill="url(#l-gold)"/>
+    <path d="M114 35V93L97 83V45L114 35Z" fill="url(#r-gold)"/>
+    <path d="M14 93L31 83L64 102V122L14 93Z" fill="url(#bl-gold)"/>
+    <path d="M114 93L64 122V102L97 83L114 93Z" fill="url(#br-gold)"/>
+    <g class="b-rim"><path d="M15 92V35.5L64 7L113 35.5" stroke="#ffffff" stroke-opacity="0.65" stroke-width="1.8" stroke-linejoin="round"/></g>
+    <path d="M64 24L99 44V84L64 104L29 84V44L64 24Z" fill="#0d0618" stroke="#05020a" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M98 45V83.5L64 103" stroke="#fef08a" stroke-opacity="0.45" stroke-width="1.5" stroke-linecap="round"/></g>
+    <g class="sv-gem"><path d="M64 29L94 46.5V81.5L64 99L34 81.5V46.5L64 29Z" fill="url(#core-gold)"/>
+    <path d="M64 29L79 47L64 41L49 47L64 29Z" fill="#ffffff" fill-opacity="0.42"/>
+    <path d="M64 29L94 46.5L79 47L64 29Z" fill="#ffffff" fill-opacity="0.24"/>
+    <path d="M34 46.5L64 29L49 47L34 46.5Z" fill="#ffffff" fill-opacity="0.52"/>
+    <path d="M34 46.5L49 47V76L34 81.5V46.5Z" fill="#ffffff" fill-opacity="0.16"/>
+    <path d="M94 46.5V81.5L79 76V47L94 46.5Z" fill="#000000" fill-opacity="0.28"/>
+    <path d="M34 81.5L49 76L64 87V99L34 81.5Z" fill="#000000" fill-opacity="0.2"/>
+    <path d="M64 99V87L79 76L94 81.5L64 99Z" fill="#fde047" fill-opacity="0.55"/>
+    <path d="M64 41L79 50V78L64 87L49 78V50L64 41Z" fill="url(#table-gold)" stroke="#ffffff" stroke-opacity="0.4" stroke-width="1"/>
+    <path d="M49 50L64 41L79 50L56 76L49 72V50Z" fill="#ffffff" fill-opacity="0.28"/></g>
+    <circle cx="64" cy="27" r="3" fill="#fef08a" stroke="#090412" stroke-width="1.2"/>
+    <circle cx="96" cy="45.5" r="2.8" fill="#eab308" stroke="#090412" stroke-width="1.2"/>
+    <circle cx="96" cy="82.5" r="2.8" fill="#854d0e" stroke="#090412" stroke-width="1.2"/>
+    <circle cx="64" cy="101" r="3" fill="#854d0e" stroke="#090412" stroke-width="1.2"/>
+    <circle cx="32" cy="82.5" r="2.8" fill="#eab308" stroke="#090412" stroke-width="1.2"/>
+    <circle cx="32" cy="45.5" r="2.8" fill="#fef08a" stroke="#090412" stroke-width="1.2"/>
+    <path class="sv-glint" d="M48 42L50.5 48.5L57 51L50.5 53.5L48 60L45.5 53.5L39 51L45.5 48.5L48 42Z" fill="#ffffff" fill-opacity="0.95"/>
+  </g>
+</svg>

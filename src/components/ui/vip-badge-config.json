@@ -1,0 +1,121 @@
+{
+  "tiers": [
+    {
+      "name": "Bronze",
+      "level": 1,
+      "metalLight": "#f6b27a",
+      "metalMid": "#c7723b",
+      "metalDark": "#6e3414",
+      "wellLight": "#5c2b0e",
+      "wellDark": "#2b1104",
+      "elixirBright": "#ffd08a",
+      "elixirMid": "#ff9f43",
+      "elixirDeep": "#9a3412",
+      "crownLight": "#fcd34d",
+      "crownDark": "#b45309",
+      "glow": "rgba(255, 159, 67, 0.00)"
+    },
+    {
+      "name": "Silver",
+      "level": 2,
+      "metalLight": "#dff2fe",
+      "metalMid": "#89a4be",
+      "metalDark": "#384b63",
+      "wellLight": "#1b4b5f",
+      "wellDark": "#0b2430",
+      "elixirBright": "#bae6fd",
+      "elixirMid": "#38bdf8",
+      "elixirDeep": "#0369a1",
+      "crownLight": "#fde68a",
+      "crownDark": "#ca8a04",
+      "glow": "rgba(56, 189, 248, 0.00)"
+    },
+    {
+      "name": "Gold",
+      "level": 3,
+      "metalLight": "#fef08a",
+      "metalMid": "#eab308",
+      "metalDark": "#854d0e",
+      "wellLight": "#543807",
+      "wellDark": "#241702",
+      "elixirBright": "#fef9c3",
+      "elixirMid": "#facc15",
+      "elixirDeep": "#b45309",
+      "crownLight": "#fef9c3",
+      "crownDark": "#ca8a04",
+      "glow": "rgba(250, 204, 21, 0.00)"
+    },
+    {
+      "name": "Diamond",
+      "level": 4,
+      "metalLight": "#d8e6f5",
+      "metalMid": "#5a7ea6",
+      "metalDark": "#1b3354",
+      "wellLight": "#0a203b",
+      "wellDark": "#030b17",
+      "elixirBright": "#ffffff",
+      "elixirMid": "#67e8f9",
+      "elixirDeep": "#0284c7",
+      "crownLight": "#e2edf8",
+      "crownDark": "#2f527d",
+      "glow": "rgba(103, 232, 249, 0.00)"
+    },
+    {
+      "name": "Sapphire",
+      "level": 5,
+      "metalLight": "#fff6bd",
+      "metalMid": "#f5b027",
+      "metalDark": "#8a4b08",
+      "wellLight": "#312e81",
+      "wellDark": "#171447",
+      "elixirBright": "#7dd3fc",
+      "elixirMid": "#2563eb",
+      "elixirDeep": "#3730a3",
+      "crownLight": "#fff6bd",
+      "crownDark": "#b45309",
+      "glow": "rgba(59, 130, 246, 0.55)"
+    }
+  ],
+  "specs": {
+    "1": {
+      "wings": 0,
+      "armor": "bastion",
+      "top": "cap",
+      "tails": false,
+      "core": "flask",
+      "onProw": false
+    },
+    "2": {
+      "wings": 0,
+      "armor": "cheek-prow",
+      "top": "cap",
+      "tails": false,
+      "core": "flask",
+      "onProw": true
+    },
+    "3": {
+      "wings": 2,
+      "armor": "cheek-prow",
+      "top": "crown",
+      "tails": false,
+      "core": "diamond",
+      "onProw": true
+    },
+    "4": {
+      "wings": 3,
+      "armor": "cheek-prow",
+      "top": "rays-3",
+      "tails": false,
+      "core": "radial-matrix",
+      "onProw": true
+    },
+    "5": {
+      "wings": 4,
+      "armor": "cheek-prow",
+      "top": "crown",
+      "tails": false,
+      "core": "radial-matrix",
+      "onProw": false
+    }
+  }
+}

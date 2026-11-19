@@ -1,21 +1,29 @@
 "use client";
 
+import ElixirLogo from "@/components/ElixirLogo";
+
 export default function Footer() {
   return (
     <footer className="mt-12 w-full">
       <div className="bg-dicey-card rounded-2xl p-6 md:p-10">
         {/* Top Section - Logo and Legal Text */}
         <div className="mb-10">
-          <img src="/dicey-logo.svg" alt="Dicey" className="h-6 mb-6" />
+          <ElixirLogo
+            iconClassName="w-9 h-9"
+            textClassName="text-[26px]"
+            gapClassName="gap-1.5"
+            playEntrance={false}
+            className="mb-6"
+          />
           <div className="text-xs text-gray-500 leading-relaxed space-y-3 max-w-4xl">
             <p className="text-pretty">
-              Dicey is owned and operated by Magic Eden N.V. (Registration number 157086) having its registered address at Zuikertuintjeweg Z/N (Zuikertuin Tower), Curaçao.
+              Elixir is a fictional online casino and sportsbook, designed and built by Layer84 as a portfolio project to demonstrate product design and front end craft.
             </p>
             <p className="text-pretty">
-              Magic Eden N.V. is authorised and licensed to operate Dicey.com by the Curaçao Gaming Authority to offer games of chance under license number OGL/2024/1260/0494 in accordance with the National Ordinance on Games of Chance (Landsverordening op de kansspelen, P.B. 2024, no. 157).
+              This is a design concept. It is not a real gambling operator, holds no licence, and does not offer real-money games, deposits, withdrawals or accounts. All games, players, wins and balances shown are sample data.
             </p>
             <p className="text-pretty">
-              Please note that Crypto trading is not considered gambling and therefore not covered by our Gaming license. Dicey offer these services independently.
+              Game thumbnails and provider names are placeholders from third-party sources, used for demonstration only and belonging to their respective owners.
             </p>
           </div>
         </div>
@@ -92,56 +100,32 @@ export default function Footer() {
             </div>
             {/* USDC */}
             <div className="flex items-center gap-2 px-3 py-2 bg-dicey-darker rounded-lg">
-              <img src="/usdc.png" alt="USD Coin" className="size-5" />
+              <img src="/crypto/usdc.svg" alt="USD Coin" className="size-5" />
               <span className="text-xs text-gray-400">USDC</span>
             </div>
             {/* Litecoin */}
             <div className="flex items-center gap-2 px-3 py-2 bg-dicey-darker rounded-lg">
-              <svg className="size-5" viewBox="0 0 32 32" fill="none">
-                <circle cx="16" cy="16" r="16" fill="#345D9D"/>
-                <path d="M10.5 22.5L12 17L10 17.5L10.5 15.5L12.5 15L14.5 7.5H18L16 14.5L18 14L17.5 16L15.5 16.5L14 22.5H10.5Z" fill="white"/>
-              </svg>
+              <img src="/crypto/ltc.svg" alt="Litecoin" className="size-5" />
               <span className="text-xs text-gray-400">LTC</span>
             </div>
             {/* Dogecoin */}
             <div className="flex items-center gap-2 px-3 py-2 bg-dicey-darker rounded-lg">
-              <svg className="size-5" viewBox="0 0 32 32" fill="none">
-                <circle cx="16" cy="16" r="16" fill="#C2A633"/>
-                <path d="M13 10H17.5C20.5 10 23 12.5 23 16C23 19.5 20.5 22 17.5 22H13V10ZM15 12V20H17.5C19.5 20 21 18.5 21 16C21 13.5 19.5 12 17.5 12H15Z" fill="white"/>
-                <path d="M11 15H19V17H11V15Z" fill="white"/>
-              </svg>
+              <img src="/crypto/doge.svg" alt="Dogecoin" className="size-5" />
               <span className="text-xs text-gray-400">DOGE</span>
             </div>
             {/* XRP */}
             <div className="flex items-center gap-2 px-3 py-2 bg-dicey-darker rounded-lg">
-              <svg className="size-5" viewBox="0 0 32 32" fill="none">
-                <circle cx="16" cy="16" r="16" fill="#23292F"/>
-                <path d="M22.5 9H25L20 14.5C18 16.5 14 16.5 12 14.5L7 9H9.5L13.5 13C15 14.5 17 14.5 18.5 13L22.5 9Z" fill="white"/>
-                <path d="M9.5 23H7L12 17.5C14 15.5 18 15.5 20 17.5L25 23H22.5L18.5 19C17 17.5 15 17.5 13.5 19L9.5 23Z" fill="white"/>
-              </svg>
+              <img src="/crypto/xrp.svg" alt="XRP" className="size-5" />
               <span className="text-xs text-gray-400">XRP</span>
             </div>
             {/* BNB */}
             <div className="flex items-center gap-2 px-3 py-2 bg-dicey-darker rounded-lg">
-              <svg className="size-5" viewBox="0 0 32 32" fill="none">
-                <circle cx="16" cy="16" r="16" fill="#F3BA2F"/>
-                <path d="M16 8L12.5 11.5L14.5 13.5L16 12L17.5 13.5L19.5 11.5L16 8Z" fill="white"/>
-                <path d="M10 14L8 16L10 18L12 16L10 14Z" fill="white"/>
-                <path d="M16 14L12.5 17.5L14.5 19.5L16 18L17.5 19.5L19.5 17.5L16 14Z" fill="white"/>
-                <path d="M22 14L20 16L22 18L24 16L22 14Z" fill="white"/>
-                <path d="M16 20L14.5 21.5L16 23L17.5 21.5L16 20Z" fill="white"/>
-              </svg>
+              <img src="/crypto/bnb.svg" alt="BNB" className="size-5" />
               <span className="text-xs text-gray-400">BNB</span>
             </div>
             {/* MATIC / Polygon */}
             <div className="flex items-center gap-2 px-3 py-2 bg-dicey-darker rounded-lg">
-              <svg className="size-5" viewBox="0 0 32 32" fill="none">
-                <circle cx="16" cy="16" r="16" fill="#8247E5"/>
-                <path d="M20.5 13.5L16.5 11L12.5 13.5V18.5L16.5 21L20.5 18.5V13.5Z" fill="none" stroke="white" strokeWidth="1.5"/>
-                <path d="M16.5 11V16L20.5 13.5" fill="none" stroke="white" strokeWidth="1.5"/>
-                <path d="M16.5 16L12.5 13.5" fill="none" stroke="white" strokeWidth="1.5"/>
-                <path d="M16.5 16V21" fill="none" stroke="white" strokeWidth="1.5"/>
-              </svg>
+              <img src="/crypto/matic.svg" alt="Polygon" className="size-5" />
               <span className="text-xs text-gray-400">MATIC</span>
             </div>
           </div>
@@ -150,7 +134,7 @@ export default function Footer() {
         {/* Copyright */}
         <div className="pt-6">
           <p className="text-xs text-gray-600 text-center">
-            Copyright © 2026 dicey.com. All rights reserved.
+            Elixir is a concept project by Layer84. © 2026 Layer84.
           </p>
         </div>
       </div>

@@ -1,0 +1,116 @@
+<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024">
+<defs>
+  <linearGradient id="gold" x1="0" y1="0" x2=".8" y2="1">
+    <stop stop-color="#f7c5a1" />
+    <stop offset=".2" stop-color="#bd580f" />
+    <stop offset=".48" stop-color="#bd580f" />
+    <stop offset=".7" stop-color="#bd580f" />
+    <stop offset="1" stop-color="#93440c" />
+  </linearGradient>
+  <linearGradient id="left-gold" x1="0" y1="0" x2="1" y2=".3">
+    <stop stop-color="#9d490d" />
+    <stop offset=".5" stop-color="#ed731b" />
+    <stop offset="1" stop-color="#bd580f" />
+  </linearGradient>
+  <linearGradient id="right-gold" x1="0" y1="0" x2=".5" y2="1">
+    <stop stop-color="#8d420b" />
+    <stop offset=".48" stop-color="#ee802f" />
+    <stop offset=".51" stop-color="#bd580f" />
+    <stop offset="1" stop-color="#aa4f0e" />
+  </linearGradient>
+  <linearGradient id="bottom-gold" x1="0" y1="0" x2="1" y2="0">
+    <stop stop-color="#7b390a" />
+    <stop offset=".5" stop-color="#bd580f" />
+    <stop offset="1" stop-color="#88400b" />
+  </linearGradient>
+  <radialGradient id="purple">
+    <stop stop-color="#e718ff" />
+    <stop offset=".5" stop-color="#a300df" />
+    <stop offset="1" stop-color="#28063f" />
+  </radialGradient>
+  <linearGradient id="inner-bevel" x1="0" y1="0" x2=".2" y2="1">
+    <stop stop-color="#7b390a" />
+    <stop offset=".5" stop-color="#a84e0e" />
+    <stop offset="1" stop-color="#ed7a27" />
+  </linearGradient>
+  <radialGradient id="glass" cx=".46" cy=".35" r=".7">
+    <stop stop-color="#cb8442" />
+    <stop offset=".62" stop-color="#9b591c" />
+    <stop offset=".88" stop-color="#ef7f17" />
+    <stop offset="1" stop-color="#ffe0c4" />
+  </radialGradient>
+  <linearGradient id="glass-edge" x1="0" y1="0" x2="1" y2=".4">
+    <stop stop-color="#f6ffe2" />
+    <stop offset=".23" stop-color="#fabd84" />
+    <stop offset=".6" stop-color="#d68439" />
+    <stop offset="1" stop-color="#ffdbb9" />
+  </linearGradient>
+  <radialGradient id="liquid" cx=".52" cy="1" r=".95">
+    <stop stop-color="#f19756" />
+    <stop offset=".22" stop-color="#ff7a00" />
+    <stop offset=".5" stop-color="#ef7300" />
+    <stop offset="1" stop-color="#b05400" />
+  </radialGradient>
+  <linearGradient id="surface" x1="0" y1="0" x2=".1" y2="1">
+    <stop stop-color="#ff7a00" />
+    <stop offset=".6" stop-color="#ff7a00" />
+    <stop offset="1" stop-color="#f7c19a" />
+  </linearGradient>
+  <linearGradient id="cork" x1="0" y1="0" x2="1" y2=".1">
+    <stop stop-color="#b56a00" />
+    <stop offset=".25" stop-color="#ffc426" />
+    <stop offset=".6" stop-color="#d88a00" />
+    <stop offset="1" stop-color="#a34c00" />
+  </linearGradient>
+  <radialGradient id="cork-top" cx=".3" cy=".65" r=".8">
+    <stop stop-color="#fffca9" />
+    <stop offset=".5" stop-color="#ffcd29" />
+    <stop offset="1" stop-color="#efa300" />
+  </radialGradient>
+  <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1">
+    <stop stop-color="#ffffff" />
+    <stop offset=".37" stop-color="#ffdfc1" />
+    <stop offset=".7" stop-color="#9e5a1c" />
+    <stop offset="1" stop-color="#ffd4ac" />
+  </linearGradient>
+  <linearGradient id="shine" x1="0" y1="0" x2=".2" y2="1">
+    <stop stop-color="#ffffff" />
+    <stop offset="1" stop-color="#ffffff" stop-opacity=".4" />
+  </linearGradient>
+  <linearGradient id="glint" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#ff7a00" />
+    <stop offset=".6" stop-color="#ffaa5c" />
+    <stop offset="1" stop-color="#ffffff" />
+  </linearGradient>
+</defs>
+<g id="medallion" stroke-linejoin="round">
+  <path d="M489 16 Q512 3 535 16 L954 258 Q975 270 975 293 L975 737 Q975 760 954 772 L535 1008 Q512 1021 489 1008 L70 772 Q49 760 49 737 L49 293 Q49 270 70 258Z" fill="url(#gold)" stroke="#080609" stroke-width="20" />
+  <path d="M62 275 L116 305 L116 725 L62 756 Q59 750 59 738 L59 291 Q59 281 62 275Z" fill="url(#left-gold)" />
+  <path d="M962 275 L908 305 L908 725 L962 756 Q965 750 965 738 L965 291 Q965 281 962 275Z" fill="url(#right-gold)" />
+  <path d="M62 756 L116 725 L512 954 L908 725 L962 756 L530 1007 Q512 1018 494 1007Z" fill="url(#bottom-gold)" />
+  <path d="M512 76 L908 305 L908 725 L512 954 L116 725 L116 305Z" fill="url(#inner-bevel)" />
+  <path d="M512 114 L874 324 L874 706 L512 918 L148 707 L148 324Z" fill="url(#purple)" stroke="#280536" stroke-width="15" />
+  <path d="M65 273 L116 305 L512 76 L908 305 L960 275 M116 305 L116 725 L512 954 L908 725 L908 305 M512 22 L512 76 M512 954 L512 998" fill="none" stroke="#f3a56c" stroke-width="4" />
+  <path d="M83 269 L484 37 Q508 20 503 47 L499 63 Q498 75 482 84 L149 276 L116 299Z" fill="url(#shine)" />
+  <path d="M679 173 L860 218 L816 248Z" fill="#fff" opacity=".7" />
+  <path d="M118 727 L263 807 L234 827Z M522 941 L708 829 L670 867Z" fill="#ffffdc" opacity=".95" />
+</g>
+<g id="potion" stroke-linejoin="round">
+  <path d="M406 217 L409 190 Q390 151 438 143 Q512 121 588 145 Q625 153 612 208 L609 218 Q658 230 661 267 Q665 302 624 315 L624 361 Q621 381 645 394 C737 441 788 520 791 602 C797 738 681 853 516 855 C354 858 236 747 230 619 C224 523 283 441 377 392 Q401 381 400 362 L400 315 Q359 303 361 267 Q361 234 406 217Z" fill="#11051c" stroke="#11051c" stroke-width="20" />
+  <path d="M415 294 L609 294 L609 363 Q608 393 638 410 C726 457 775 533 776 607 C778 735 665 838 515 839 C367 840 248 738 246 614 C244 527 298 452 388 405 Q418 390 415 360Z" fill="url(#glass)" stroke="url(#glass-edge)" stroke-width="12" />
+  <path d="M294 516 C277 554 269 585 273 624 C281 728 385 807 514 807 C643 807 747 716 748 614 Q750 563 720 514Z" fill="url(#liquid)" />
+  <ellipse cx="505" cy="520" rx="224" ry="49" fill="url(#surface)" />
+  <path d="M425 311 L426 365 Q425 399 395 416 C309 465 267 526 261 589" fill="none" stroke="#ffe7d0" stroke-width="13" stroke-linecap="round" />
+  <path d="M597 315 L597 365 Q595 399 625 415 Q675 442 702 481" fill="none" stroke="#ffd6b0" stroke-width="12" stroke-linecap="round" opacity=".75" />
+  <path d="M442 316 L484 319 L484 378 Q483 410 465 426 L432 416 Q448 392 444 365Z" fill="url(#shine)" />
+  <path d="M288 630 C280 556 331 478 405 432 Q431 416 451 430 Q468 442 444 464 C380 526 336 594 345 663 Q309 654 288 630Z" fill="url(#shine)" />
+  <ellipse cx="653" cy="692" rx="24" ry="45" transform="rotate(39 653 692)" fill="url(#glint)" />
+  <path d="M424 228 C390 233 374 245 375 269 C376 300 412 315 511 315 C612 315 647 302 648 270 C650 245 628 228 600 228Z" fill="url(#rim)" stroke="#efffe1" stroke-width="7" />
+  <path d="M428 246 L418 184 C411 145 612 145 605 184 L591 247 Q510 274 428 246Z" fill="url(#cork)" />
+  <path d="M429 245 Q508 264 593 244 L590 256 Q508 279 432 256Z" fill="#6b3209" />
+  <ellipse cx="512" cy="177" rx="92" ry="25" fill="url(#cork-top)" stroke="#ed7925" stroke-width="3" />
+  <path d="M439 184 Q488 204 565 191" fill="none" stroke="#f8cdae" stroke-width="4" stroke-linecap="round" />
+  <path d="M398 247 C403 259 452 273 513 273 C569 273 617 261 625 246" fill="none" stroke="#f8fff4" stroke-width="19" stroke-linecap="round" />
+  <path d="M431 267 Q419 288 434 299 L480 302 Q467 289 479 274Z" fill="#fff" />
+</g>
+</svg>

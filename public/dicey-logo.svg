@@ -1,8 +1,65 @@
-<svg width="65" height="26" viewBox="0 0 65 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M50.7382 12.7337C50.71 13.1913 50.681 13.6206 50.5384 14.0783H40.4968C40.6677 15.5376 41.4955 16.4246 43.0642 16.4246C44.633 16.4246 45.5462 15.7665 46.2878 14.9652L49.6824 16.968C48.0564 19.0564 45.6027 20.3159 42.5507 20.3159C38.3285 20.3159 35.3902 16.8539 35.9898 12.619C36.5605 8.61352 40.2121 5.43701 44.2056 5.43701C48.1991 5.43701 51.138 8.6986 50.7382 12.733V12.7337ZM44.1773 8.69925C42.6086 8.69925 41.4672 9.75765 40.9255 11.3317L46.3739 11.217L46.4022 10.5589C46.2313 9.3 45.4035 8.69925 44.1773 8.69925Z" fill="#FAF9FB"/>
-<path d="M28.6693 20.3159C24.476 20.3159 21.5088 16.8255 22.1084 12.619C22.6791 8.61352 26.359 5.43701 30.3242 5.43701C33.2907 5.43701 35.4308 6.95372 36.4578 9.38573L32.5497 11.3884C32.1217 10.2727 31.3518 9.81502 30.2387 9.81502C28.4412 9.81502 26.9297 11.217 26.6726 13.134C26.4155 14.8221 27.357 15.9379 28.9547 15.9379C30.2953 15.9379 31.4077 15.2224 32.0356 14.164L35.4873 16.6244C33.8325 19.028 31.3794 20.3153 28.6693 20.3153V20.3159Z" fill="#FAF9FB"/>
-<path d="M15.6836 20.0295L17.6803 5.72363H22.3017L20.305 20.0295H15.6836Z" fill="#FAF9FB"/>
-<path d="M12.4362 0.00146484H17.0576L14.2608 20.0812H9.99213L10.1824 18.7994C8.92731 19.8578 7.47232 20.3161 6.07453 20.3161C2.16651 20.3161 -0.515314 16.8541 0.0836462 12.6192C0.654329 8.61374 4.04887 5.43723 7.72874 5.43723C9.212 5.43723 10.4388 5.98062 11.4086 6.72511L12.4356 0.00146484H12.4362ZM6.81616 15.9098C8.49929 15.9098 10.0398 14.4221 10.2962 12.6192C10.5243 11.0458 9.58282 9.84361 8.09956 9.84361C6.44471 9.84361 4.90425 11.3313 4.64783 13.1342C4.41968 14.7076 5.36118 15.9098 6.81616 15.9098Z" fill="#FAF9FB"/>
-<path d="M20.5484 3.99128C19.0652 3.99128 18.1519 2.85073 18.3235 1.73908C18.4379 0.855412 19.4077 0 20.6911 0C22.1744 0 23.0876 1.14055 22.916 2.2522C22.8016 3.13587 21.8318 3.99128 20.5484 3.99128Z" fill="#FAF9FB"/>
-<path d="M64.972 5.72328L60.7781 19.6929C59.2259 24.8829 58.4013 26.0471 49.9128 25.9986L50.9845 22.4189C55.2371 22.4189 55.2 22.4189 55.9276 20.0324C53.6963 20.0324 51.7099 18.3809 51.6526 15.9467L51.2226 5.72314H56.0099V14.1146C56.0386 14.401 55.9239 15.2302 56.7037 15.2302C57.4835 15.2302 57.5648 14.4011 57.6795 14.1147L60.1821 5.72328H64.972Z" fill="#FAF9FB"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" fill="none">
+  <defs>
+    <linearGradient id="bg-grad" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1e1336" />
+      <stop offset="100%" stop-color="#140d24" />
+    </linearGradient>
+    <linearGradient id="top-face" x1="140" y1="100" x2="372" y2="230" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#c084fc" />
+      <stop offset="100%" stop-color="#9333ea" />
+    </linearGradient>
+    <linearGradient id="left-face" x1="116" y1="186" x2="256" y2="412" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3b2363" />
+      <stop offset="100%" stop-color="#231738" />
+    </linearGradient>
+    <linearGradient id="right-face" x1="256" y1="186" x2="396" y2="412" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#581c87" />
+      <stop offset="100%" stop-color="#2e184f" />
+    </linearGradient>
+    <radialGradient id="pip-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#a3ff7a" />
+      <stop offset="60%" stop-color="#39ff14" />
+      <stop offset="100%" stop-color="#22c55e" />
+    </radialGradient>
+    <filter id="neon-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Rounded App Icon Background -->
+  <rect width="512" height="512" rx="112" fill="url(#bg-grad)" />
+  <rect x="6" y="6" width="500" height="500" rx="106" stroke="#a855f7" stroke-opacity="0.22" stroke-width="4" />
+
+  <!-- Isometric Rounded Die -->
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <!-- Top Face -->
+    <path d="M256 104 L388 180 L256 256 L124 180 Z" fill="url(#top-face)" stroke="#d8b4fe" stroke-opacity="0.45" stroke-width="4" />
+    <!-- Left Face -->
+    <path d="M124 180 L256 256 L256 408 L124 332 Z" fill="url(#left-face)" stroke="#453066" stroke-width="4" />
+    <!-- Right Face -->
+    <path d="M388 180 L256 256 L256 408 L388 332 Z" fill="url(#right-face)" stroke="#6b21a8" stroke-opacity="0.6" stroke-width="4" />
+  </g>
+
+  <!-- Crisp Inner Edge Highlight -->
+  <path d="M128 182 L256 256 L384 182" stroke="#e9d5ff" stroke-opacity="0.55" stroke-width="3" stroke-linecap="round" />
+  <path d="M256 256 L256 404" stroke="#a855f7" stroke-opacity="0.4" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Electric Green Pips -->
+  <g filter="url(#neon-glow)">
+    <!-- Top face: 1 pip (center) -->
+    <ellipse cx="256" cy="180" rx="22" ry="13" fill="url(#pip-glow)" />
+
+    <!-- Left face: 2 pips (diagonal) -->
+    <ellipse cx="164" cy="242" rx="14" ry="19" transform="rotate(-28 164 242)" fill="url(#pip-glow)" />
+    <ellipse cx="216" cy="346" rx="14" ry="19" transform="rotate(-28 216 346)" fill="url(#pip-glow)" />
+
+    <!-- Right face: 3 pips (diagonal) -->
+    <ellipse cx="352" cy="242" rx="13" ry="18" transform="rotate(28 352 242)" fill="url(#pip-glow)" />
+    <ellipse cx="322" cy="294" rx="13" ry="18" transform="rotate(28 322 294)" fill="url(#pip-glow)" />
+    <ellipse cx="292" cy="346" rx="13" ry="18" transform="rotate(28 292 346)" fill="url(#pip-glow)" />
+  </g>
 </svg>

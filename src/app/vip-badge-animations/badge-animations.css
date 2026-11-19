@@ -1,0 +1,726 @@
+/* ==========================================================================
+   Elixir VIP Badge Motion Lab — Independent SVG Sub-Element Choreography
+   All rules target the 64x64 ProgressiveHexBadgeSvg anatomy using GPU-friendly
+   transform, opacity, and SVG stroke-dashoffset only, scaled by --vbm-speed.
+   ========================================================================== */
+
+.vbm-stage {
+  --vbm-speed: 1;
+  --vbm-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --vbm-ease-spring: cubic-bezier(0.22, 1.38, 0.36, 1);
+  --vbm-ease-io: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.vbm-paused svg *,
+.vbm-paused svg {
+  animation-play-state: paused !important;
+}
+
+/* Shared anatomical SVG transform boxes (inline style sets exact joint pivots) */
+.vbm-badge svg {
+  display: block;
+  overflow: visible;
+}
+
+.vbm-badge svg .kb-frame,
+.vbm-badge svg .kb-core,
+.vbm-badge svg .kb-wings,
+.vbm-badge svg .kb-rays,
+.vbm-badge svg .kb-pips,
+.vbm-badge svg .kb-cheek,
+.vbm-badge svg .kb-bastion {
+  transform-box: view-box;
+  transform-origin: 32px 32px;
+}
+
+.vbm-badge svg .kb-blade,
+.vbm-badge svg .kb-crown,
+.vbm-badge svg .kb-crown-gem,
+.vbm-badge svg .kb-ray,
+.vbm-badge svg .kb-prow,
+.vbm-badge svg .kb-tail,
+.vbm-badge svg .kb-gem-table,
+.vbm-badge svg .kb-cork,
+.vbm-badge svg .kb-pip,
+.vbm-badge svg .kb-spark {
+  transform-box: view-box;
+}
+
+.vbm-badge svg .kb-liquid,
+.vbm-badge svg .kb-bubbles circle,
+.vbm-badge svg .kb-glint {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* ==========================================================================
+   01 · PRISM ORBIT — High-Frequency Small-Size Specialist (Zero Silhouette Wobble)
+   ========================================================================== */
+@keyframes vbm-po-bevel-trace {
+  0% {
+    opacity: 0;
+    stroke-dashoffset: 1.05;
+  }
+  12% {
+    opacity: 0.92;
+  }
+  58% {
+    opacity: 0.85;
+  }
+  74% {
+    opacity: 0;
+    stroke-dashoffset: 0.05;
+  }
+  100% {
+    opacity: 0;
+    stroke-dashoffset: 0.05;
+  }
+}
+
+@keyframes vbm-po-facet {
+  0%, 100% { opacity: 1; }
+  12% { opacity: 0.45; }
+  26% { opacity: 1; }
+}
+
+@keyframes vbm-po-bevel-gleam {
+  0%, 100% { opacity: 1; }
+  14% { opacity: 0.58; }
+  28% { opacity: 1; }
+}
+
+@keyframes vbm-po-rim-draw {
+  0%, 8% {
+    stroke-dasharray: 0.45 1;
+    stroke-dashoffset: 0.5;
+    opacity: 0.35;
+  }
+  34% {
+    stroke-dasharray: 0.95 1;
+    stroke-dashoffset: -0.05;
+    opacity: 1;
+  }
+  58% {
+    stroke-dasharray: 0.45 1;
+    stroke-dashoffset: -1;
+    opacity: 0.55;
+  }
+  100% {
+    stroke-dasharray: 1 0;
+    stroke-dashoffset: 0;
+    opacity: 0.9;
+  }
+}
+
+@keyframes vbm-po-blade-gleam {
+  0%, 100% { opacity: 1; }
+  18% { opacity: 0.42; }
+  36% { opacity: 1; }
+}
+
+@keyframes vbm-po-spark {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.35) rotate(-20deg);
+  }
+  14% {
+    opacity: 1;
+    transform: scale(1.12) rotate(0deg);
+  }
+  28% {
+    opacity: 0;
+    transform: scale(0.4) rotate(25deg);
+  }
+}
+
+@keyframes vbm-po-crown-gem {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  14% { transform: scale(1.38); opacity: 1; }
+  28% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes vbm-po-slosh {
+  0%, 100% { transform: rotate(-3.5deg); }
+  50% { transform: rotate(3.5deg); }
+}
+
+@keyframes vbm-po-bubble {
+  0% { opacity: 0; transform: translateY(4.5px) scale(0.55); }
+  30% { opacity: 0.95; }
+  80% { opacity: 0.85; }
+  100% { opacity: 0; transform: translateY(-6.5px) scale(1.05); }
+}
+
+.vbm-prism-orbit svg .kb-bevel-trace {
+  stroke-dasharray: 0.24 0.76;
+  animation: vbm-po-bevel-trace calc(3.2s * var(--vbm-speed)) linear infinite;
+}
+
+.vbm-prism-orbit svg .kb-facet-0 { animation: vbm-po-facet calc(3.2s * var(--vbm-speed)) ease-in-out calc(0.00s * var(--vbm-speed)) infinite; }
+.vbm-prism-orbit svg .kb-facet-1 { animation: vbm-po-facet calc(3.2s * var(--vbm-speed)) ease-in-out calc(0.24s * var(--vbm-speed)) infinite; }
+.vbm-prism-orbit svg .kb-facet-2 { animation: vbm-po-facet calc(3.2s * var(--vbm-speed)) ease-in-out calc(0.48s * var(--vbm-speed)) infinite; }
+.vbm-prism-orbit svg .kb-facet-3 { animation: vbm-po-facet calc(3.2s * var(--vbm-speed)) ease-in-out calc(0.72s * var(--vbm-speed)) infinite; }
+.vbm-prism-orbit svg .kb-facet-4 { animation: vbm-po-facet calc(3.2s * var(--vbm-speed)) ease-in-out calc(0.96s * var(--vbm-speed)) infinite; }
+.vbm-prism-orbit svg .kb-facet-5 { animation: vbm-po-facet calc(3.2s * var(--vbm-speed)) ease-in-out calc(1.20s * var(--vbm-speed)) infinite; }
+
+.vbm-prism-orbit svg .kb-bevel-0 { animation: vbm-po-bevel-gleam calc(3.2s * var(--vbm-speed)) ease-in-out calc(0.00s * var(--vbm-speed)) infinite; }
+.vbm-prism-orbit svg .kb-bevel-1 { animation: vbm-po-bevel-gleam calc(3.2s * var(--vbm-speed)) ease-in-out calc(0.26s * var(--vbm-speed)) infinite; }
+.vbm-prism-orbit svg .kb-bevel-2 { animation: vbm-po-bevel-gleam calc(3.2s * var(--vbm-speed)) ease-in-out calc(0.52s * var(--vbm-speed)) infinite; }
+.vbm-prism-orbit svg .kb-bevel-3 { animation: vbm-po-bevel-gleam calc(3.2s * var(--vbm-speed)) ease-in-out calc(0.78s * var(--vbm-speed)) infinite; }
+.vbm-prism-orbit svg .kb-bevel-4 { animation: vbm-po-bevel-gleam calc(3.2s * var(--vbm-speed)) ease-in-out calc(1.04s * var(--vbm-speed)) infinite; }
+.vbm-prism-orbit svg .kb-bevel-5 { animation: vbm-po-bevel-gleam calc(3.2s * var(--vbm-speed)) ease-in-out calc(1.30s * var(--vbm-speed)) infinite; }
+
+.vbm-prism-orbit svg .kb-gem-rim {
+  animation: vbm-po-rim-draw calc(3.2s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.18s * var(--vbm-speed)) infinite;
+}
+
+.vbm-prism-orbit svg .kb-blade-0 .kb-blade-upper { animation: vbm-po-blade-gleam calc(3.2s * var(--vbm-speed)) ease-in-out calc(0.20s * var(--vbm-speed)) infinite; }
+.vbm-prism-orbit svg .kb-blade-1 .kb-blade-upper { animation: vbm-po-blade-gleam calc(3.2s * var(--vbm-speed)) ease-in-out calc(0.36s * var(--vbm-speed)) infinite; }
+.vbm-prism-orbit svg .kb-blade-2 .kb-blade-upper { animation: vbm-po-blade-gleam calc(3.2s * var(--vbm-speed)) ease-in-out calc(0.52s * var(--vbm-speed)) infinite; }
+.vbm-prism-orbit svg .kb-blade-3 .kb-blade-upper { animation: vbm-po-blade-gleam calc(3.2s * var(--vbm-speed)) ease-in-out calc(0.68s * var(--vbm-speed)) infinite; }
+
+.vbm-prism-orbit svg .kb-crown-gem {
+  animation: vbm-po-crown-gem calc(3.2s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.35s * var(--vbm-speed)) infinite;
+}
+.vbm-prism-orbit svg .kb-spark-0 {
+  animation: vbm-po-spark calc(3.2s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.28s * var(--vbm-speed)) infinite;
+}
+.vbm-prism-orbit svg .kb-spark-1 {
+  animation: vbm-po-spark calc(3.2s * var(--vbm-speed)) var(--vbm-ease-out) calc(1.35s * var(--vbm-speed)) infinite;
+}
+.vbm-prism-orbit svg .kb-liquid {
+  animation: vbm-po-slosh calc(3.2s * var(--vbm-speed)) ease-in-out infinite;
+}
+.vbm-prism-orbit svg .kb-b1 { animation: vbm-po-bubble calc(2.2s * var(--vbm-speed)) ease-out infinite; }
+.vbm-prism-orbit svg .kb-b2 { animation: vbm-po-bubble calc(2.5s * var(--vbm-speed)) ease-out calc(0.65s * var(--vbm-speed)) infinite; }
+.vbm-prism-orbit svg .kb-b3 { animation: vbm-po-bubble calc(2.8s * var(--vbm-speed)) ease-out calc(1.25s * var(--vbm-speed)) infinite; }
+
+
+/* ==========================================================================
+   02 · ARTICULATED PLUME — Hinged Wing Feathering, Ray Fan & Cork Pop
+   ========================================================================== */
+@keyframes vbm-ap-blade-top {
+  0%, 46%, 100% { transform: rotate(0deg); }
+  7% { transform: rotate(-3.5deg); }
+  21% { transform: rotate(13deg); }
+  33% { transform: rotate(-2.2deg); }
+}
+@keyframes vbm-ap-blade-mid1 {
+  0%, 46%, 100% { transform: rotate(0deg); }
+  7% { transform: rotate(-2.8deg); }
+  21% { transform: rotate(10.5deg); }
+  33% { transform: rotate(-1.8deg); }
+}
+@keyframes vbm-ap-blade-mid2 {
+  0%, 46%, 100% { transform: rotate(0deg); }
+  7% { transform: rotate(-2.2deg); }
+  21% { transform: rotate(8deg); }
+  33% { transform: rotate(-1.4deg); }
+}
+@keyframes vbm-ap-blade-bot {
+  0%, 46%, 100% { transform: rotate(0deg); }
+  7% { transform: rotate(-1.8deg); }
+  21% { transform: rotate(6deg); }
+  33% { transform: rotate(-1deg); }
+}
+
+@keyframes vbm-ap-cheek {
+  0%, 45%, 100% { transform: translateX(0); }
+  18% { transform: translateX(-1.35px); }
+  32% { transform: translateX(0.3px); }
+}
+
+@keyframes vbm-ap-crown {
+  0%, 46%, 100% { transform: translateY(0) scale(1); }
+  8% { transform: translateY(0.8px) scale(0.97); }
+  22% { transform: translateY(-2.4px) scale(1.06); }
+  35% { transform: translateY(0.4px) scale(0.99); }
+}
+
+@keyframes vbm-ap-ray-c {
+  0%, 46%, 100% { transform: translateY(0) scaleY(1); }
+  20% { transform: translateY(-2.3px) scaleY(1.12); }
+  34% { transform: translateY(0.3px) scaleY(0.98); }
+}
+@keyframes vbm-ap-ray-l {
+  0%, 46%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(-11deg); }
+  34% { transform: rotate(1.5deg); }
+}
+@keyframes vbm-ap-ray-r {
+  0%, 46%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(11deg); }
+  34% { transform: rotate(-1.5deg); }
+}
+
+@keyframes vbm-ap-cork {
+  0%, 46%, 100% { transform: translateY(0) rotate(0deg); }
+  8% { transform: translateY(0.6px) rotate(2deg); }
+  20% { transform: translateY(-3px) rotate(-13deg); }
+  34% { transform: translateY(0.4px) rotate(3deg); }
+}
+
+@keyframes vbm-ap-table {
+  0%, 46%, 100% { transform: scale(1); }
+  8% { transform: scale(0.92); }
+  22% { transform: scale(1.09); }
+  34% { transform: scale(0.98); }
+}
+
+@keyframes vbm-ap-pip {
+  0%, 48%, 100% { transform: scale(1); opacity: 1; }
+  28% { transform: scale(1.42); opacity: 1; }
+  38% { transform: scale(0.92); opacity: 0.9; }
+}
+
+.vbm-articulated-plume svg .kb-blade-0 { animation: vbm-ap-blade-top calc(3.6s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.00s * var(--vbm-speed)) infinite; }
+.vbm-articulated-plume svg .kb-blade-1 { animation: vbm-ap-blade-mid1 calc(3.6s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.055s * var(--vbm-speed)) infinite; }
+.vbm-articulated-plume svg .kb-blade-2 { animation: vbm-ap-blade-mid2 calc(3.6s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.100s * var(--vbm-speed)) infinite; }
+.vbm-articulated-plume svg .kb-blade-3 { animation: vbm-ap-blade-bot calc(3.6s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.135s * var(--vbm-speed)) infinite; }
+
+.vbm-articulated-plume svg .kb-cheek {
+  animation: vbm-ap-cheek calc(3.6s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.04s * var(--vbm-speed)) infinite;
+}
+.vbm-articulated-plume svg .kb-crown {
+  animation: vbm-ap-crown calc(3.6s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.06s * var(--vbm-speed)) infinite;
+}
+.vbm-articulated-plume svg .kb-ray-c {
+  animation: vbm-ap-ray-c calc(3.6s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.04s * var(--vbm-speed)) infinite;
+}
+.vbm-articulated-plume svg .kb-ray-il,
+.vbm-articulated-plume svg .kb-ray-ol {
+  animation: vbm-ap-ray-l calc(3.6s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.09s * var(--vbm-speed)) infinite;
+}
+.vbm-articulated-plume svg .kb-ray-ir,
+.vbm-articulated-plume svg .kb-ray-or {
+  animation: vbm-ap-ray-r calc(3.6s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.09s * var(--vbm-speed)) infinite;
+}
+.vbm-articulated-plume svg .kb-cork {
+  animation: vbm-ap-cork calc(3.6s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.06s * var(--vbm-speed)) infinite;
+}
+.vbm-articulated-plume svg .kb-gem-table {
+  animation: vbm-ap-table calc(3.6s * var(--vbm-speed)) var(--vbm-ease-out) infinite;
+}
+.vbm-articulated-plume svg .kb-liquid {
+  animation: vbm-po-slosh calc(3.6s * var(--vbm-speed)) ease-in-out infinite;
+}
+.vbm-articulated-plume svg .kb-b1 { animation: vbm-po-bubble calc(2.1s * var(--vbm-speed)) ease-out infinite; }
+.vbm-articulated-plume svg .kb-b2 { animation: vbm-po-bubble calc(2.4s * var(--vbm-speed)) ease-out calc(0.5s * var(--vbm-speed)) infinite; }
+.vbm-articulated-plume svg .kb-b3 { animation: vbm-po-bubble calc(2.7s * var(--vbm-speed)) ease-out calc(0.95s * var(--vbm-speed)) infinite; }
+
+.vbm-articulated-plume svg .kb-pip-0 { animation: vbm-ap-pip calc(3.6s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.16s * var(--vbm-speed)) infinite; }
+.vbm-articulated-plume svg .kb-pip-1 { animation: vbm-ap-pip calc(3.6s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.21s * var(--vbm-speed)) infinite; }
+.vbm-articulated-plume svg .kb-pip-2 { animation: vbm-ap-pip calc(3.6s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.26s * var(--vbm-speed)) infinite; }
+.vbm-articulated-plume svg .kb-pip-3 { animation: vbm-ap-pip calc(3.6s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.31s * var(--vbm-speed)) infinite; }
+.vbm-articulated-plume svg .kb-pip-4 { animation: vbm-ap-pip calc(3.6s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.36s * var(--vbm-speed)) infinite; }
+
+
+/* ==========================================================================
+   03 · LIVING ALCHEMY — Overlapping Action, Buoyancy & Counter-Weight Drag
+   ========================================================================== */
+@keyframes vbm-la-frame {
+  0%, 100% { transform: translateY(1.2px); }
+  50% { transform: translateY(-1.2px); }
+}
+@keyframes vbm-la-core {
+  0%, 100% { transform: translateY(1.7px) scale(0.985); }
+  50% { transform: translateY(-1.7px) scale(1.02); }
+}
+@keyframes vbm-la-crown {
+  0%, 100% { transform: translateY(1.9px) rotate(-2.2deg); }
+  50% { transform: translateY(-2.2px) rotate(2.2deg); }
+}
+@keyframes vbm-la-blade-drag {
+  0%, 100% { transform: translateY(0.9px) rotate(6.5deg); }
+  50% { transform: translateY(-0.9px) rotate(-5.5deg); }
+}
+@keyframes vbm-la-liquid {
+  0%, 100% { transform: translateY(0.7px) rotate(-6deg); }
+  50% { transform: translateY(-0.9px) rotate(6deg); }
+}
+@keyframes vbm-la-cork {
+  0%, 100% { transform: translateY(0.4px) rotate(3deg); }
+  50% { transform: translateY(-1.8px) rotate(-6deg); }
+}
+@keyframes vbm-la-pips {
+  0%, 100% { transform: translateY(1.4px); }
+  50% { transform: translateY(-1.1px); }
+}
+@keyframes vbm-la-rays {
+  0%, 100% { transform: translateY(1.5px) scale(0.97); }
+  50% { transform: translateY(-1.8px) scale(1.03); }
+}
+
+.vbm-living-alchemy svg .kb-frame {
+  animation: vbm-la-frame calc(3.2s * var(--vbm-speed)) ease-in-out infinite;
+}
+.vbm-living-alchemy svg .kb-core {
+  animation: vbm-la-core calc(3.2s * var(--vbm-speed)) ease-in-out calc(0.22s * var(--vbm-speed)) infinite;
+}
+.vbm-living-alchemy svg .kb-crown {
+  animation: vbm-la-crown calc(3.2s * var(--vbm-speed)) ease-in-out calc(0.38s * var(--vbm-speed)) infinite;
+}
+.vbm-living-alchemy svg .kb-rays {
+  animation: vbm-la-rays calc(3.2s * var(--vbm-speed)) ease-in-out calc(0.34s * var(--vbm-speed)) infinite;
+}
+.vbm-living-alchemy svg .kb-blade-0 { animation: vbm-la-blade-drag calc(3.2s * var(--vbm-speed)) ease-in-out calc(0.10s * var(--vbm-speed)) infinite; }
+.vbm-living-alchemy svg .kb-blade-1 { animation: vbm-la-blade-drag calc(3.2s * var(--vbm-speed)) ease-in-out calc(0.17s * var(--vbm-speed)) infinite; }
+.vbm-living-alchemy svg .kb-blade-2 { animation: vbm-la-blade-drag calc(3.2s * var(--vbm-speed)) ease-in-out calc(0.24s * var(--vbm-speed)) infinite; }
+.vbm-living-alchemy svg .kb-blade-3 { animation: vbm-la-blade-drag calc(3.2s * var(--vbm-speed)) ease-in-out calc(0.31s * var(--vbm-speed)) infinite; }
+.vbm-living-alchemy svg .kb-liquid {
+  animation: vbm-la-liquid calc(2.8s * var(--vbm-speed)) ease-in-out infinite;
+}
+.vbm-living-alchemy svg .kb-cork {
+  animation: vbm-la-cork calc(2.8s * var(--vbm-speed)) ease-in-out calc(0.18s * var(--vbm-speed)) infinite;
+}
+.vbm-living-alchemy svg .kb-b1 { animation: vbm-po-bubble calc(1.9s * var(--vbm-speed)) ease-out infinite; }
+.vbm-living-alchemy svg .kb-b2 { animation: vbm-po-bubble calc(2.3s * var(--vbm-speed)) ease-out calc(0.6s * var(--vbm-speed)) infinite; }
+.vbm-living-alchemy svg .kb-b3 { animation: vbm-po-bubble calc(2.6s * var(--vbm-speed)) ease-out calc(1.1s * var(--vbm-speed)) infinite; }
+.vbm-living-alchemy svg .kb-pips {
+  animation: vbm-la-pips calc(3.2s * var(--vbm-speed)) ease-in-out calc(0.44s * var(--vbm-speed)) infinite;
+}
+
+
+/* ==========================================================================
+   04 · ROYAL HEARTBEAT — Core Ignition → Radial Shockwave → Rune Charge
+   ========================================================================== */
+@keyframes vbm-rh-core {
+  0%, 54%, 100% { transform: scale(1); }
+  7% { transform: scale(0.92); }
+  17% { transform: scale(1.09); }
+  25% { transform: scale(0.98); }
+  33% { transform: scale(1.05); }
+}
+
+@keyframes vbm-rh-ring-flash {
+  0%, 10%, 44%, 100% {
+    opacity: 0;
+    stroke-width: 1.2;
+  }
+  20% {
+    opacity: 0.92;
+    stroke-width: 1.9;
+  }
+  34% {
+    opacity: 0.25;
+    stroke-width: 1.3;
+  }
+}
+
+@keyframes vbm-rh-cheek {
+  0%, 48%, 100% { transform: translateX(0); }
+  19% { transform: translateX(-1.6px); }
+  31% { transform: translateX(0.25px); }
+}
+
+@keyframes vbm-rh-prow {
+  0%, 48%, 100% { transform: translateY(0); }
+  19% { transform: translateY(1.6px); }
+  31% { transform: translateY(-0.2px); }
+}
+
+@keyframes vbm-rh-blade {
+  0%, 50%, 100% { transform: rotate(0deg) translateX(0); }
+  22% { transform: rotate(8.5deg) translateX(-1.2px); }
+  36% { transform: rotate(-1.5deg) translateX(0); }
+}
+
+@keyframes vbm-rh-crown-gem {
+  0%, 50%, 100% { transform: scale(1); }
+  22% { transform: scale(1.52); }
+  36% { transform: scale(1); }
+}
+
+@keyframes vbm-rh-spark {
+  0%, 14%, 46%, 100% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-15deg);
+  }
+  25% {
+    opacity: 1;
+    transform: scale(1.22) rotate(0deg);
+  }
+  38% {
+    opacity: 0;
+    transform: scale(0.45) rotate(22deg);
+  }
+}
+
+@keyframes vbm-rh-pip {
+  0%, 56%, 100% { transform: scale(1); }
+  32% { transform: scale(1.45); }
+  44% { transform: scale(0.95); }
+}
+
+.vbm-royal-heartbeat svg .kb-core {
+  animation: vbm-rh-core calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) infinite;
+}
+.vbm-royal-heartbeat svg .kb-bevel-trace {
+  stroke-dasharray: 1 0;
+  animation: vbm-rh-ring-flash calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) infinite;
+}
+.vbm-royal-heartbeat svg .kb-cheek {
+  animation: vbm-rh-cheek calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.06s * var(--vbm-speed)) infinite;
+}
+.vbm-royal-heartbeat svg .kb-prow {
+  animation: vbm-rh-prow calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.06s * var(--vbm-speed)) infinite;
+}
+.vbm-royal-heartbeat svg .kb-blade-0 { animation: vbm-rh-blade calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.10s * var(--vbm-speed)) infinite; }
+.vbm-royal-heartbeat svg .kb-blade-1 { animation: vbm-rh-blade calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.14s * var(--vbm-speed)) infinite; }
+.vbm-royal-heartbeat svg .kb-blade-2 { animation: vbm-rh-blade calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.18s * var(--vbm-speed)) infinite; }
+.vbm-royal-heartbeat svg .kb-blade-3 { animation: vbm-rh-blade calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.22s * var(--vbm-speed)) infinite; }
+.vbm-royal-heartbeat svg .kb-crown-gem {
+  animation: vbm-rh-crown-gem calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.12s * var(--vbm-speed)) infinite;
+}
+.vbm-royal-heartbeat svg .kb-ray-c { animation: vbm-ap-ray-c calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.10s * var(--vbm-speed)) infinite; }
+.vbm-royal-heartbeat svg .kb-ray-il,
+.vbm-royal-heartbeat svg .kb-ray-ol { animation: vbm-ap-ray-l calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.14s * var(--vbm-speed)) infinite; }
+.vbm-royal-heartbeat svg .kb-ray-ir,
+.vbm-royal-heartbeat svg .kb-ray-or { animation: vbm-ap-ray-r calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.14s * var(--vbm-speed)) infinite; }
+.vbm-royal-heartbeat svg .kb-cork {
+  animation: vbm-ap-cork calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.08s * var(--vbm-speed)) infinite;
+}
+.vbm-royal-heartbeat svg .kb-spark-0 { animation: vbm-rh-spark calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.08s * var(--vbm-speed)) infinite; }
+.vbm-royal-heartbeat svg .kb-spark-1 { animation: vbm-rh-spark calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.18s * var(--vbm-speed)) infinite; }
+.vbm-royal-heartbeat svg .kb-pip-0 { animation: vbm-rh-pip calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.18s * var(--vbm-speed)) infinite; }
+.vbm-royal-heartbeat svg .kb-pip-1 { animation: vbm-rh-pip calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.23s * var(--vbm-speed)) infinite; }
+.vbm-royal-heartbeat svg .kb-pip-2 { animation: vbm-rh-pip calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.28s * var(--vbm-speed)) infinite; }
+.vbm-royal-heartbeat svg .kb-pip-3 { animation: vbm-rh-pip calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.33s * var(--vbm-speed)) infinite; }
+.vbm-royal-heartbeat svg .kb-pip-4 { animation: vbm-rh-pip calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.38s * var(--vbm-speed)) infinite; }
+
+
+/* ==========================================================================
+   05 · CLOCKWORK FORGE — Choreographed Multi-Stage Mechanical Assembly
+   Lead (Frame) → Support (Cheeks/Prow/Core/Blades) → Accent (Crown/Pips/Sheen)
+   ========================================================================== */
+@keyframes vbm-cf-frame {
+  0% { opacity: 0; transform: scale(0.84); }
+  12% { opacity: 1; transform: scale(1.03); }
+  18%, 90% { opacity: 1; transform: scale(1); }
+  97%, 100% { opacity: 0; transform: scale(0.95); }
+}
+@keyframes vbm-cf-cheek {
+  0%, 5% { opacity: 0; transform: translateX(-5px); }
+  17% { opacity: 1; transform: translateX(0.4px); }
+  22%, 90% { opacity: 1; transform: translateX(0); }
+  97%, 100% { opacity: 0; transform: translateX(-2px); }
+}
+@keyframes vbm-cf-prow {
+  0%, 6% { opacity: 0; transform: translateY(5px); }
+  18% { opacity: 1; transform: translateY(-0.4px); }
+  23%, 90% { opacity: 1; transform: translateY(0); }
+  97%, 100% { opacity: 0; transform: translateY(2px); }
+}
+@keyframes vbm-cf-core {
+  0%, 10% { opacity: 0; transform: scale(0.86); }
+  23% { opacity: 1; transform: scale(1.05); }
+  29%, 90% { opacity: 1; transform: scale(1); }
+  97%, 100% { opacity: 0; transform: scale(0.94); }
+}
+@keyframes vbm-cf-blade {
+  0%, 14% { opacity: 0; transform: rotate(-24deg) scaleX(0.75); }
+  27% { opacity: 1; transform: rotate(5.5deg) scaleX(1.03); }
+  33%, 90% { opacity: 1; transform: rotate(0deg) scaleX(1); }
+  97%, 100% { opacity: 0; transform: rotate(-8deg) scaleX(0.9); }
+}
+@keyframes vbm-cf-crown {
+  0%, 21% { opacity: 0; transform: translateY(-7px) scale(0.92); }
+  33% { opacity: 1; transform: translateY(1px) scale(1.05); }
+  39%, 90% { opacity: 1; transform: translateY(0) scale(1); }
+  97%, 100% { opacity: 0; transform: translateY(-3px) scale(0.95); }
+}
+@keyframes vbm-cf-ray-l {
+  0%, 22% { opacity: 0; transform: rotate(18deg) scaleY(0.7); }
+  34% { opacity: 1; transform: rotate(-3deg) scaleY(1.04); }
+  40%, 90% { opacity: 1; transform: rotate(0deg) scaleY(1); }
+  97%, 100% { opacity: 0; transform: rotate(6deg) scaleY(0.9); }
+}
+@keyframes vbm-cf-ray-r {
+  0%, 22% { opacity: 0; transform: rotate(-18deg) scaleY(0.7); }
+  34% { opacity: 1; transform: rotate(3deg) scaleY(1.04); }
+  40%, 90% { opacity: 1; transform: rotate(0deg) scaleY(1); }
+  97%, 100% { opacity: 0; transform: rotate(-6deg) scaleY(0.9); }
+}
+@keyframes vbm-cf-pip {
+  0%, 28% { opacity: 0; transform: translateY(3.5px) scale(0.72); }
+  36% { opacity: 1; transform: translateY(-0.5px) scale(1.22); }
+  42%, 90% { opacity: 1; transform: translateY(0) scale(1); }
+  97%, 100% { opacity: 0; transform: translateY(1px) scale(0.85); }
+}
+@keyframes vbm-cf-rim {
+  0%, 19% { stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
+  35%, 90% { stroke-dasharray: 1; stroke-dashoffset: 0; opacity: 0.95; }
+  97%, 100% { stroke-dasharray: 1; stroke-dashoffset: 0; opacity: 0; }
+}
+@keyframes vbm-cf-finish-trace {
+  0%, 34% { opacity: 0; stroke-dashoffset: 1.1; }
+  40% { opacity: 0.95; }
+  56% { opacity: 0; stroke-dashoffset: 0.02; }
+  100% { opacity: 0; stroke-dashoffset: 0.02; }
+}
+@keyframes vbm-cf-glint {
+  0%, 36% { opacity: 0; transform: translateX(-22px) rotate(-25deg); }
+  45% { opacity: 0.9; }
+  54%, 100% { opacity: 0; transform: translateX(24px) rotate(-25deg); }
+}
+
+.vbm-clockwork-forge svg .kb-frame { animation: vbm-cf-frame calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) infinite; }
+.vbm-clockwork-forge svg .kb-cheek { animation: vbm-cf-cheek calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) infinite; }
+.vbm-clockwork-forge svg .kb-prow { animation: vbm-cf-prow calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) infinite; }
+.vbm-clockwork-forge svg .kb-core { animation: vbm-cf-core calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) infinite; }
+.vbm-clockwork-forge svg .kb-gem-rim { animation: vbm-cf-rim calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) infinite; }
+.vbm-clockwork-forge svg .kb-blade-0 { animation: vbm-cf-blade calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.00s * var(--vbm-speed)) infinite; }
+.vbm-clockwork-forge svg .kb-blade-1 { animation: vbm-cf-blade calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.055s * var(--vbm-speed)) infinite; }
+.vbm-clockwork-forge svg .kb-blade-2 { animation: vbm-cf-blade calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.100s * var(--vbm-speed)) infinite; }
+.vbm-clockwork-forge svg .kb-blade-3 { animation: vbm-cf-blade calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.135s * var(--vbm-speed)) infinite; }
+.vbm-clockwork-forge svg .kb-crown { animation: vbm-cf-crown calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) infinite; }
+.vbm-clockwork-forge svg .kb-ray-c { animation: vbm-cf-crown calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) infinite; }
+.vbm-clockwork-forge svg .kb-ray-il,
+.vbm-clockwork-forge svg .kb-ray-ol { animation: vbm-cf-ray-l calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) infinite; }
+.vbm-clockwork-forge svg .kb-ray-ir,
+.vbm-clockwork-forge svg .kb-ray-or { animation: vbm-cf-ray-r calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) infinite; }
+.vbm-clockwork-forge svg .kb-pip-0 { animation: vbm-cf-pip calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.00s * var(--vbm-speed)) infinite; }
+.vbm-clockwork-forge svg .kb-pip-1 { animation: vbm-cf-pip calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.04s * var(--vbm-speed)) infinite; }
+.vbm-clockwork-forge svg .kb-pip-2 { animation: vbm-cf-pip calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.08s * var(--vbm-speed)) infinite; }
+.vbm-clockwork-forge svg .kb-pip-3 { animation: vbm-cf-pip calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.12s * var(--vbm-speed)) infinite; }
+.vbm-clockwork-forge svg .kb-pip-4 { animation: vbm-cf-pip calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) calc(0.16s * var(--vbm-speed)) infinite; }
+.vbm-clockwork-forge svg .kb-bevel-trace {
+  stroke-dasharray: 0.28 0.72;
+  animation: vbm-cf-finish-trace calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) infinite;
+}
+.vbm-clockwork-forge svg .kb-glint {
+  animation: vbm-cf-glint calc(3.8s * var(--vbm-speed)) var(--vbm-ease-out) infinite;
+}
+
+
+/* ==========================================================================
+   06 · TACTILE MICRO-RIG — Calm at Rest, Pointer-Driven Mechanical Transitions
+   ========================================================================== */
+.vbm-tactile-rig svg .kb-blade,
+.vbm-tactile-rig svg .kb-cheek,
+.vbm-tactile-rig svg .kb-prow,
+.vbm-tactile-rig svg .kb-crown,
+.vbm-tactile-rig svg .kb-crown-gem,
+.vbm-tactile-rig svg .kb-ray,
+.vbm-tactile-rig svg .kb-cork,
+.vbm-tactile-rig svg .kb-gem-table,
+.vbm-tactile-rig svg .kb-pip {
+  transition: transform 260ms var(--vbm-ease-spring), opacity 200ms ease;
+}
+
+.vbm-tactile-rig svg .kb-bevel-trace {
+  stroke-dasharray: 0.28 0.72;
+  stroke-dashoffset: 1.1;
+  transition: stroke-dashoffset 480ms var(--vbm-ease-out), opacity 220ms ease;
+}
+
+.vbm-tactile-rig svg .kb-blade-1 { transition-delay: 30ms; }
+.vbm-tactile-rig svg .kb-blade-2 { transition-delay: 55ms; }
+.vbm-tactile-rig svg .kb-blade-3 { transition-delay: 75ms; }
+.vbm-tactile-rig svg .kb-pip-1 { transition-delay: 25ms; }
+.vbm-tactile-rig svg .kb-pip-2 { transition-delay: 50ms; }
+.vbm-tactile-rig svg .kb-pip-3 { transition-delay: 75ms; }
+.vbm-tactile-rig svg .kb-pip-4 { transition-delay: 100ms; }
+
+@media (hover: hover) and (pointer: fine) {
+  .vbm-tactile-trigger:hover .vbm-tactile-rig svg .kb-blade-0,
+  .vbm-tactile-rig.vbm-tactile-engaged svg .kb-blade-0 { transform: rotate(12deg); }
+  .vbm-tactile-trigger:hover .vbm-tactile-rig svg .kb-blade-1,
+  .vbm-tactile-rig.vbm-tactile-engaged svg .kb-blade-1 { transform: rotate(9deg); }
+  .vbm-tactile-trigger:hover .vbm-tactile-rig svg .kb-blade-2,
+  .vbm-tactile-rig.vbm-tactile-engaged svg .kb-blade-2 { transform: rotate(6.5deg); }
+  .vbm-tactile-trigger:hover .vbm-tactile-rig svg .kb-blade-3,
+  .vbm-tactile-rig.vbm-tactile-engaged svg .kb-blade-3 { transform: rotate(4.5deg); }
+
+  .vbm-tactile-trigger:hover .vbm-tactile-rig svg .kb-cheek,
+  .vbm-tactile-rig.vbm-tactile-engaged svg .kb-cheek { transform: translateX(-1.3px); }
+  .vbm-tactile-trigger:hover .vbm-tactile-rig svg .kb-prow,
+  .vbm-tactile-rig.vbm-tactile-engaged svg .kb-prow { transform: translateY(1.2px); }
+  .vbm-tactile-trigger:hover .vbm-tactile-rig svg .kb-crown,
+  .vbm-tactile-rig.vbm-tactile-engaged svg .kb-crown { transform: translateY(-2.4px) scale(1.05); }
+  .vbm-tactile-trigger:hover .vbm-tactile-rig svg .kb-crown-gem,
+  .vbm-tactile-rig.vbm-tactile-engaged svg .kb-crown-gem { transform: scale(1.3); }
+  .vbm-tactile-trigger:hover .vbm-tactile-rig svg .kb-ray-c,
+  .vbm-tactile-rig.vbm-tactile-engaged svg .kb-ray-c { transform: translateY(-2.2px) scaleY(1.1); }
+  .vbm-tactile-trigger:hover .vbm-tactile-rig svg .kb-ray-il,
+  .vbm-tactile-trigger:hover .vbm-tactile-rig svg .kb-ray-ol,
+  .vbm-tactile-rig.vbm-tactile-engaged svg .kb-ray-il,
+  .vbm-tactile-rig.vbm-tactile-engaged svg .kb-ray-ol { transform: rotate(-10deg); }
+  .vbm-tactile-trigger:hover .vbm-tactile-rig svg .kb-ray-ir,
+  .vbm-tactile-trigger:hover .vbm-tactile-rig svg .kb-ray-or,
+  .vbm-tactile-rig.vbm-tactile-engaged svg .kb-ray-ir,
+  .vbm-tactile-rig.vbm-tactile-engaged svg .kb-ray-or { transform: rotate(10deg); }
+  .vbm-tactile-trigger:hover .vbm-tactile-rig svg .kb-cork,
+  .vbm-tactile-rig.vbm-tactile-engaged svg .kb-cork { transform: translateY(-2.5px) rotate(-12deg); }
+  .vbm-tactile-trigger:hover .vbm-tactile-rig svg .kb-gem-table,
+  .vbm-tactile-rig.vbm-tactile-engaged svg .kb-gem-table { transform: scale(1.08); }
+  .vbm-tactile-trigger:hover .vbm-tactile-rig svg .kb-pip,
+  .vbm-tactile-rig.vbm-tactile-engaged svg .kb-pip { transform: scale(1.22); }
+  .vbm-tactile-trigger:hover .vbm-tactile-rig svg .kb-bevel-trace,
+  .vbm-tactile-rig.vbm-tactile-engaged svg .kb-bevel-trace {
+    opacity: 0.9;
+    stroke-dashoffset: 0.08;
+  }
+}
+
+/* Touch / explicit engaged state (works on mobile tap-to-toggle without sticky hover) */
+.vbm-tactile-rig.vbm-tactile-engaged svg .kb-blade-0 { transform: rotate(12deg); }
+.vbm-tactile-rig.vbm-tactile-engaged svg .kb-blade-1 { transform: rotate(9deg); }
+.vbm-tactile-rig.vbm-tactile-engaged svg .kb-blade-2 { transform: rotate(6.5deg); }
+.vbm-tactile-rig.vbm-tactile-engaged svg .kb-blade-3 { transform: rotate(4.5deg); }
+.vbm-tactile-rig.vbm-tactile-engaged svg .kb-cheek { transform: translateX(-1.3px); }
+.vbm-tactile-rig.vbm-tactile-engaged svg .kb-prow { transform: translateY(1.2px); }
+.vbm-tactile-rig.vbm-tactile-engaged svg .kb-crown { transform: translateY(-2.4px) scale(1.05); }
+.vbm-tactile-rig.vbm-tactile-engaged svg .kb-crown-gem { transform: scale(1.3); }
+.vbm-tactile-rig.vbm-tactile-engaged svg .kb-ray-c { transform: translateY(-2.2px) scaleY(1.1); }
+.vbm-tactile-rig.vbm-tactile-engaged svg .kb-ray-il,
+.vbm-tactile-rig.vbm-tactile-engaged svg .kb-ray-ol { transform: rotate(-10deg); }
+.vbm-tactile-rig.vbm-tactile-engaged svg .kb-ray-ir,
+.vbm-tactile-rig.vbm-tactile-engaged svg .kb-ray-or { transform: rotate(10deg); }
+.vbm-tactile-rig.vbm-tactile-engaged svg .kb-cork { transform: translateY(-2.5px) rotate(-12deg); }
+.vbm-tactile-rig.vbm-tactile-engaged svg .kb-gem-table { transform: scale(1.08); }
+.vbm-tactile-rig.vbm-tactile-engaged svg .kb-pip { transform: scale(1.22); }
+.vbm-tactile-rig.vbm-tactile-engaged svg .kb-bevel-trace {
+  opacity: 0.9;
+  stroke-dashoffset: 0.08;
+}
+
+/* Instant tactile press compression on all pointer types */
+.vbm-tactile-trigger:active .vbm-tactile-rig svg .kb-blade {
+  transform: rotate(-5deg);
+  transition-duration: 120ms;
+  transition-timing-function: var(--vbm-ease-out);
+  transition-delay: 0ms;
+}
+.vbm-tactile-trigger:active .vbm-tactile-rig svg .kb-crown {
+  transform: translateY(1px) scale(0.95);
+  transition-duration: 120ms;
+}
+.vbm-tactile-trigger:active .vbm-tactile-rig svg .kb-gem-table {
+  transform: scale(0.92);
+  transition-duration: 120ms;
+}
+
+/* ==========================================================================
+   REDUCED MOTION — Collapse transforms & staggers, retain gentle opacity cue
+   ========================================================================== */
+@keyframes vbm-reduced-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.82; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vbm-badge svg * {
+    animation: none !important;
+    transition: opacity 150ms ease !important;
+    transform: none !important;
+  }
+  .vbm-badge:not(.vbm-tactile-rig) svg .kb-gem-table,
+  .vbm-badge:not(.vbm-tactile-rig) svg .kb-liquid {
+    animation: vbm-reduced-pulse 3.6s ease-in-out infinite !important;
+  }
+  .vbm-badge svg .kb-bevel-trace,
+  .vbm-badge svg .kb-spark {
+    opacity: 0 !important;
+  }
+}

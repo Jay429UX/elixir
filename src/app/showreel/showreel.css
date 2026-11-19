@@ -1,0 +1,947 @@
+/* ==========================================================================
+   ELIXIR — Portfolio Motion Graphic Showreel
+   Disney-inspired 12 Principles (Anticipation, Squash & Stretch, Arcs,
+   Follow-Through, Overlapping Action, Custom Bezier Slow-In/Out, Match Cuts)
+   Strictly GPU-composited (transform, opacity, clip-path, stroke-dashoffset).
+   ========================================================================== */
+
+.sr-root {
+  --sr-ease-whip: cubic-bezier(0.85, 0, 0.15, 1);
+  --sr-ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --sr-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --sr-ease-elastic: cubic-bezier(0.22, 1.42, 0.36, 1);
+  --sr-ease-anticipation: cubic-bezier(0.36, -0.35, 0.22, 1.25);
+  --sr-speed: 1;
+}
+
+.sr-paused,
+.sr-paused *,
+.sr-paused *::before,
+.sr-paused *::after {
+  animation-play-state: paused !important;
+}
+
+/* --------------------------------------------------------------------------
+   STUDIO BACKDROPS — Alchemy Bokeh, Obsidian Cyclorama & Arcane Rings
+   Strictly GPU-composited (transform & opacity only)
+   -------------------------------------------------------------------------- */
+@keyframes sr-orb-drift-a {
+  0%, 100% { transform: translate3d(-4%, -2%, 0) scale(1); }
+  50% { transform: translate3d(5%, 4%, 0) scale(1.08); }
+}
+
+@keyframes sr-orb-drift-b {
+  0%, 100% { transform: translate3d(4%, 3%, 0) scale(1.04); }
+  50% { transform: translate3d(-5%, -4%, 0) scale(0.95); }
+}
+
+@keyframes sr-mote-rise {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0) scale(0.6);
+  }
+  20% {
+    opacity: var(--mote-op, 0.4);
+  }
+  80% {
+    opacity: var(--mote-op, 0.35);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--mote-dx, 14px), -90px, 0) scale(1.1);
+  }
+}
+
+@keyframes sr-arcane-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes sr-arcane-spin-rev {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+.sr-orb-a {
+  animation: sr-orb-drift-a 14s ease-in-out infinite;
+}
+.sr-orb-b {
+  animation: sr-orb-drift-b 18s ease-in-out infinite;
+}
+.sr-mote {
+  animation: sr-mote-rise var(--mote-dur, 9s) ease-in-out var(--mote-delay, 0s) infinite;
+}
+.sr-arcane-outer {
+  transform-origin: center;
+  animation: sr-arcane-spin 72s linear infinite;
+}
+.sr-arcane-inner {
+  transform-origin: center;
+  animation: sr-arcane-spin-rev 52s linear infinite;
+}
+
+/* --------------------------------------------------------------------------
+   SHARED MOTION PRIMITIVES — Masked Type, Squash & Stretch, Sweeps, Wipes
+   -------------------------------------------------------------------------- */
+@keyframes sr-type-reveal {
+  0% {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(38%) skewY(2.2deg);
+  }
+  58% {
+    opacity: 1;
+    clip-path: inset(0 0 -8% 0);
+    transform: translateY(-4%) skewY(-0.4deg);
+  }
+  100% {
+    opacity: 1;
+    clip-path: inset(0 0 -8% 0);
+    transform: translateY(0) skewY(0deg);
+  }
+}
+
+@keyframes sr-eyebrow-in {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes sr-squash-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(26px) scaleX(0.76) scaleY(1.24);
+  }
+  44% {
+    opacity: 1;
+    transform: translateY(-6px) scaleX(1.1) scaleY(0.9);
+  }
+  72% {
+    opacity: 1;
+    transform: translateY(2px) scaleX(0.96) scaleY(1.04);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scaleX(1) scaleY(1);
+  }
+}
+
+@keyframes sr-shine-sweep {
+  0%, 10% {
+    opacity: 0;
+    transform: translateX(-140%) skewX(-24deg);
+  }
+  38% {
+    opacity: 0.72;
+  }
+  75%, 100% {
+    opacity: 0;
+    transform: translateX(260%) skewX(-24deg);
+  }
+}
+
+@keyframes sr-scene-wipe-in {
+  0% {
+    clip-path: polygon(0 0, 0 0, -18% 100%, -18% 100%);
+    opacity: 0.85;
+  }
+  100% {
+    clip-path: polygon(0 0, 120% 0, 102% 100%, -18% 100%);
+    opacity: 1;
+  }
+}
+
+@keyframes sr-iris-open {
+  0% {
+    clip-path: circle(0% at 50% 50%);
+  }
+  100% {
+    clip-path: circle(92% at 50% 50%);
+  }
+}
+
+@keyframes sr-float-y {
+  0%, 100% { transform: translateY(0px) rotate(-1.2deg); }
+  50% { transform: translateY(-10px) rotate(1.6deg); }
+}
+
+@keyframes sr-float-y-alt {
+  0%, 100% { transform: translateY(0px) rotate(1.5deg); }
+  50% { transform: translateY(-12px) rotate(-1.8deg); }
+}
+
+/* --------------------------------------------------------------------------
+   ACT I · THE SPARK — Anticipation Drop → Squash Impact → Iris Ring → Logo
+   -------------------------------------------------------------------------- */
+@keyframes sr-drop-fall {
+  0% {
+    opacity: 0;
+    transform: translateY(-130px) scaleX(0.75) scaleY(1.38);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(-150px) scaleX(0.88) scaleY(1.16); /* anticipation hang */
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(6px) scaleX(0.72) scaleY(1.42); /* stretch on plunge */
+  }
+  74% {
+    opacity: 1;
+    transform: translateY(10px) scaleX(1.65) scaleY(0.45); /* impact squash */
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px) scaleX(2.1) scaleY(0.18);
+  }
+}
+
+@keyframes sr-shock-ring {
+  0%, 22% {
+    opacity: 0;
+    transform: scale(0.25);
+  }
+  38% {
+    opacity: 0.9;
+    transform: scale(0.85);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.45);
+  }
+}
+
+@keyframes sr-logo-slam {
+  0%, 16% {
+    opacity: 0;
+    transform: translateY(28px) scaleX(0.78) scaleY(1.22);
+  }
+  48% {
+    opacity: 1;
+    transform: translateY(-6px) scaleX(1.08) scaleY(0.93);
+  }
+  72% {
+    opacity: 1;
+    transform: translateY(2px) scaleX(0.97) scaleY(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scaleX(1) scaleY(1);
+  }
+}
+
+@keyframes sr-arc-left {
+  0% {
+    opacity: 0;
+    transform: translate(-110px, 65px) rotate(-26deg) scale(0.78);
+  }
+  65% {
+    opacity: 1;
+    transform: translate(8px, -10px) rotate(5deg) scale(1.04);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(-3deg) scale(1);
+  }
+}
+
+@keyframes sr-arc-right {
+  0% {
+    opacity: 0;
+    transform: translate(110px, 65px) rotate(26deg) scale(0.78);
+  }
+  65% {
+    opacity: 1;
+    transform: translate(-8px, -10px) rotate(-5deg) scale(1.04);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(3deg) scale(1);
+  }
+}
+
+@keyframes sr-act1-out {
+  0%, 84% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.12);
+  }
+}
+
+.sr-act1-wrap {
+  animation: sr-act1-out calc(3.6s / var(--sr-speed)) var(--sr-ease-whip) both;
+}
+.sr-drop {
+  animation: sr-drop-fall calc(0.62s / var(--sr-speed)) var(--sr-ease-out-expo) both;
+}
+.sr-shock-1 {
+  animation: sr-shock-ring calc(0.95s / var(--sr-speed)) var(--sr-ease-out-expo) calc(0.18s / var(--sr-speed)) both;
+}
+.sr-shock-2 {
+  animation: sr-shock-ring calc(1.15s / var(--sr-speed)) var(--sr-ease-out-expo) calc(0.28s / var(--sr-speed)) both;
+}
+.sr-logo-hero {
+  animation: sr-logo-slam calc(0.85s / var(--sr-speed)) var(--sr-ease-out-expo) calc(0.26s / var(--sr-speed)) both;
+}
+.sr-prop-left {
+  animation:
+    sr-arc-left calc(0.95s / var(--sr-speed)) var(--sr-ease-out-expo) calc(0.45s / var(--sr-speed)) both,
+    sr-float-y calc(3.2s / var(--sr-speed)) ease-in-out calc(1.4s / var(--sr-speed)) infinite;
+}
+.sr-prop-right {
+  animation:
+    sr-arc-right calc(0.95s / var(--sr-speed)) var(--sr-ease-out-expo) calc(0.55s / var(--sr-speed)) both,
+    sr-float-y-alt calc(3.4s / var(--sr-speed)) ease-in-out calc(1.5s / var(--sr-speed)) infinite;
+}
+
+/* --------------------------------------------------------------------------
+   ACT II (NEW) · 3D CRAFT & PIPELINE — Wireframe Scan → Clay Wipe → Prop Lookdev
+   -------------------------------------------------------------------------- */
+@keyframes sr-wire-in {
+  0% {
+    opacity: 0;
+    transform: perspective(1000px) translateX(-48px) rotateY(16deg) scale(0.9);
+  }
+  62% {
+    opacity: 1;
+    transform: perspective(1000px) translateX(4px) rotateY(-2deg) scale(1.015);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1000px) translateX(0) rotateY(0deg) scale(1);
+  }
+}
+
+@keyframes sr-wire-kenburns {
+  0% { transform: scale(1.02); }
+  100% { transform: scale(1.09); }
+}
+
+@keyframes sr-scan-v {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  12% {
+    opacity: 0.95;
+  }
+  82% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(520%);
+  }
+}
+
+@keyframes sr-clay-wipe {
+  0% {
+    opacity: 0.2;
+    clip-path: inset(0 100% 0 0 round 12px);
+    transform: translateX(-16px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    clip-path: inset(0 0% 0 0 round 12px);
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes sr-scan-h {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(620px);
+  }
+}
+
+@keyframes sr-prop-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(38px) rotate(var(--prop-rot, -6deg)) scale(0.84);
+  }
+  62% {
+    opacity: 1;
+    transform: translateY(-5px) rotate(calc(var(--prop-rot, -6deg) * -0.15)) scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+}
+
+.sr-pipeline-stage {
+  animation: sr-scene-wipe-in calc(0.5s / var(--sr-speed)) var(--sr-ease-whip) both;
+}
+.sr-wire-card {
+  animation: sr-wire-in calc(0.82s / var(--sr-speed)) var(--sr-ease-out-expo) calc(0.1s / var(--sr-speed)) both;
+}
+.sr-wire-img {
+  animation: sr-wire-kenburns calc(4.8s / var(--sr-speed)) ease-out both;
+}
+.sr-scan-beam-v {
+  animation: sr-scan-v calc(1.75s / var(--sr-speed)) var(--sr-ease-whip) calc(0.38s / var(--sr-speed)) both;
+}
+.sr-clay-card {
+  animation: sr-clay-wipe calc(0.92s / var(--sr-speed)) var(--sr-ease-out-expo) calc(0.55s / var(--sr-speed)) both;
+}
+.sr-scan-beam-h {
+  animation: sr-scan-h calc(0.95s / var(--sr-speed)) var(--sr-ease-out-expo) calc(0.55s / var(--sr-speed)) both;
+}
+.sr-prop-card {
+  animation: sr-prop-pop calc(0.76s / var(--sr-speed)) var(--sr-ease-out-expo) calc(var(--delay, 0ms) / var(--sr-speed)) both;
+}
+
+/* --------------------------------------------------------------------------
+   ACT III · CINEMATIC WORLD — 3D Triptych Arcs + Diagonal Light Sweep
+   -------------------------------------------------------------------------- */
+@keyframes sr-card-center-3d {
+  0% {
+    opacity: 0;
+    transform: perspective(1100px) translateY(72px) scale(0.84) rotateX(18deg);
+  }
+  60% {
+    opacity: 1;
+    transform: perspective(1100px) translateY(-6px) scale(1.02) rotateX(-2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1100px) translateY(0) scale(1) rotateX(0deg);
+  }
+}
+
+@keyframes sr-card-wing-l {
+  0% {
+    opacity: 0;
+    transform: perspective(1100px) translateX(70px) translateY(45px) rotateY(-28deg) rotateZ(-8deg) scale(0.84);
+  }
+  65% {
+    opacity: 1;
+    transform: perspective(1100px) translateX(-4px) translateY(-3px) rotateY(14deg) rotateZ(-2.5deg) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1100px) translateX(0) translateY(0) rotateY(12deg) rotateZ(-2deg) scale(1);
+  }
+}
+
+@keyframes sr-card-wing-r {
+  0% {
+    opacity: 0;
+    transform: perspective(1100px) translateX(-70px) translateY(45px) rotateY(28deg) rotateZ(8deg) scale(0.84);
+  }
+  65% {
+    opacity: 1;
+    transform: perspective(1100px) translateX(4px) translateY(-3px) rotateY(-14deg) rotateZ(2.5deg) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1100px) translateX(0) translateY(0) rotateY(-12deg) rotateZ(2deg) scale(1);
+  }
+}
+
+.sr-act2-stage {
+  animation: sr-scene-wipe-in calc(0.55s / var(--sr-speed)) var(--sr-ease-whip) both;
+}
+.sr-trip-center {
+  animation: sr-card-center-3d calc(0.82s / var(--sr-speed)) var(--sr-ease-out-expo) calc(0.12s / var(--sr-speed)) both;
+}
+.sr-trip-left {
+  animation: sr-card-wing-l calc(0.88s / var(--sr-speed)) var(--sr-ease-out-expo) calc(0.28s / var(--sr-speed)) both;
+}
+.sr-trip-right {
+  animation: sr-card-wing-r calc(0.88s / var(--sr-speed)) var(--sr-ease-out-expo) calc(0.36s / var(--sr-speed)) both;
+}
+.sr-gloss {
+  animation: sr-shine-sweep calc(1.15s / var(--sr-speed)) var(--sr-ease-out-expo) calc(var(--gloss-delay, 0.8s) / var(--sr-speed)) both;
+}
+
+/* --------------------------------------------------------------------------
+   ACT IV · KEY ART & WORLD — Opposing Cinema-Scope Banners + Storyboard Wave
+   -------------------------------------------------------------------------- */
+@keyframes sr-banner-l {
+  0% {
+    opacity: 0;
+    transform: translateX(-72px) scale(0.92);
+  }
+  64% {
+    opacity: 1;
+    transform: translateX(4px) scale(1.015);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes sr-banner-r {
+  0% {
+    opacity: 0;
+    transform: translateX(72px) scale(0.92);
+  }
+  64% {
+    opacity: 1;
+    transform: translateX(-4px) scale(1.015);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes sr-art-tile {
+  0% {
+    opacity: 0;
+    transform: translateY(36px) scale(0.88);
+  }
+  62% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.025);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes sr-art-drift {
+  0% { transform: scale(1.01); }
+  100% { transform: scale(1.07); }
+}
+
+.sr-keyart-stage {
+  animation: sr-scene-wipe-in calc(0.5s / var(--sr-speed)) var(--sr-ease-whip) both;
+}
+.sr-banner-left {
+  animation: sr-banner-l calc(0.78s / var(--sr-speed)) var(--sr-ease-out-expo) calc(0.1s / var(--sr-speed)) both;
+}
+.sr-banner-right {
+  animation: sr-banner-r calc(0.78s / var(--sr-speed)) var(--sr-ease-out-expo) calc(0.18s / var(--sr-speed)) both;
+}
+.sr-art-card {
+  animation: sr-art-tile calc(0.74s / var(--sr-speed)) var(--sr-ease-out-expo) calc(var(--delay, 0ms) / var(--sr-speed)) both;
+}
+.sr-art-img {
+  animation: sr-art-drift calc(4.8s / var(--sr-speed)) ease-out both;
+}
+
+/* Key Art 3-beat full-frame cinema showcase pop-outs — zero cropping, fills the 16:9 stage */
+@keyframes sr-fullframe-1 {
+  0%, 19% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  26% {
+    opacity: 1;
+    transform: scale(1.012);
+  }
+  30%, 41% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  46%, 100% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes sr-fullframe-2 {
+  0%, 45% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  52% {
+    opacity: 1;
+    transform: scale(1.012);
+  }
+  56%, 67% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  72%, 100% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes sr-fullframe-3 {
+  0%, 71% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  78% {
+    opacity: 1;
+    transform: scale(1.012);
+  }
+  82%, 93% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  98%, 100% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+.sr-keyart-full-1 {
+  animation: sr-fullframe-1 calc(5.6s / var(--sr-speed)) var(--sr-ease-out-expo) both;
+}
+.sr-keyart-full-2 {
+  animation: sr-fullframe-2 calc(5.6s / var(--sr-speed)) var(--sr-ease-out-expo) both;
+}
+.sr-keyart-full-3 {
+  animation: sr-fullframe-3 calc(5.6s / var(--sr-speed)) var(--sr-ease-out-expo) both;
+}
+
+/* --------------------------------------------------------------------------
+   ACT III · ELIXIR ORIGINALS — Croupier Arc Deal + Multiplier Pop
+   -------------------------------------------------------------------------- */
+@keyframes sr-deal-card {
+  0% {
+    opacity: 0;
+    transform: translate(var(--deal-x, 0px), var(--deal-y, 90px)) rotate(var(--deal-rot, -14deg)) scale(0.74);
+  }
+  64% {
+    opacity: 1;
+    transform: translate(0px, -6px) rotate(calc(var(--deal-rot, -14deg) * -0.12)) scale(1.035);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0px, 0px) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes sr-ticker-bounce {
+  0% {
+    opacity: 0;
+    transform: translateY(22px) scaleX(0.82) scaleY(1.18);
+  }
+  52% {
+    opacity: 1;
+    transform: translateY(-4px) scaleX(1.07) scaleY(0.94);
+  }
+  78% {
+    opacity: 1;
+    transform: translateY(1px) scaleX(0.98) scaleY(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.sr-act3-stage {
+  animation: sr-iris-open calc(0.62s / var(--sr-speed)) var(--sr-ease-out-expo) both;
+}
+.sr-orig-card {
+  animation: sr-deal-card calc(0.76s / var(--sr-speed)) var(--sr-ease-out-expo) calc(var(--delay, 0ms) / var(--sr-speed)) both;
+}
+.sr-mult-pill {
+  animation: sr-ticker-bounce calc(0.68s / var(--sr-speed)) var(--sr-ease-out-expo) calc(0.95s / var(--sr-speed)) both;
+}
+
+/* --------------------------------------------------------------------------
+   ACT IV · CLOCKWORK FORGE VIP RIG — Liquid Rise + 5-Tier Arc + King Peek
+   -------------------------------------------------------------------------- */
+@keyframes sr-liquid-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(65%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
+@keyframes sr-tier-wing {
+  0% {
+    opacity: 0;
+    transform: translateX(var(--wing-x, 0px)) translateY(28px) scale(0.78);
+  }
+  62% {
+    opacity: 1;
+    transform: translateX(calc(var(--wing-x, 0px) * -0.06)) translateY(-5px) scale(1.06);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) translateY(0) scale(1);
+  }
+}
+
+@keyframes sr-king-peek {
+  0% {
+    opacity: 0;
+    transform: translateY(68px) scaleX(0.92) scaleY(1.08);
+  }
+  56% {
+    opacity: 1;
+    transform: translateY(-8px) scaleX(1.04) scaleY(0.96);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(2px) scaleX(0.99) scaleY(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
+  }
+}
+
+.sr-liquid-floor {
+  animation: sr-liquid-rise calc(0.9s / var(--sr-speed)) var(--sr-ease-out-expo) both;
+}
+.sr-tier-satellite {
+  animation: sr-tier-wing calc(0.78s / var(--sr-speed)) var(--sr-ease-out-expo) calc(var(--delay, 0ms) / var(--sr-speed)) both;
+}
+.sr-king-peek-in {
+  animation: sr-king-peek calc(0.82s / var(--sr-speed)) var(--sr-ease-out-expo) calc(1.05s / var(--sr-speed)) both;
+}
+
+/* --------------------------------------------------------------------------
+   ACT V · LIVE UI ENGINE — Opposing Slide-In + Staggered Rows & Chips
+   -------------------------------------------------------------------------- */
+@keyframes sr-panel-left {
+  0% {
+    opacity: 0;
+    transform: perspective(1000px) translateX(-80px) translateY(20px) rotateY(14deg) scale(0.92);
+  }
+  65% {
+    opacity: 1;
+    transform: perspective(1000px) translateX(5px) translateY(-2px) rotateY(-2deg) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1000px) translateX(0) translateY(0) rotateY(4deg) scale(1);
+  }
+}
+
+@keyframes sr-panel-right {
+  0% {
+    opacity: 0;
+    transform: perspective(1000px) translateX(80px) translateY(20px) rotateY(-14deg) scale(0.92);
+  }
+  65% {
+    opacity: 1;
+    transform: perspective(1000px) translateX(-5px) translateY(-2px) rotateY(2deg) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1000px) translateX(0) translateY(0) rotateY(-4deg) scale(1);
+  }
+}
+
+@keyframes sr-row-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.sr-act5-stage {
+  animation: sr-scene-wipe-in calc(0.5s / var(--sr-speed)) var(--sr-ease-whip) both;
+}
+.sr-ui-left {
+  animation: sr-panel-left calc(0.85s / var(--sr-speed)) var(--sr-ease-out-expo) calc(0.14s / var(--sr-speed)) both;
+}
+.sr-ui-right {
+  animation: sr-panel-right calc(0.85s / var(--sr-speed)) var(--sr-ease-out-expo) calc(0.24s / var(--sr-speed)) both;
+}
+.sr-ui-row {
+  animation: sr-row-pop calc(0.48s / var(--sr-speed)) var(--sr-ease-out-expo) calc(var(--delay, 0ms) / var(--sr-speed)) both;
+}
+
+/* --------------------------------------------------------------------------
+   ACT VI · PORTFOLIO FINALE — Convergence Lockup + Credit Chips
+   -------------------------------------------------------------------------- */
+@keyframes sr-finale-lockup {
+  0% {
+    opacity: 0;
+    transform: scale(0.86) translateY(22px);
+  }
+  58% {
+    opacity: 1;
+    transform: scale(1.04) translateY(-4px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.sr-act6-lockup {
+  animation: sr-finale-lockup calc(0.88s / var(--sr-speed)) var(--sr-ease-out-expo) calc(0.15s / var(--sr-speed)) both;
+}
+
+/* Shared helper classes */
+.sr-type-line {
+  animation: sr-type-reveal calc(0.68s / var(--sr-speed)) var(--sr-ease-out-expo) calc(var(--delay, 0ms) / var(--sr-speed)) both;
+}
+.sr-eyebrow {
+  animation: sr-eyebrow-in calc(0.5s / var(--sr-speed)) var(--sr-ease-out-expo) calc(var(--delay, 0ms) / var(--sr-speed)) both;
+}
+.sr-pill-pop {
+  animation: sr-squash-pop calc(0.64s / var(--sr-speed)) var(--sr-ease-out-expo) calc(var(--delay, 0ms) / var(--sr-speed)) both;
+}
+
+/* Act 01 opening emerald potion swirl & volumetric glow */
+@keyframes sr-swirl-burst {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(-160deg) scale(1.55);
+  }
+  22% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) rotate(-25deg) scale(1.05);
+  }
+  58% {
+    opacity: 0.55;
+    transform: translate(-50%, -50%) rotate(95deg) scale(0.92);
+  }
+  100% {
+    opacity: 0.18;
+    transform: translate(-50%, -50%) rotate(210deg) scale(1.12);
+  }
+}
+@keyframes sr-ribbon-sweep {
+  0% {
+    stroke-dashoffset: 540;
+    opacity: 0;
+  }
+  18% {
+    opacity: 1;
+  }
+  65% {
+    stroke-dashoffset: 0;
+    opacity: 0.72;
+  }
+  100% {
+    stroke-dashoffset: -140;
+    opacity: 0;
+  }
+}
+@keyframes sr-energy-breathe {
+  0%, 100% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.72; }
+  50% { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
+}
+@keyframes sr-ember-rise {
+  0% { transform: translateY(28px) scale(0.6); opacity: 0; }
+  25% { opacity: 0.85; }
+  100% { transform: translateY(-95px) scale(1.1); opacity: 0; }
+}
+.sr-swirl-vortex {
+  animation: sr-swirl-burst calc(2.4s / var(--sr-speed)) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.sr-swirl-ribbon {
+  stroke-dasharray: 540;
+  stroke-dashoffset: 540;
+  animation: sr-ribbon-sweep calc(1.75s / var(--sr-speed)) cubic-bezier(0.22, 1, 0.36, 1) calc(var(--delay, 0ms) / var(--sr-speed)) both;
+}
+.sr-energy-pulse {
+  animation: sr-energy-breathe calc(4.2s / var(--sr-speed)) ease-in-out infinite;
+}
+.sr-ember {
+  animation: sr-ember-rise calc(var(--dur, 3.6s) / var(--sr-speed)) ease-out calc(var(--delay, 0s) / var(--sr-speed)) infinite;
+}
+
+/* Dynamic Bubbly Green Goo Frame (UI Delight) */
+@keyframes sr-goo-drip-bob {
+  0%, 100% { transform: scaleY(0.92); }
+  50% { transform: scaleY(1.14); }
+}
+@keyframes sr-goo-bubble-rise {
+  0% {
+    transform: translateY(14px) scale(0.55);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.9;
+  }
+  80% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateY(-48px) scale(1.18);
+    opacity: 0;
+  }
+}
+.sr-goo-drip {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: sr-goo-drip-bob calc(var(--dur, 3.2s) / var(--sr-speed)) ease-in-out calc(var(--delay, 0s) / var(--sr-speed)) infinite;
+}
+.sr-goo-bubble {
+  animation: sr-goo-bubble-rise calc(var(--dur, 2.8s) / var(--sr-speed)) ease-out calc(var(--delay, 0s) / var(--sr-speed)) infinite;
+}
+
+/* --------------------------------------------------------------------------
+   REDUCED MOTION — Collapse trajectory motion into clean crossfades
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .sr-root *,
+  .sr-root *::before,
+  .sr-root *::after {
+    animation-duration: 0.25s !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  .sr-drop,
+  .sr-shock-1,
+  .sr-shock-2,
+  .sr-gloss,
+  .sr-mote {
+    display: none !important;
+  }
+  .sr-orb-a,
+  .sr-orb-b,
+  .sr-arcane-outer,
+  .sr-arcane-inner {
+    animation: none !important;
+  }
+  .sr-logo-hero,
+  .sr-prop-left,
+  .sr-prop-right,
+  .sr-wire-card,
+  .sr-clay-card,
+  .sr-prop-card,
+  .sr-trip-center,
+  .sr-trip-left,
+  .sr-trip-right,
+  .sr-banner-left,
+  .sr-banner-right,
+  .sr-art-card,
+  .sr-orig-card,
+  .sr-tier-satellite,
+  .sr-king-peek-in,
+  .sr-ui-left,
+  .sr-ui-right,
+  .sr-ui-row,
+  .sr-act6-lockup,
+  .sr-type-line,
+  .sr-eyebrow,
+  .sr-pill-pop {
+    animation-name: sr-eyebrow-in !important;
+    clip-path: none !important;
+  }
+}

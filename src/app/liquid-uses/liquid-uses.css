@@ -1,0 +1,11 @@
+/* The liquid canvas rises and falls by sliding, so it never has to re-allocate */
+@keyframes lq-rise { from { transform: translateY(var(--y0)); } to { transform: translateY(var(--y1)); } }
+.lq-fill-loop { animation: lq-fill-loop 5.5s ease-in-out infinite; }
+@keyframes lq-fill-loop {
+  0%   { transform: translateY(var(--y0)); }
+  70%  { transform: translateY(var(--y1)); }
+  100% { transform: translateY(var(--y1)); }
+}
+.lq-fade-loop { animation: lq-fade-loop 5.5s ease-in-out infinite; }
+@keyframes lq-fade-loop { 0%, 78% { opacity: 1; } 92%, 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .lq-fill-loop, .lq-fade-loop { animation: none !important; } }

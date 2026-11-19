@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import ModalShell from "./ModalShell";
+import ModalCloseButton from "./ui/ModalCloseButton";
 import { cn } from "@/lib/utils";
 
 interface CryptoAsset {
@@ -29,8 +31,6 @@ export default function WithdrawModal({ isOpen, onClose, cryptoAssets }: Withdra
   const [selectedCrypto, setSelectedCrypto] = useState<CryptoAsset | null>(null);
   const [withdrawAddress, setWithdrawAddress] = useState("");
   const [withdrawAmount, setWithdrawAmount] = useState("");
-
-  if (!isOpen) return null;
 
   const handleBack = () => {
     setSelectedCrypto(null);
@@ -63,53 +63,43 @@ export default function WithdrawModal({ isOpen, onClose, cryptoAssets }: Withdra
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-        onClick={handleClose}
-      />
-
+    <ModalShell isOpen={isOpen} onClose={handleClose} labelledBy="withdraw-modal-title">
       {/* Modal */}
-      <div className="relative w-full max-w-md bg-dicey-card rounded-2xl overflow-hidden" style={{ boxShadow: '0 25px 50px rgba(0, 0, 0, 0.5)' }}>
+      <div className="ui-modal-panel relative my-auto w-full max-w-md shrink-0 overflow-hidden" style={{ boxShadow: '0 25px 50px rgba(0, 0, 0, 0.5)' }}>
         {/* Header */}
-        <div className="flex items-center justify-between p-4">
+        <div className="flex items-center justify-between px-5 py-4 sm:px-6">
           <div className="flex items-center gap-3">
             {selectedCrypto && (
               <button
+                type="button"
+                aria-label="Back to currency list"
                 onClick={handleBack}
-                className="p-1 hover:bg-dicey-border rounded-lg transition-colors"
+                className="p-1.5 hover:bg-dicey-border rounded-lg transition-colors"
               >
                 <svg className="size-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
             )}
-            <h2 className="text-lg font-semibold text-white">
+            <h2 id="withdraw-modal-title" className="ui-modal-title text-white">
               {selectedCrypto ? `Withdraw ${selectedCrypto.symbol}` : "Withdraw"}
             </h2>
           </div>
-          <button
-            onClick={handleClose}
-            className="p-1 hover:bg-dicey-border rounded-lg transition-colors"
-          >
-            <svg className="size-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+          <ModalCloseButton onClick={handleClose} label="Close withdraw modal" />
         </div>
 
         {/* Content */}
         {!selectedCrypto ? (
           /* Currency Selection */
-          <div className="p-4">
-            <p className="text-sm text-gray-400 mb-4">Select the currency you want to withdraw</p>
+          <div className="px-5 pb-5 sm:px-6 sm:pb-6">
+            <p className="text-sm text-gray-400 mb-3">Select the currency you want to withdraw</p>
             <div className="space-y-2">
               {cryptoAssets.map((crypto) => (
                 <button
                   key={crypto.symbol}
+                  type="button"
                   onClick={() => setSelectedCrypto(crypto)}
-                  className="w-full flex items-center justify-between p-4 bg-dicey-dark hover:bg-dicey-border/50 rounded-xl transition-colors"
+                  className="w-full flex items-center justify-between p-3 sm:p-3.5 bg-dicey-dark hover:bg-dicey-border/50 rounded-xl transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <img src={crypto.icon} alt={crypto.symbol} className="size-8" />
@@ -130,9 +120,9 @@ export default function WithdrawModal({ isOpen, onClose, cryptoAssets }: Withdra
           </div>
         ) : (
           /* Withdraw Form */
-          <div className="p-4">
+          <div className="px-5 pb-5 sm:px-6 sm:pb-6">
             {/* Selected Crypto Info */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-3">
                 <img src={selectedCrypto.icon} alt={selectedCrypto.symbol} className="size-10" />
                 <div>
@@ -151,10 +141,13 @@ export default function WithdrawModal({ isOpen, onClose, cryptoAssets }: Withdra
               <label className="text-sm text-gray-400 mb-2 block">Withdrawal Address</label>
               <input
                 type="text"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
                 value={withdrawAddress}
                 onChange={(e) => setWithdrawAddress(e.target.value)}
                 placeholder={`Enter ${selectedCrypto.symbol} address`}
-                className="w-full p-3 bg-dicey-dark rounded-xl text-white placeholder-gray-500 focus:outline-none font-mono text-sm"
+                className="w-full p-3 bg-dicey-dark rounded-xl text-white placeholder-gray-500 focus:outline-none font-mono text-base sm:text-sm"
               />
             </div>
 
@@ -164,12 +157,14 @@ export default function WithdrawModal({ isOpen, onClose, cryptoAssets }: Withdra
               <div className="relative">
                 <input
                   type="number"
+                  inputMode="decimal"
                   value={withdrawAmount}
                   onChange={(e) => setWithdrawAmount(e.target.value)}
                   placeholder="0.00"
-                  className="w-full p-3 pr-20 bg-dicey-dark rounded-xl text-white placeholder-gray-500 focus:outline-none tabular-nums"
+                  className="w-full p-3 pr-20 bg-dicey-dark rounded-xl text-white placeholder-gray-500 focus:outline-none tabular-nums text-base sm:text-sm"
                 />
                 <button
+                  type="button"
                   onClick={handleMaxAmount}
                   className="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1 bg-dicey-border hover:bg-dicey-border/80 rounded-lg text-xs font-medium text-gray-400 hover:text-white transition-colors"
                 >
@@ -204,24 +199,25 @@ export default function WithdrawModal({ isOpen, onClose, cryptoAssets }: Withdra
 
             {/* Withdraw Button */}
             <button
+              type="button"
               disabled={!isValidWithdraw()}
               className={cn(
                 "w-full relative group/btn",
                 !isValidWithdraw() && "opacity-50 cursor-not-allowed"
               )}
             >
-              <span className="absolute -inset-1 rounded-xl transition-all duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-md" />
+              <span className="absolute -inset-1 rounded-xl transition-[transform,opacity,background-color,box-shadow] duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-md" />
               {/* Bubble particles on hover */}
-              <span className="absolute -top-2 left-3 size-2 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.2s_ease-out_infinite]" />
-              <span className="absolute -top-1 left-8 size-1.5 rounded-full bg-[#39ff14]/50 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.4s_ease-out_infinite_0.2s]" />
-              <span className="absolute -top-2 right-6 size-2.5 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.4s]" />
-              <span className="absolute -top-1 right-12 size-1 rounded-full bg-[#39ff14]/40 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.3s_ease-out_infinite_0.1s]" />
-              <span className="absolute top-0 left-1/2 size-1.5 rounded-full bg-[#39ff14]/55 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.1s_ease-out_infinite_0.3s]" />
+              <span className="button-bubble absolute -top-2 left-3 size-3.5 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.8s_ease-out_infinite]" />
+              <span className="button-bubble absolute -top-1 left-8 size-3 rounded-full bg-[#39ff14]/50 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_2.0s_ease-out_infinite_0.2s]" />
+              <span className="button-bubble absolute -top-2 right-6 size-4 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1.6s_ease-out_infinite_0.4s]" />
+              <span className="button-bubble absolute -top-1 right-12 size-2 rounded-full bg-[#39ff14]/40 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.9s_ease-out_infinite_0.1s]" />
+              <span className="button-bubble absolute top-0 left-1/2 size-3 rounded-full bg-[#39ff14]/55 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.7s_ease-out_infinite_0.3s]" />
               {/* Dark inset ring - extends bottom to cover 3D depth */}
               <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[6px] rounded-[14px] bg-black/20" />
               <span className="absolute inset-0 translate-y-1 bg-[#1a5c0a] rounded-xl" />
               <span
-                className="relative block px-8 py-3 text-black font-bold rounded-xl transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
+                className="relative block px-8 py-3 text-black font-bold rounded-xl transition-[transform,opacity,background-color,box-shadow] duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
                 style={{
                   background: 'radial-gradient(ellipse at 50% 0%, #39ff14 0%, #32cd32 40%, #228b22 100%)',
                   boxShadow: 'inset 0 2px 0 rgba(255,255,255,0.25), inset 0 -2px 0 rgba(0,0,0,0.2)',
@@ -248,6 +244,6 @@ export default function WithdrawModal({ isOpen, onClose, cryptoAssets }: Withdra
           </div>
         )}
       </div>
-    </div>
+    </ModalShell>
   );
 }

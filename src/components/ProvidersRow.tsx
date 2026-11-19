@@ -29,40 +29,64 @@ export default function ProvidersRow({
   const [cardWidth, setCardWidth] = useState(180);
   const gap = 16;
 
+  const syncScrollState = () => {
+    const el = containerRef.current;
+    if (!el) return;
+    setScrollPosition(el.scrollLeft);
+    setMaxScroll(Math.max(0, el.scrollWidth - el.clientWidth));
+  };
+
   useEffect(() => {
     const calculateLayout = () => {
       if (containerRef.current) {
-        const containerWidth = containerRef.current.offsetWidth;
-        const minCardWidth = 140;
-        const maxCardWidth = 200;
+        const containerWidth = containerRef.current.clientWidth;
 
-        let numCards = Math.floor((containerWidth + gap) / (minCardWidth + gap));
-        numCards = Math.max(3, Math.min(numCards, 8));
+        if (containerWidth < 520) {
+          const mobileCardWidth = Math.max(132, Math.min(160, Math.floor((containerWidth - 1.25 * gap) / 2.25)));
+          setCardsPerView(2);
+          setCardWidth(mobileCardWidth);
+        } else {
+          const minCardWidth = 140;
+          const maxCardWidth = 200;
 
-        const exactCardWidth = (containerWidth - (numCards - 1) * gap) / numCards;
-        const finalCardWidth = Math.min(maxCardWidth, Math.max(minCardWidth, exactCardWidth));
+          let numCards = Math.floor((containerWidth + gap) / (minCardWidth + gap));
+          numCards = Math.max(3, Math.min(numCards, 8));
 
-        setCardsPerView(numCards);
-        setCardWidth(finalCardWidth);
+          const exactCardWidth = (containerWidth - (numCards - 1) * gap) / numCards;
+          const finalCardWidth = Math.min(maxCardWidth, Math.max(minCardWidth, exactCardWidth));
 
-        const totalWidth = providers.length * finalCardWidth + (providers.length - 1) * gap;
-        setMaxScroll(Math.max(0, totalWidth - containerWidth));
+          setCardsPerView(numCards);
+          setCardWidth(finalCardWidth);
+        }
+
+        requestAnimationFrame(syncScrollState);
       }
     };
 
     calculateLayout();
     window.addEventListener("resize", calculateLayout);
-    return () => window.removeEventListener("resize", calculateLayout);
+    const resizeObserver = new ResizeObserver(calculateLayout);
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
+    return () => {
+      window.removeEventListener("resize", calculateLayout);
+      resizeObserver.disconnect();
+    };
   }, [providers.length]);
 
   const scroll = (direction: "left" | "right") => {
+    const el = containerRef.current;
+    if (!el) return;
     const scrollAmount = (cardWidth + gap) * cardsPerView;
-    if (direction === "right") {
-      setScrollPosition((prev) => Math.min(prev + scrollAmount, maxScroll));
-    } else {
-      setScrollPosition((prev) => Math.max(prev - scrollAmount, 0));
-    }
+    el.scrollBy({
+      left: direction === "right" ? scrollAmount : -scrollAmount,
+      behavior: "smooth",
+    });
   };
+
+  const canScrollLeft = scrollPosition > 4;
+  const canScrollRight = scrollPosition < maxScroll - 4;
 
   return (
     <section className="mb-6">
@@ -81,10 +105,10 @@ export default function ProvidersRow({
         <div className="flex items-center gap-1.5">
           <button
             onClick={() => scroll("left")}
-            disabled={scrollPosition === 0}
+            disabled={!canScrollLeft}
             aria-label="Scroll left"
-            className={`size-7 flex items-center justify-center bg-dicey-card hover:bg-dicey-border rounded-md transition-colors ${
-              scrollPosition === 0 ? "opacity-50 cursor-not-allowed" : ""
+            className={`size-8 sm:size-7 flex items-center justify-center bg-dicey-card hover:bg-dicey-border rounded-md transition-colors ${
+              !canScrollLeft ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
             <svg
@@ -99,10 +123,10 @@ export default function ProvidersRow({
           </button>
           <button
             onClick={() => scroll("right")}
-            disabled={scrollPosition >= maxScroll}
+            disabled={!canScrollRight}
             aria-label="Scroll right"
-            className={`size-7 flex items-center justify-center bg-dicey-card hover:bg-dicey-border rounded-md transition-colors ${
-              scrollPosition >= maxScroll ? "opacity-50 cursor-not-allowed" : ""
+            className={`size-8 sm:size-7 flex items-center justify-center bg-dicey-card hover:bg-dicey-border rounded-md transition-colors ${
+              !canScrollRight ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
             <svg
@@ -118,34 +142,31 @@ export default function ProvidersRow({
         </div>
       </div>
 
-      {/* Providers Container */}
-      <div ref={containerRef} className="overflow-hidden">
-        <div
-          className="flex flex-nowrap transition-transform duration-500 ease-out"
-          style={{
-            transform: `translateX(-${scrollPosition}px)`,
-            gap: `${gap}px`,
-          }}
-        >
-          {providers.map((provider) => (
-            <button
-              key={provider.id}
-              className="group flex flex-col items-center justify-center gap-3 p-6 bg-dicey-card rounded-xl hover:bg-dicey-border/50 transition-all duration-200 shrink-0"
-              style={{ width: cardWidth, height: cardWidth * 0.85 }}
-            >
-              <img
-                src={provider.logo}
-                alt={provider.name}
-                className="h-20 w-auto opacity-60 group-hover:opacity-100 transition-opacity duration-200"
-              />
-              {provider.gameCount !== undefined && (
-                <span className="text-xs text-gray-500 group-hover:text-gray-400 transition-colors duration-200">
-                  {provider.gameCount} games
-                </span>
-              )}
-            </button>
-          ))}
-        </div>
+      {/* Providers Container: native touch swipe + snap */}
+      <div
+        ref={containerRef}
+        onScroll={syncScrollState}
+        className="hide-scrollbar flex flex-nowrap snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth"
+        style={{ gap: `${gap}px` }}
+      >
+        {providers.map((provider) => (
+          <button
+            key={provider.id}
+            className="group snap-start flex flex-col items-center justify-center gap-3 p-5 sm:p-6 bg-dicey-card rounded-xl hover:bg-dicey-border/50 transition-all duration-200 shrink-0"
+            style={{ width: cardWidth, height: cardWidth * 0.85 }}
+          >
+            <img
+              src={provider.logo}
+              alt={provider.name}
+              className="h-16 sm:h-20 w-auto opacity-60 group-hover:opacity-100 transition-opacity duration-200"
+            />
+            {provider.gameCount !== undefined && (
+              <span className="text-xs text-gray-500 group-hover:text-gray-400 transition-colors duration-200">
+                {provider.gameCount} games
+              </span>
+            )}
+          </button>
+        ))}
       </div>
     </section>
   );

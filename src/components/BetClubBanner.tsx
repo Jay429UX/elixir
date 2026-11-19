@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useTheme } from "@/context/ThemeContext";
 
 interface RewardCard {
   id: string;
@@ -44,7 +43,6 @@ const rewardCards: RewardCard[] = [
 ];
 
 export default function BetClubBanner() {
-  const { theme } = useTheme();
   const [timeLeft, setTimeLeft] = useState({ hours: 9, minutes: 24 });
 
   useEffect(() => {
@@ -66,9 +64,7 @@ export default function BetClubBanner() {
     <div
       className="relative mb-4 rounded-2xl overflow-hidden"
       style={{
-        border: theme === "green"
-          ? '1px solid rgba(110, 231, 183, 0.15)'
-          : '1px solid rgba(196, 181, 253, 0.15)',
+        border: '1px solid rgba(196, 181, 253, 0.15)',
       }}
     >
       {/* Background Gradient */}

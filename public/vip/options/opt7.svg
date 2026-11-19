@@ -1,0 +1,105 @@
+<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024">
+<defs>
+<linearGradient id="tile" x1="270" y1="260" x2="704" y2="882" gradientUnits="userSpaceOnUse">
+<stop stop-color="#fff34b" /><stop offset=".35" stop-color="#ffce00" /><stop offset=".72" stop-color="#dfa000" /><stop offset="1" stop-color="#ffd000" />
+</linearGradient>
+<linearGradient id="rim" x1="280" y1="290" x2="720" y2="830" gradientUnits="userSpaceOnUse">
+<stop stop-color="#fff66c" /><stop offset=".45" stop-color="#ffdc13" /><stop offset="1" stop-color="#c67c00" />
+</linearGradient>
+<linearGradient id="crown-gold" x1="460" y1="88" x2="541" y2="253" gradientUnits="userSpaceOnUse">
+<stop stop-color="#fff552" /><stop offset=".5" stop-color="#ffdd00" /><stop offset="1" stop-color="#efa500" />
+</linearGradient>
+<linearGradient id="ball" x1="0" y1="0" x2=".8" y2="1">
+<stop stop-color="#ffff6b" /><stop offset=".5" stop-color="#ffe300" /><stop offset="1" stop-color="#e99b00" />
+</linearGradient>
+<linearGradient id="leaf" x1="0" y1="0" x2=".7" y2="1">
+<stop stop-color="#fff685" /><stop offset="1" stop-color="#ffdc17" />
+</linearGradient>
+<linearGradient id="potion" x1="390" y1="405" x2="649" y2="659" gradientUnits="userSpaceOnUse">
+<stop stop-color="#a9ff00" /><stop offset="1" stop-color="#80ed00" />
+</linearGradient>
+<linearGradient id="purple" x1="241" y1="847" x2="380" y2="933" gradientUnits="userSpaceOnUse">
+<stop stop-color="#c813e0" /><stop offset="1" stop-color="#7811bc" />
+</linearGradient>
+<linearGradient id="gem" x1="482" y1="128" x2="534" y2="193" gradientUnits="userSpaceOnUse">
+<stop stop-color="#e97aff" /><stop offset=".5" stop-color="#b325ed" /><stop offset="1" stop-color="#7906b1" />
+</linearGradient>
+</defs>
+<g id="ribbons" stroke="#300747" stroke-width="23" stroke-linejoin="round">
+<path d="M273 746 205 957 303 923 361 1000 409 836Z" fill="url(#purple)" />
+<path d="m751 746 68 211-98-34-58 77-48-164Z" fill="url(#purple)" />
+</g>
+<g fill="#650c99">
+<path d="m271 780-8 26 112 111 8-26Z" />
+<path d="m753 780 8 26-112 111-8-26Z" />
+</g>
+<g id="gold-tile" stroke-linejoin="round">
+<path d="M547 112 932 513Q956 549 928 579L547 965Q512 1000 477 965L95 579Q64 549 95 516L477 112Q512 77 547 112Z" fill="url(#rim)" stroke="#300747" stroke-width="23" />
+<path d="m511 144 400 405-400 402L111 549Z" fill="url(#tile)" />
+<path d="M111 549 511 144 399 285Z" fill="#fff679" />
+<path d="m511 144 400 405 13-17L540 136Z" fill="#ffe93b" />
+<path d="M111 549 511 951l-22 18L100 575Z" fill="#da9000" />
+<path d="m396 277 115-113 125 114Q513 259 396 292Z" fill="#dca000" />
+<path d="m400 287-103 99 183-96Z" fill="#fff7a3" />
+</g>
+<g id="laurel" stroke="#cd9000" stroke-width="19" stroke-linejoin="round" stroke-linecap="round">
+<path d="M490 793C382 832 265 756 232 637 207 558 235 475 306 431M534 793C642 832 759 756 792 637 817 558 789 475 718 431" fill="none" />
+<g fill="url(#leaf)">
+<path d="M262 554Q222 478 310 423 339 519 262 554Z" />
+<path d="M265 619Q185 594 219 498 285 531 265 619Z" />
+<path d="M278 649Q238 583 306 524 337 603 278 649Z" />
+<path d="M307 695Q214 698 211 598 297 613 307 695Z" />
+<path d="M337 730Q266 691 310 604 368 654 337 730Z" />
+<path d="M393 755Q302 792 261 702 335 671 393 755Z" />
+<path d="M410 782Q340 755 348 666 410 704 410 782Z" />
+<path d="M491 786Q427 829 358 774 421 740 491 786Z" />
+<path d="M762 554Q802 478 714 423 685 519 762 554Z" />
+<path d="M759 619Q839 594 805 498 739 531 759 619Z" />
+<path d="M746 649Q786 583 718 524 687 603 746 649Z" />
+<path d="M717 695Q810 698 813 598 727 613 717 695Z" />
+<path d="M687 730Q758 691 714 604 656 654 687 730Z" />
+<path d="M631 755Q722 792 763 702 689 671 631 755Z" />
+<path d="M614 782Q684 755 676 666 614 704 614 782Z" />
+<path d="M533 786Q597 829 666 774 603 740 533 786Z" />
+</g>
+<path d="M511 749Q527 780 558 797 529 817 511 858 493 819 464 797 496 780 511 749Z" fill="#ffdf35" stroke-width="15" />
+</g>
+<path d="M511 753V797H470Q495 778 511 753Z" fill="#fff79a" />
+<g id="potion-droplet">
+<path d="M511 303C468 380 406 443 374 513 319 632 402 727 510 726 622 727 705 633 641 511 608 447 552 379 511 303Z" fill="url(#potion)" stroke="#32064d" stroke-width="22" stroke-linejoin="round" />
+<path d="M511 324C543 426 608 470 599 534 591 593 543 625 487 632 431 640 410 654 453 680 526 725 623 679 635 597 646 509 555 414 511 324Z" fill="#42bd00" />
+<path d="M511 324C487 388 437 451 400 517 419 464 486 372 511 324Z" fill="#c8ff75" />
+<path d="M488 421C465 415 429 464 413 499 400 527 424 543 445 525 466 507 487 470 497 448 504 433 498 423 488 421Z" fill="#f6ffdf" />
+<circle cx="415" cy="568" r="15" fill="#f6ffdf" />
+</g>
+<g id="crown" stroke-linejoin="round">
+<path d="m356 115 78 43 77-101 77 101 78-43-38 129q-1 31-29 25-88-18-177 0-27 7-35-22Z" fill="url(#crown-gold)" stroke="#300747" stroke-width="24" />
+<path d="m373 135 65 40 73-91 74 92 63-35-59 19-78-102-77 101Z" fill="#fff773" />
+<path d="m368 143 22 84 21-4Z" fill="#e9a100" />
+<path d="m647 146-32 75 17 6Z" fill="#df9100" />
+<path d="M395 226Q512 197 628 225L623 248Q513 229 400 251Z" fill="#b57500" />
+<path d="M404 246Q510 220 618 246" fill="none" stroke="#ffda09" stroke-width="29" stroke-linecap="round" />
+<path d="M404 237Q509 214 620 238" fill="none" stroke="#fff05c" stroke-width="12" stroke-linecap="round" />
+<path d="m511 110 41 53-41 48-41-48Z" fill="url(#gem)" stroke="#690b91" stroke-width="7" />
+<path d="m511 117-17 44-20 1Z" fill="#eda1ff" />
+<path d="m511 117 34 45h-17Z" fill="#a423d4" />
+<path d="m494 161 17 23 17-22-17-25Z" fill="#d85aff" />
+<path d="m475 165 36 40v-21l-17-23Z" fill="#950ace" />
+<path d="m511 184 36-21-36 42Z" fill="#6d06a3" />
+<g fill="url(#ball)" stroke="#300747" stroke-width="19">
+<circle cx="358" cy="117" r="36" />
+<circle cx="664" cy="117" r="36" />
+<circle cx="511" cy="47" r="36" />
+</g>
+<g fill="url(#ball)">
+<circle cx="358" cy="117" r="27" />
+<circle cx="664" cy="117" r="27" />
+<circle cx="511" cy="47" r="27" />
+</g>
+<g fill="#fffca6">
+<ellipse cx="350" cy="104" rx="10" ry="9" transform="rotate(-35 350 104)" />
+<ellipse cx="658" cy="104" rx="10" ry="9" transform="rotate(-35 658 104)" />
+<ellipse cx="504" cy="35" rx="10" ry="9" transform="rotate(-35 504 35)" />
+</g>
+</g>
+</svg>

@@ -1,29 +1,30 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import VipBadge from "@/components/ui/VipBadge";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useTab } from "@/context/TabContext";
-import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import DepositModal from "./DepositModal";
 import WithdrawModal from "./WithdrawModal";
 import LevelUpBonusModal from "./LevelUpBonusModal";
+import MobileNavigation from "./MobileNavigation";
 import {
-  CaretDown,
-  Bell,
-  Lock,
-  ChartBar,
-  Plus,
-  ArrowUp,
-  CaretRight,
-  User,
-  Gear,
-  ShieldCheck,
-  Receipt,
-  Headset,
-  SignOut,
-  UserCircle,
-} from "@phosphor-icons/react";
+  BiChevronDown as CaretDown,
+  BiSolidBell as Bell,
+  BiSolidLockAlt as Lock,
+  BiSolidBarChartAlt2 as ChartBar,
+  BiPlus as Plus,
+  BiUpArrowAlt as ArrowUp,
+  BiChevronRight as CaretRight,
+  BiSolidUser as User,
+  BiSolidCog as Gear,
+  BiSolidShieldAlt2 as ShieldCheck,
+  BiSolidReceipt as Receipt,
+  BiSupport as Headset,
+  BiLogOut as SignOut,
+  BiSolidUserCircle as UserCircle,
+} from "react-icons/bi";
 
 interface CryptoAsset {
   symbol: string;
@@ -63,21 +64,20 @@ const fiatCurrencies: FiatCurrency[] = [
 ];
 
 const initialCryptoAssets: CryptoAsset[] = [
-  { symbol: "USDC", name: "USD Coin", icon: "/usdc.png", balance: "1,250.00", usdValue: 1250.00 },
+  { symbol: "USDC", name: "USD Coin", icon: "/crypto/usdc.svg", balance: "1,250.00", usdValue: 1250.00 },
   { symbol: "SOL", name: "Solana", icon: "/crypto/sol.svg", balance: "12.45", usdValue: 2365.50 },
   { symbol: "ETH", name: "Ethereum", icon: "/crypto/eth.svg", balance: "0.85", usdValue: 2805.00 },
   { symbol: "BTC", name: "Bitcoin", icon: "/crypto/btc.svg", balance: "0.0234", usdValue: 2340.00 },
   { symbol: "USDT", name: "Tether", icon: "/crypto/usdt.svg", balance: "500.00", usdValue: 500.00 },
-  { symbol: "LTC", name: "Litecoin", icon: "data:image/svg+xml,%3Csvg viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23345D9D'/%3E%3Cpath d='M10.5 22.5L12 17L10 17.5L10.5 15.5L12.5 15L14.5 7.5H18L16 14.5L18 14L17.5 16L15.5 16.5L14 22.5H10.5Z' fill='white'/%3E%3C/svg%3E", balance: "0.00", usdValue: 0 },
-  { symbol: "DOGE", name: "Dogecoin", icon: "data:image/svg+xml,%3Csvg viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23C2A633'/%3E%3Cpath d='M13 10H17.5C20.5 10 23 12.5 23 16C23 19.5 20.5 22 17.5 22H13V10ZM15 12V20H17.5C19.5 20 21 18.5 21 16C21 13.5 19.5 12 17.5 12H15Z' fill='white'/%3E%3Cpath d='M11 15H19V17H11V15Z' fill='white'/%3E%3C/svg%3E", balance: "0.00", usdValue: 0 },
-  { symbol: "XRP", name: "Ripple", icon: "data:image/svg+xml,%3Csvg viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='16' cy='16' r='16' fill='%2323292F'/%3E%3Cpath d='M22.5 9H25L20 14.5C18 16.5 14 16.5 12 14.5L7 9H9.5L13.5 13C15 14.5 17 14.5 18.5 13L22.5 9Z' fill='white'/%3E%3Cpath d='M9.5 23H7L12 17.5C14 15.5 18 15.5 20 17.5L25 23H22.5L18.5 19C17 17.5 15 17.5 13.5 19L9.5 23Z' fill='white'/%3E%3C/svg%3E", balance: "0.00", usdValue: 0 },
-  { symbol: "BNB", name: "BNB", icon: "data:image/svg+xml,%3Csvg viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23F3BA2F'/%3E%3Cpath d='M16 8L12.5 11.5L14.5 13.5L16 12L17.5 13.5L19.5 11.5L16 8Z' fill='white'/%3E%3Cpath d='M10 14L8 16L10 18L12 16L10 14Z' fill='white'/%3E%3Cpath d='M16 14L12.5 17.5L14.5 19.5L16 18L17.5 19.5L19.5 17.5L16 14Z' fill='white'/%3E%3Cpath d='M22 14L20 16L22 18L24 16L22 14Z' fill='white'/%3E%3Cpath d='M16 20L14.5 21.5L16 23L17.5 21.5L16 20Z' fill='white'/%3E%3C/svg%3E", balance: "0.00", usdValue: 0 },
-  { symbol: "MATIC", name: "Polygon", icon: "data:image/svg+xml,%3Csvg viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='16' cy='16' r='16' fill='%238247E5'/%3E%3Cpath d='M20.5 13.5L16.5 11L12.5 13.5V18.5L16.5 21L20.5 18.5V13.5Z' fill='none' stroke='white' stroke-width='1.5'/%3E%3Cpath d='M16.5 11V16L20.5 13.5' fill='none' stroke='white' stroke-width='1.5'/%3E%3Cpath d='M16.5 16L12.5 13.5' fill='none' stroke='white' stroke-width='1.5'/%3E%3Cpath d='M16.5 16V21' fill='none' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E", balance: "0.00", usdValue: 0 },
+  { symbol: "LTC", name: "Litecoin", icon: "/crypto/ltc.svg", balance: "0.00", usdValue: 0 },
+  { symbol: "DOGE", name: "Dogecoin", icon: "/crypto/doge.svg", balance: "0.00", usdValue: 0 },
+  { symbol: "XRP", name: "Ripple", icon: "/crypto/xrp.svg", balance: "0.00", usdValue: 0 },
+  { symbol: "BNB", name: "BNB", icon: "/crypto/bnb.svg", balance: "0.00", usdValue: 0 },
+  { symbol: "MATIC", name: "Polygon", icon: "/crypto/matic.svg", balance: "0.00", usdValue: 0 },
 ];
 
 export default function Header() {
   const { isSidebarCollapsed } = useTab();
-  const { theme } = useTheme();
   const [isVIPDropdownOpen, setIsVIPDropdownOpen] = useState(false);
   const [isWalletDropdownOpen, setIsWalletDropdownOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -130,7 +130,7 @@ export default function Header() {
       id: 3,
       type: 'vip',
       title: 'VIP Level Up!',
-      message: 'Congratulations! You reached Diamond I',
+      message: 'Congratulations! You reached Sapphire I',
       time: '3 hours ago',
       read: false,
       icon: '💎',
@@ -261,49 +261,39 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 h-14 lg:h-16">
+    <header className="site-header fixed top-0 left-0 right-0 z-40 h-16">
       <div className="flex items-center justify-between h-full px-2 lg:px-4">
+        <MobileNavigation />
         {/* Center Navigation Container - fixed position relative to viewport center adjusted for sidebar */}
         <div
-          className="fixed top-0 w-auto transition-all duration-200"
+          className="account-bar fixed top-0 w-auto"
           style={{
             left: isSidebarCollapsed ? 'calc(44px + (100vw - 44px) / 2)' : 'calc(136px + (100vw - 136px) / 2)',
             transform: 'translateX(-50%)'
           }}
         >
-          <div className="relative flex items-end justify-center" style={{ gap: 0, filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15))' }}>
-            {/* Left curved section - hidden on mobile */}
-            <svg
-              className="hidden lg:block h-[52px] w-auto text-dicey-card-elevated"
-              viewBox="0 0 76 102"
-              fill="currentColor"
-              style={{ marginRight: '-1px' }}
-            >
-              <path d="M75.8535 102H71.8535C49.2098 102 30.8535 83.6437 30.8535 61V42C30.8535 22.2789 17.8785 5.59042 0 0H75.8535V102Z" />
-            </svg>
-
-            {/* Center content */}
+          <div className="relative flex items-end justify-center lg:[filter:drop-shadow(0_2px_8px_rgba(0,0,0,0.15))]" style={{ gap: 0 }}>
+            {/* Concentric container: pills are 44px tall (radius 22) and 8px from every edge, so the bottom corner
+                radius is 22 + 8 = 30 and shares a centre with the end pills. Shoulders use the same 30px, no SVG. */}
             <div
-              className="relative flex items-center gap-2 lg:gap-4 h-14 lg:h-[52px] bg-dicey-card-elevated px-2 lg:px-4 w-full lg:w-auto justify-center"
-              style={{ margin: '0 -1px' }}
+              className="relative flex items-center gap-2 h-14 lg:h-[60px] bg-dicey-card-elevated px-2 lg:p-2 w-full lg:w-auto justify-center lg:rounded-b-[30px]"
             >
+              <span aria-hidden="true" className="absolute left-[-30px] top-0 hidden h-[30px] w-[31px] lg:block" style={{ background: 'radial-gradient(circle at 0 100%, transparent 30px, var(--dicey-card-elevated) 30.5px)' }} />
+              <span aria-hidden="true" className="absolute right-[-30px] top-0 hidden h-[30px] w-[31px] lg:block" style={{ background: 'radial-gradient(circle at 100% 100%, transparent 30px, var(--dicey-card-elevated) 30.5px)' }} />
               {/* Bottom border glow - centered, fades at edges */}
               <div
-                className="absolute bottom-0 left-4 right-4 h-px"
+                className="absolute bottom-0 left-8 right-8 h-px"
                 style={{
-                  background: theme === "green"
-                    ? 'linear-gradient(to right, transparent, rgba(110, 231, 183, 0.4), transparent)'
-                    : 'linear-gradient(to right, transparent, rgba(196, 181, 253, 0.4), transparent)',
-                  boxShadow: theme === "green"
-                    ? '0 0 8px rgba(110, 231, 183, 0.3)'
-                    : '0 0 8px rgba(196, 181, 253, 0.3)',
+                  background: 'linear-gradient(to right, transparent, rgba(196, 181, 253, 0.4), transparent)',
+                  boxShadow: '0 0 8px rgba(196, 181, 253, 0.3)',
                 }}
               />
               {/* VIP Progress with Dropdown */}
               <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={() => setIsVIPDropdownOpen(!isVIPDropdownOpen)}
-                  className="relative flex items-center gap-2 px-3 py-1.5 bg-dicey-border-light hover:bg-dicey-border-light/80 rounded-full transition-colors cursor-pointer"
+                  aria-expanded={isVIPDropdownOpen}
+                  className="vip-trigger relative flex items-center gap-2 px-3 py-1.5 lg:h-11 lg:px-4 bg-dicey-border-light hover:bg-dicey-border-light/80 rounded-full transition-colors cursor-pointer"
                 >
                   {/* Rewards notification badge */}
                   {claimableCount > 0 && (
@@ -311,11 +301,15 @@ export default function Header() {
                       {claimableCount}
                     </span>
                   )}
-                  <img
-                    src="/vip/Icon 1 (diamant)-_4mW1oBJ.png"
-                    alt="VIP Diamond"
-                    className="w-5 h-5 object-contain"
-                  />
+                  <div className="w-6 h-6">
+                    <VipBadge
+                      src="/vip/elixir/tier5.svg"
+                      alt="VIP Sapphire"
+                      level={1}
+                      sheen
+                      className="w-6 h-6 object-contain"
+                    />
+                  </div>
                   {/* Progress bar with sparks - hidden on small mobile */}
                   <div className="relative w-12 lg:w-16 h-1.5 hidden sm:block">
                     <div className="w-full h-full bg-dicey-dark rounded-full overflow-hidden">
@@ -333,32 +327,36 @@ export default function Header() {
                     </div>
                   </div>
                   <CaretDown
-                    weight="fill"
                     className={cn("size-3 text-gray-400 transition-transform duration-200", isVIPDropdownOpen && "rotate-180")}
                   />
                 </button>
 
                 {/* VIP Dropdown */}
                 {isVIPDropdownOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-80 bg-dicey-card-elevated rounded-xl z-50 overflow-hidden" style={{ boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.3)' }}>
+                  <div className="account-popover absolute top-full left-1/2 -translate-x-1/2 mt-2 w-80 bg-dicey-card-elevated rounded-xl z-50 overflow-hidden" style={{ boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.3)' }}>
                     {/* Current Rank Section */}
-                    <div className="p-4">
+                    <div className="relative p-4 overflow-hidden">
                       <div className="flex items-center gap-3 mb-3">
-                        <img
-                          src="/vip/Icon 1 (diamant)-_4mW1oBJ.png"
-                          alt="VIP Diamond"
-                          className="w-10 h-10 object-contain"
-                        />
+                        <div className="w-14 h-14">
+                          <VipBadge
+                            src="/vip/elixir/tier5.svg"
+                            alt="VIP Sapphire"
+                            level={1}
+                      sheen
+                            className="w-14 h-14 object-contain"
+                          />
+                        </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
-                            <span className="text-sm font-semibold text-white">Diamond I</span>
+                            <span className="text-sm font-semibold text-white">Sapphire I</span>
                             <span className="text-xs text-gray-500">→</span>
-                            <img
-                              src="/vip/Icon 2 (diamant)-BcCwr7BA.png"
+                            <VipBadge
+                              src="/vip/elixir/tier5.svg"
                               alt="Next Rank"
-                              className="w-4 h-4 object-contain"
+                              level={2}
+                              className="w-6 h-6 object-contain"
                             />
-                            <span className="text-xs text-gray-400">Diamond II</span>
+                            <span className="text-xs text-gray-400">Sapphire II</span>
                           </div>
                           <span className="text-xs text-gray-500">2,550 XP needed to rank up</span>
                         </div>
@@ -415,13 +413,13 @@ export default function Header() {
                           >
                             {dailyBonusAmount > 0 ? (
                               <>
-                                <span className="absolute -inset-0.5 rounded-lg transition-all duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-sm" />
-                                <span className="absolute -top-1 left-1 size-1 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.2s_ease-out_infinite]" />
-                                <span className="absolute -top-0.5 right-2 size-1 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.2s]" />
+                                <span className="absolute -inset-0.5 rounded-lg transition-[transform,opacity,background-color,box-shadow] duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-sm" />
+                                <span className="button-bubble absolute -top-1 left-1 size-2 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.8s_ease-out_infinite]" />
+                                <span className="button-bubble absolute -top-0.5 right-2 size-2 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1.6s_ease-out_infinite_0.2s]" />
                                 <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[4px] rounded-[10px] bg-black/20" />
                                 <span className="absolute inset-0 translate-y-0.5 bg-[#1a5c0a] rounded-lg" />
                                 <span
-                                  className="relative block px-3 py-1.5 text-xs text-black font-semibold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
+                                  className="relative block px-3 py-1.5 text-xs text-black font-semibold rounded-lg transition-[transform,opacity,background-color,box-shadow] duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
                                   style={{
                                     background: 'radial-gradient(ellipse at 50% 0%, #39ff14 0%, #32cd32 40%, #228b22 100%)',
                                     boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(0,0,0,0.2)',
@@ -461,12 +459,12 @@ export default function Header() {
                           </div>
                         </div>
                         {levelUpBonusAmount > 0 ? (
-                          <span className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#39ff14]/20 text-[#39ff14]">
+                          <span className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-white/20 bg-white/10 text-white transition-colors group-hover:bg-white/15">
                             View
                           </span>
                         ) : (
                           <span className="p-1.5 rounded-lg bg-dicey-border text-gray-400">
-                            <Lock weight="fill" className="size-4" />
+                            <Lock className="size-4" />
                           </span>
                         )}
                       </button>
@@ -504,13 +502,13 @@ export default function Header() {
                           >
                             {rakebackAmount > 0 ? (
                               <>
-                                <span className="absolute -inset-0.5 rounded-lg transition-all duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-sm" />
-                                <span className="absolute -top-1 left-1 size-1 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.2s_ease-out_infinite]" />
-                                <span className="absolute -top-0.5 right-2 size-1 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.2s]" />
+                                <span className="absolute -inset-0.5 rounded-lg transition-[transform,opacity,background-color,box-shadow] duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-sm" />
+                                <span className="button-bubble absolute -top-1 left-1 size-2 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.8s_ease-out_infinite]" />
+                                <span className="button-bubble absolute -top-0.5 right-2 size-2 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1.6s_ease-out_infinite_0.2s]" />
                                 <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[4px] rounded-[10px] bg-black/20" />
                                 <span className="absolute inset-0 translate-y-0.5 bg-[#1a5c0a] rounded-lg" />
                                 <span
-                                  className="relative block px-3 py-1.5 text-xs text-black font-semibold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
+                                  className="relative block px-3 py-1.5 text-xs text-black font-semibold rounded-lg transition-[transform,opacity,background-color,box-shadow] duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
                                   style={{
                                     background: 'radial-gradient(ellipse at 50% 0%, #39ff14 0%, #32cd32 40%, #228b22 100%)',
                                     boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(0,0,0,0.2)',
@@ -531,7 +529,7 @@ export default function Header() {
                     {/* VIP Dashboard Button */}
                     <div className="p-3">
                       <button className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-white text-black rounded-lg text-sm font-semibold hover:bg-gray-200 transition-colors">
-                        <ChartBar weight="fill" className="w-4 h-4" />
+                        <ChartBar className="w-4 h-4" />
                         VIP Dashboard
                       </button>
                     </div>
@@ -539,35 +537,21 @@ export default function Header() {
                 )}
               </div>
 
-              {/* Divider - hidden on mobile */}
-              <div
-                className="hidden sm:block w-px h-6 rounded-full"
-                style={{
-                  background: theme === "green"
-                    ? 'linear-gradient(to bottom, transparent, rgba(110, 231, 183, 0.5), transparent)'
-                    : 'linear-gradient(to bottom, transparent, rgba(196, 181, 253, 0.5), transparent)',
-                  boxShadow: theme === "green"
-                    ? '0 0 8px rgba(110, 231, 183, 0.3)'
-                    : '0 0 8px rgba(196, 181, 253, 0.3)',
-                }}
-              />
-
               {/* Wallet Balance */}
               <div className="relative" ref={walletDropdownRef}>
                 <button
                   onClick={() => setIsWalletDropdownOpen(!isWalletDropdownOpen)}
-                  className="flex items-center gap-2 px-3 py-1.5 bg-dicey-border-light hover:bg-dicey-border-light/80 rounded-full transition-colors cursor-pointer"
+                  className="flex h-10 items-center gap-1.5 px-2.5 sm:gap-2 sm:px-3 lg:h-11 lg:px-4 bg-dicey-border-light hover:bg-dicey-border-light/80 rounded-full transition-colors cursor-pointer"
                 >
-                  <img src={selectedCrypto.icon} alt={selectedCrypto.symbol} className="size-5" />
-                  <span className="font-black tabular-nums gold-shimmer">
+                  <img src={selectedCrypto.icon} alt={selectedCrypto.symbol} className="size-5 shrink-0" />
+                  <span className="max-w-[92px] truncate font-black tabular-nums gold-shimmer sm:max-w-none lg:text-lg">
                     {showInFiat
                       ? `${selectedFiat.symbol}${(selectedCrypto.usdValue * selectedFiat.rate).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
                       : selectedCrypto.balance
                     }
                   </span>
                   <CaretDown
-                    weight="fill"
-                    className={cn("size-3 text-gray-400 transition-transform duration-200", isWalletDropdownOpen && "rotate-180")}
+                    className={cn("size-3 shrink-0 text-gray-400 transition-transform duration-200", isWalletDropdownOpen && "rotate-180")}
                   />
                 </button>
                 {coinAnimations.map((id) => (
@@ -582,7 +566,7 @@ export default function Header() {
 
                 {/* Wallet Dropdown */}
                 {isWalletDropdownOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-80 bg-dicey-card-elevated rounded-xl z-50 overflow-hidden" style={{ boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.3)' }}>
+                  <div className="account-popover absolute top-full left-1/2 -translate-x-1/2 mt-2 w-80 bg-dicey-card-elevated rounded-xl z-50 overflow-hidden" style={{ boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.3)' }}>
                     {/* Deposit & Withdraw Buttons */}
                     <div className="p-3 flex gap-2">
                       {/* 3D Primary Deposit Button - Nuclear Green */}
@@ -594,26 +578,26 @@ export default function Header() {
                         className="relative flex-1 group/btn"
                       >
                         {/* Soft uniform glow on hover */}
-                        <span className="absolute -inset-1 rounded-lg transition-all duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-md" />
+                        <span className="absolute -inset-1 rounded-lg transition-[transform,opacity,background-color,box-shadow] duration-200 opacity-0 group-hover/btn:opacity-100 bg-[#39ff14]/20 blur-md" />
                         {/* Bubble particles on hover */}
-                        <span className="absolute -top-1 left-2 size-1.5 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.2s_ease-out_infinite]" />
-                        <span className="absolute -top-0.5 left-6 size-1 rounded-full bg-[#39ff14]/50 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_1.4s_ease-out_infinite_0.2s]" />
-                        <span className="absolute -top-1 right-4 size-1.5 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1s_ease-out_infinite_0.4s]" />
-                        <span className="absolute top-0 left-1/2 size-1 rounded-full bg-[#39ff14]/55 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.1s_ease-out_infinite_0.3s]" />
+                        <span className="button-bubble absolute -top-1 left-2 size-3 rounded-full bg-[#39ff14]/60 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.8s_ease-out_infinite]" />
+                        <span className="button-bubble absolute -top-0.5 left-6 size-2 rounded-full bg-[#39ff14]/50 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-2_2.0s_ease-out_infinite_0.2s]" />
+                        <span className="button-bubble absolute -top-1 right-4 size-3 rounded-full bg-[#39ff14]/70 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-3_1.6s_ease-out_infinite_0.4s]" />
+                        <span className="button-bubble absolute top-0 left-1/2 size-2 rounded-full bg-[#39ff14]/55 opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-[bubble-1_1.7s_ease-out_infinite_0.3s]" />
                         {/* Dark inset ring - extends bottom to cover 3D depth */}
                         <span className="absolute -top-[1px] -left-[2px] -right-[2px] -bottom-[4px] rounded-[10px] bg-black/20" />
                         {/* Middle layer - darker for depth */}
                         <span className="absolute inset-0 translate-y-0.5 bg-[#1a5c0a] rounded-lg" />
                         {/* Top layer with radial gradient */}
                         <span
-                          className="relative flex items-center justify-center gap-2 px-4 py-2.5 text-black text-sm font-semibold rounded-lg transition-all duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
+                          className="relative flex items-center justify-center gap-2 px-4 py-2.5 text-black text-sm font-semibold rounded-lg transition-[transform,opacity,background-color,box-shadow] duration-200 group-hover/btn:translate-y-0.5 overflow-hidden"
                           style={{
                             background: 'radial-gradient(ellipse at 50% 0%, #39ff14 0%, #32cd32 40%, #228b22 100%)',
                             boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(0,0,0,0.2)',
                           }}
                         >
                           <span className="cta-shimmer" />
-                          <Plus weight="bold" className="size-4 relative" />
+                          <Plus className="size-4 relative" />
                           <span className="relative" style={{ textShadow: '0 1px 0 rgba(255,255,255,0.3), 0 -1px 0 rgba(0,0,0,0.15)' }}>Deposit</span>
                         </span>
                       </button>
@@ -624,7 +608,7 @@ export default function Header() {
                         }}
                         className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-dicey-border text-white rounded-lg text-sm font-semibold hover:bg-dicey-border/80 transition-colors duration-200"
                       >
-                        <ArrowUp weight="bold" className="size-4" />
+                        <ArrowUp className="size-4" />
                         Withdraw
                       </button>
                     </div>
@@ -718,10 +702,10 @@ export default function Header() {
                                   className="flex items-center gap-1 px-2 py-0.5 bg-dicey-border/50 hover:bg-dicey-border rounded text-xs text-white transition-colors"
                                 >
                                   {selectedFiat.code}
-                                  <CaretDown weight="fill" className={cn("size-2.5 text-gray-400 transition-transform", isFiatSelectorOpen && "rotate-180")} />
+                                  <CaretDown className={cn("size-2.5 text-gray-400 transition-transform", isFiatSelectorOpen && "rotate-180")} />
                                 </button>
                                 {isFiatSelectorOpen && (
-                                  <div className="absolute top-full left-0 mt-1 bg-dicey-dark rounded-lg overflow-hidden z-10 min-w-[80px] max-h-48 overflow-y-auto">
+                                  <div className="absolute left-0 bottom-full z-20 mb-1 min-w-[92px] max-h-48 overflow-y-auto overscroll-contain rounded-lg border border-white/10 bg-dicey-dark shadow-xl">
                                     {fiatCurrencies.map((fiat) => (
                                       <button
                                         key={fiat.code}
@@ -792,27 +776,14 @@ export default function Header() {
                 )}
               </div>
 
-              {/* Divider - hidden on mobile */}
-              <div
-                className="hidden sm:block w-px h-6 rounded-full"
-                style={{
-                  background: theme === "green"
-                    ? 'linear-gradient(to bottom, transparent, rgba(110, 231, 183, 0.5), transparent)'
-                    : 'linear-gradient(to bottom, transparent, rgba(196, 181, 253, 0.5), transparent)',
-                  boxShadow: theme === "green"
-                    ? '0 0 8px rgba(110, 231, 183, 0.3)'
-                    : '0 0 8px rgba(196, 181, 253, 0.3)',
-                }}
-              />
-
               {/* Notifications */}
               <div className="relative" ref={notificationsRef}>
                 <button
                   onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
                   aria-label="Notifications"
-                  className="relative p-1.5 bg-dicey-border-light hover:bg-dicey-border-light/80 rounded-full transition-colors duration-200"
+                  className="relative grid size-10 place-items-center lg:size-11 bg-dicey-border-light hover:bg-dicey-border-light/80 rounded-full transition-colors duration-200"
                 >
-                  <Bell weight="fill" className="size-5 text-gray-400" />
+                  <Bell className="size-5 text-gray-400" />
                   {unreadCount > 0 && (
                     <span className="absolute -top-0.5 -right-0.5 flex items-center justify-center size-4 bg-red-500 text-white text-[10px] font-bold rounded-full">
                       {unreadCount}
@@ -822,13 +793,13 @@ export default function Header() {
 
                 {/* Notifications Dropdown */}
                 {isNotificationsOpen && (
-                  <div className="absolute top-full right-0 mt-2 w-80 bg-dicey-card-elevated rounded-xl z-50 overflow-hidden" style={{ boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.3)' }}>
+                  <div className="account-popover absolute top-full right-0 mt-2 w-80 bg-dicey-card-elevated rounded-xl z-50 overflow-hidden" style={{ boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.3)' }}>
                     {/* Header */}
-                    <div className="flex items-center justify-between p-4">
-                      <div className="flex items-center gap-2">
+                    <div className="flex items-center justify-between gap-2 px-4 py-3.5 sm:px-5 sm:py-4">
+                      <div className="flex min-w-0 items-center gap-2">
                         <h3 className="text-sm font-semibold text-white">Notifications</h3>
                         {unreadCount > 0 && (
-                          <span className="px-1.5 py-0.5 bg-red-500/20 text-red-400 text-xs font-medium rounded-full">
+                          <span className="shrink-0 whitespace-nowrap rounded-full bg-red-500/20 px-1.5 py-0.5 text-xs font-medium text-white">
                             {unreadCount} new
                           </span>
                         )}
@@ -836,7 +807,7 @@ export default function Header() {
                       {unreadCount > 0 && (
                         <button
                           onClick={markAllAsRead}
-                          className="text-xs text-gray-400 hover:text-white transition-colors"
+                          className="shrink-0 whitespace-nowrap text-xs text-gray-400 hover:text-white transition-colors"
                         >
                           Mark all read
                         </button>
@@ -844,7 +815,7 @@ export default function Header() {
                     </div>
 
                     {/* Notifications List */}
-                    <div className="max-h-80 overflow-y-auto">
+                    <div className="max-h-80 space-y-1 overflow-y-auto px-2 pb-2">
                       {notifications.length === 0 ? (
                         <div className="p-8 text-center">
                           <span className="text-3xl mb-2 block">🔔</span>
@@ -856,7 +827,7 @@ export default function Header() {
                             key={notification.id}
                             onClick={() => markAsRead(notification.id)}
                             className={cn(
-                              "w-full flex items-start gap-3 p-3 hover:bg-dicey-border/50 transition-colors text-left",
+                              "w-full flex items-start gap-3 rounded-xl p-3 hover:bg-dicey-border/50 transition-colors text-left",
                               !notification.read && "bg-dicey-border/30"
                             )}
                           >
@@ -868,7 +839,7 @@ export default function Header() {
                                 )}
                               </div>
                               <p className="text-xs text-gray-400 truncate">{notification.message}</p>
-                              <span className="text-[10px] text-gray-500">{notification.time}</span>
+                              <span className="text-[11px] text-gray-500">{notification.time}</span>
                             </div>
                           </button>
                         ))
@@ -876,45 +847,32 @@ export default function Header() {
                     </div>
 
                     {/* Footer */}
-                    <div className="p-3">
-                      <button className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-dicey-border/50 rounded-lg transition-colors">
+                    <div className="px-2 pb-2">
+                      <button className="w-full flex items-center justify-center gap-2 px-3 py-2.5 text-sm text-gray-400 hover:text-white hover:bg-dicey-border/50 rounded-lg transition-colors">
                         View All Notifications
-                        <CaretRight weight="bold" className="size-4" />
+                        <CaretRight className="size-4" />
                       </button>
                     </div>
                   </div>
                 )}
               </div>
 
-              {/* Divider - hidden on mobile */}
-              <div
-                className="hidden sm:block w-px h-6 rounded-full"
-                style={{
-                  background: theme === "green"
-                    ? 'linear-gradient(to bottom, transparent, rgba(110, 231, 183, 0.5), transparent)'
-                    : 'linear-gradient(to bottom, transparent, rgba(196, 181, 253, 0.5), transparent)',
-                  boxShadow: theme === "green"
-                    ? '0 0 8px rgba(110, 231, 183, 0.3)'
-                    : '0 0 8px rgba(196, 181, 253, 0.3)',
-                }}
-              />
-
               {/* User Profile */}
               <div className="relative" ref={userDropdownRef}>
                 <button
                   onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
                   aria-label="User menu"
-                  className="flex items-center gap-2 px-2 py-1.5 bg-dicey-border-light hover:bg-dicey-border-light/80 rounded-full transition-colors duration-200"
+                  className="flex h-10 items-center gap-1.5 px-2 lg:h-11 lg:gap-2 lg:px-2.5 bg-dicey-border-light hover:bg-dicey-border-light/80 rounded-full transition-colors duration-200"
                 >
                   <div className="size-6 bg-white rounded-full flex items-center justify-center">
                     <span className="text-xs font-medium text-black">JD</span>
                   </div>
-                  <CaretDown weight="fill" className={cn("size-3 text-gray-400 transition-transform duration-200", isUserDropdownOpen && "rotate-180")} />
+                  <CaretDown className={cn("size-3 text-gray-400 transition-transform duration-200", isUserDropdownOpen && "rotate-180")} />
                 </button>
 
                 {/* User Dropdown */}
                 {isUserDropdownOpen && (
-                  <div className="absolute top-full right-0 mt-2 w-56 bg-dicey-card-elevated rounded-xl z-50 overflow-hidden" style={{ boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.3)' }}>
+                  <div className="account-popover absolute top-full right-0 mt-2 w-56 bg-dicey-card-elevated rounded-xl z-50 overflow-hidden" style={{ boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.3)' }}>
                     {/* User Info Header */}
                     <div className="p-4">
                       <div className="flex items-center gap-3">
@@ -931,27 +889,27 @@ export default function Header() {
                     {/* Menu Items */}
                     <div className="p-2">
                       <button className="w-full flex items-center gap-3 px-3 py-2.5 text-gray-300 hover:text-white hover:bg-dicey-border/50 rounded-lg transition-colors">
-                        <UserCircle weight="fill" className="size-5 text-gray-500" />
+                        <UserCircle className="size-5 text-gray-500" />
                         <span className="text-sm">Profile</span>
                       </button>
                       <button className="w-full flex items-center gap-3 px-3 py-2.5 text-gray-300 hover:text-white hover:bg-dicey-border/50 rounded-lg transition-colors">
-                        <User weight="fill" className="size-5 text-gray-500" />
+                        <User className="size-5 text-gray-500" />
                         <span className="text-sm">Account Details</span>
                       </button>
                       <button className="w-full flex items-center gap-3 px-3 py-2.5 text-gray-300 hover:text-white hover:bg-dicey-border/50 rounded-lg transition-colors">
-                        <Gear weight="fill" className="size-5 text-gray-500" />
+                        <Gear className="size-5 text-gray-500" />
                         <span className="text-sm">Preferences</span>
                       </button>
                       <button className="w-full flex items-center gap-3 px-3 py-2.5 text-gray-300 hover:text-white hover:bg-dicey-border/50 rounded-lg transition-colors">
-                        <ShieldCheck weight="fill" className="size-5 text-gray-500" />
+                        <ShieldCheck className="size-5 text-gray-500" />
                         <span className="text-sm">Verification</span>
                       </button>
                       <button className="w-full flex items-center gap-3 px-3 py-2.5 text-gray-300 hover:text-white hover:bg-dicey-border/50 rounded-lg transition-colors">
-                        <Receipt weight="fill" className="size-5 text-gray-500" />
+                        <Receipt className="size-5 text-gray-500" />
                         <span className="text-sm">Transactions</span>
                       </button>
                       <button className="w-full flex items-center gap-3 px-3 py-2.5 text-gray-300 hover:text-white hover:bg-dicey-border/50 rounded-lg transition-colors">
-                        <Headset weight="fill" className="size-5 text-gray-500" />
+                        <Headset className="size-5 text-gray-500" />
                         <span className="text-sm">Support</span>
                       </button>
                     </div>
@@ -959,7 +917,7 @@ export default function Header() {
                     {/* Logout */}
                     <div className="p-2">
                       <button className="w-full flex items-center gap-3 px-3 py-2.5 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors">
-                        <SignOut weight="fill" className="size-5" />
+                        <SignOut className="size-5" />
                         <span className="text-sm">Logout</span>
                       </button>
                     </div>
@@ -967,16 +925,6 @@ export default function Header() {
                 )}
               </div>
             </div>
-
-            {/* Right curved section (mirrored) - hidden on mobile */}
-            <svg
-              className="hidden lg:block h-[52px] w-auto text-dicey-card-elevated"
-              viewBox="0 0 76 102"
-              fill="currentColor"
-              style={{ transform: 'scaleX(-1)', marginLeft: '-1px' }}
-            >
-              <path d="M75.8535 102H71.8535C49.2098 102 30.8535 83.6437 30.8535 61V42C30.8535 22.2789 17.8785 5.59042 0 0H75.8535V102Z" />
-            </svg>
           </div>
         </div>
       </div>

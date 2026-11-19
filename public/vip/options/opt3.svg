@@ -1,0 +1,98 @@
+<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024">
+<defs>
+<linearGradient id="gold" x1="0" y1="0" x2=".8" y2="1" gradientUnits="objectBoundingBox"><stop stop-color="#fff66a" /><stop offset=".45" stop-color="#ffd000" /><stop offset="1" stop-color="#e68a00" /></linearGradient>
+<linearGradient id="face" x1="0" y1="0" x2=".25" y2="1"><stop stop-color="#e98e00" /><stop offset=".55" stop-color="#ffca00" /><stop offset="1" stop-color="#fff052" /></linearGradient>
+<linearGradient id="light" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffffc0" /><stop offset=".55" stop-color="#fff459" /><stop offset="1" stop-color="#ffc500" /></linearGradient>
+<linearGradient id="darkgold" x1="0" y1="0" x2="1" y2=".7"><stop stop-color="#b96b00" /><stop offset="1" stop-color="#ffbd00" /></linearGradient>
+<linearGradient id="glass" x1="0" y1="0" x2="1" y2=".7"><stop stop-color="#daff75" /><stop offset=".4" stop-color="#aaff00" /><stop offset="1" stop-color="#c7ff00" /></linearGradient>
+<radialGradient id="liquid"><stop stop-color="#4cce00" /><stop offset="1" stop-color="#24a000" /></radialGradient>
+<linearGradient id="neck" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#237a00" /><stop offset="1" stop-color="#61d500" /></linearGradient>
+<linearGradient id="ribbon" x1="0" y1="0" x2="1" y2=".7"><stop stop-color="#ce4df8" /><stop offset=".5" stop-color="#8e1cbd" /><stop offset="1" stop-color="#5f087c" /></linearGradient>
+<radialGradient id="bubble" cx=".3" cy=".25"><stop stop-color="#f9ffa5" /><stop offset=".35" stop-color="#dfff00" /><stop offset="1" stop-color="#a3f400" /></radialGradient>
+</defs>
+<g stroke="#350435" stroke-width="21" stroke-linejoin="round" stroke-linecap="round">
+<g id="laurels" fill="url(#gold)">
+<path d="M107 481C31 427 57 340 141 272C163 348 200 409 107 481Z" />
+<path d="M159 622C46 638-2 536 32 432C98 475 145 518 159 622Z" />
+<path d="M143 570C101 531 104 468 175 424L181 532Z" />
+<path d="M226 716C126 792 60 718 39 623C129 621 194 658 226 716Z" />
+<path d="M280 748C206 719 208 668 210 625C277 656 322 696 313 748Z" />
+<path d="M315 798C248 842 188 840 117 772C190 716 248 710 315 758Z" />
+<path d="M916 481C992 427 966 340 882 272C860 348 823 409 916 481Z" />
+<path d="M864 622C977 638 1025 536 991 432C925 475 878 518 864 622Z" />
+<path d="M880 570C922 531 919 468 848 424L842 532Z" />
+<path d="M797 716C897 792 963 718 984 623C894 621 829 658 797 716Z" />
+<path d="M743 748C817 719 815 668 813 625C746 656 701 696 710 748Z" />
+<path d="M708 798C775 842 835 840 906 772C833 716 775 710 708 758Z" />
+</g>
+</g>
+<g fill="url(#light)">
+<path d="M140 284C91 329 49 402 102 473C111 395 117 350 140 284Z" />
+<path d="M32 445C27 517 76 578 137 599C79 537 53 488 32 445Z" />
+<path d="M51 634C90 671 154 699 210 708C170 660 108 636 51 634Z" />
+<path d="M130 772C187 788 242 771 282 752C221 731 179 739 130 772Z" />
+<path d="M883 284C932 329 974 402 921 473C912 395 906 350 883 284Z" />
+<path d="M991 445C996 517 947 578 886 599C944 537 970 488 991 445Z" />
+<path d="M972 634C933 671 869 699 813 708C853 660 915 636 972 634Z" />
+<path d="M893 772C836 788 781 771 741 752C802 731 844 739 893 772Z" />
+</g>
+<g fill="none" stroke="#d58b00" stroke-width="11" stroke-linecap="round">
+<path d="M106 474C115 620 218 752 336 784" />
+<path d="M917 474C908 620 805 752 687 784" />
+</g>
+<g id="medallion" stroke-linejoin="round">
+<path d="M490 47Q511 34 533 47L820 215Q842 227 842 254V606Q842 631 821 645L533 813Q511 826 489 813L202 645Q180 631 180 606V254Q180 228 202 215Z" fill="url(#gold)" stroke="#350435" stroke-width="22" />
+<path d="M194 235L510 53L511 127L266 275Z" fill="url(#light)" />
+<path d="M511 53L829 235L756 275L511 127Z" fill="url(#gold)" />
+<path d="M266 275L511 127L756 275V574L512 721L266 574Z" fill="url(#face)" />
+<path d="M194 239L266 275L194 435Z" fill="#ffbf00" />
+<path d="M266 275V574L194 619V435Z" fill="url(#gold)" />
+<path d="M266 275L403 378L266 574Z" fill="url(#darkgold)" />
+<path d="M756 275L620 378L756 574Z" fill="url(#darkgold)" />
+<path d="M756 275L830 238V435L756 574Z" fill="#e99300" />
+<path d="M756 574L830 435V619Z" fill="url(#gold)" />
+<path d="M194 619L266 574L512 721V799Z" fill="url(#gold)" />
+<path d="M266 574L338 628L194 619Z" fill="#c47b00" />
+<path d="M338 628L393 744L512 799V721Z" fill="url(#darkgold)" />
+<path d="M512 721L756 574L830 619L512 799Z" fill="url(#gold)" />
+<path d="M756 574L685 628L830 619Z" fill="#bf7300" />
+<path d="M685 628L631 744L512 799V721Z" fill="url(#darkgold)" />
+<g fill="none" stroke="#fff394" stroke-width="6">
+<path d="M195 236L266 275L511 127L756 275L828 236M511 55V127M266 275V565Q266 573 275 579L512 721L746 580Q756 575 756 565V275M194 620L266 576M756 576L830 620" />
+</g>
+<path d="M259 222L401 138Q426 124 425 144Q423 156 405 167L278 244Q254 253 249 240Q245 231 259 222Z" fill="#ffffed" />
+</g>
+<g id="potion" stroke="#350435" stroke-width="21" stroke-linejoin="round">
+<path d="M445 300V353Q445 365 429 374C370 408 332 457 333 520C333 597 398 652 510 652C621 652 686 597 686 520C687 457 648 408 590 374Q577 367 577 353V300Z" fill="url(#glass)" />
+<path d="M440 265C416 226 413 207 443 195C477 183 544 186 578 195C608 204 605 224 584 265Z" fill="url(#gold)" />
+<path d="M443 263C477 281 551 282 583 263C605 284 601 300 580 306C540 320 481 319 443 307C420 300 415 279 443 263Z" fill="url(#glass)" />
+</g>
+<ellipse cx="511" cy="215" rx="77" ry="17" fill="#ffe852" />
+<path d="M435 216C446 237 561 239 587 218" fill="none" stroke="#fff38a" stroke-width="6" />
+<path d="M475 309V357C474 385 457 394 430 413C409 428 387 450 377 470C436 455 464 482 535 452C572 437 608 430 629 446C614 427 595 413 574 400C554 388 546 377 546 353V308C521 312 495 312 475 309Z" fill="url(#neck)" />
+<path d="M368 483C413 511 457 511 527 482C574 463 621 453 644 472C680 561 617 621 515 621C410 623 352 564 368 483Z" fill="url(#liquid)" />
+<path d="M369 482C443 526 500 487 555 472C594 461 623 458 644 470" fill="none" stroke="#e4ff49" stroke-width="7" />
+<path d="M398 461C407 440 439 408 462 401C477 397 484 406 477 416C468 429 431 449 418 479C407 485 392 479 398 461Z" fill="#f8ffe8" />
+<path d="M444 284C455 282 474 285 489 291C498 295 495 302 483 302C467 302 450 295 444 291Z" fill="#f7ffd2" />
+<circle cx="471" cy="557" r="33" fill="url(#bubble)" />
+<circle cx="570" cy="507" r="20" fill="url(#bubble)" />
+<circle cx="542" cy="553" r="11" fill="url(#bubble)" />
+<g stroke="#350435" stroke-width="21" stroke-linejoin="round">
+<path d="M264 817Q205 869 182 968Q276 930 358 942L414 889Z" fill="url(#ribbon)" />
+<path d="M758 817Q817 869 840 968Q746 930 664 942L608 889Z" fill="url(#ribbon)" />
+<path d="M507 752C401 722 294 724 246 765Q231 778 239 797L279 886Q284 900 302 903C363 918 418 933 432 949C370 928 325 918 280 920L358 930Q383 937 370 945C423 948 453 930 479 898L512 837L545 898C571 930 601 948 654 945Q641 937 666 930L744 920C699 918 654 928 592 949C606 933 661 918 722 903Q740 900 745 886L785 797Q793 778 778 765C730 724 623 722 517 752Z" fill="#350435" stroke="none" />
+<path d="M510 752C408 720 299 727 247 766Q231 779 239 798L279 886Q284 900 302 903C364 875 418 877 474 895L511 826L548 895C604 877 658 875 720 903Q738 900 743 886L783 798Q791 779 775 766C723 727 614 720 512 752Z" fill="url(#ribbon)" />
+</g>
+<g fill="none" stroke="#d660fa" stroke-width="14">
+<path d="M252 790C299 751 403 739 477 766M546 766C620 739 724 751 771 790" />
+<path d="M287 882C324 849 397 845 453 853M570 853C626 845 699 849 736 882" />
+</g>
+<g id="rank-jewel" stroke-linejoin="round">
+<path d="M511 693L602 791Q606 797 600 804L519 902Q511 913 503 902L422 804Q416 797 422 791Z" fill="url(#gold)" stroke="#350435" stroke-width="23" />
+<path d="M511 704L430 794L511 795Z" fill="url(#light)" />
+<path d="M511 704L593 794L511 795Z" fill="#ffce00" />
+<path d="M430 795L511 895V795Z" fill="#efa000" />
+<path d="M511 795V895L593 795Z" fill="url(#darkgold)" />
+<path d="M511 725L514 786L532 795L517 798L511 825L507 800L487 795L507 791Z" fill="#fff393" />
+</g>
+</svg>

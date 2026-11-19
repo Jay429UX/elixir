@@ -1,0 +1,126 @@
+/* Layer-level SVG animations for both VIP badge sets */
+
+.sv-anim-stage svg .sv-spikes,
+.sv-anim-stage svg .sv-wings,
+.sv-anim-stage svg .sv-crown,
+.sv-anim-stage svg .sv-bezel,
+.sv-anim-stage svg .sv-gem,
+.sv-anim-stage svg .sv-table,
+.sv-anim-stage svg .sv-glint,
+.sv-anim-stage svg .sv-pips,
+.sv-anim-stage svg .sv-pip {
+  transform-box: view-box;
+  transform-origin: 64px 64px;
+}
+
+/* 01: Forge & Lock (Staggered Layer Entrance) */
+@keyframes sv-bezel-in {
+  0% { opacity: 0; transform: scale(0.55); }
+  70% { opacity: 1; transform: scale(1.06); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes sv-spikes-lock {
+  0% { opacity: 0; transform: scale(0.5) rotate(-35deg); }
+  75% { opacity: 1; transform: scale(1.06) rotate(3deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+@keyframes sv-wings-in {
+  0% { opacity: 0; transform: scaleX(0.4); }
+  75% { opacity: 1; transform: scaleX(1.08); }
+  100% { opacity: 1; transform: scaleX(1); }
+}
+@keyframes sv-crown-drop {
+  0% { opacity: 0; transform: translateY(-18px) scale(0.8); }
+  70% { opacity: 1; transform: translateY(2px) scale(1.04); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes sv-gem-light {
+  0% { opacity: 0; transform: scale(0.4); filter: brightness(2.2); }
+  100% { opacity: 1; transform: scale(1); filter: brightness(1); }
+}
+@keyframes sv-glint-flash {
+  0%, 55% { opacity: 0; transform: scale(0.2) rotate(-45deg); }
+  80% { opacity: 1; transform: scale(1.35) rotate(10deg); }
+  100% { opacity: 0.95; transform: scale(1) rotate(0deg); }
+}
+.sv-idea-1 svg .sv-bezel { animation: sv-bezel-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.sv-idea-1 svg .sv-spikes { animation: sv-spikes-lock 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both; }
+.sv-idea-1 svg .sv-wings { animation: sv-wings-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both; }
+.sv-idea-1 svg .sv-crown { animation: sv-crown-drop 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.28s both; }
+.sv-idea-1 svg .sv-gem { animation: sv-gem-light 0.55s ease-out 0.32s both; }
+.sv-idea-1 svg .sv-glint { transform-box: fill-box; transform-origin: center; animation: sv-glint-flash 1s ease-out both; }
+
+/* 02: Living Gem & Glint (Subtle Idle) */
+@keyframes sv-gem-breathe {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.3); }
+}
+@keyframes sv-glint-twinkle {
+  0%, 100% { opacity: 0.45; transform: scale(0.75) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.25) rotate(22deg); }
+}
+@keyframes sv-pip-wave {
+  0%, 100% { opacity: 0.6; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.25); }
+}
+.sv-idea-2 svg .sv-gem { animation: sv-gem-breathe 2.6s ease-in-out infinite; }
+.sv-idea-2 svg .sv-glint { transform-box: fill-box; transform-origin: center; animation: sv-glint-twinkle 2.2s ease-in-out infinite; }
+.sv-idea-2 svg .sv-pip { transform-box: fill-box; transform-origin: center; animation: sv-pip-wave 1.8s ease-in-out infinite; }
+.sv-idea-2 svg .sv-pip:nth-of-type(1) { animation-delay: 0s; }
+.sv-idea-2 svg .sv-pip:nth-of-type(2) { animation-delay: 0.14s; }
+.sv-idea-2 svg .sv-pip:nth-of-type(3) { animation-delay: 0.28s; }
+.sv-idea-2 svg .sv-pip:nth-of-type(4) { animation-delay: 0.42s; }
+.sv-idea-2 svg .sv-pip:nth-of-type(5) { animation-delay: 0.56s; }
+
+/* 03: Hover Flourish (Spikes Flare + Crown Lift) */
+.sv-idea-3 svg .sv-spikes,
+.sv-idea-3 svg .sv-wings,
+.sv-idea-3 svg .sv-crown,
+.sv-idea-3 svg .sv-glint {
+  transition: transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1), filter 260ms ease-out;
+}
+.sv-idea-3 svg .sv-glint {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@media (hover: hover) and (pointer: fine) {
+  .sv-idea-3:hover svg .sv-spikes { transform: scale(1.09); }
+  .sv-idea-3:hover svg .sv-wings { transform: scaleX(1.1); }
+  .sv-idea-3:hover svg .sv-crown { transform: translateY(-4px) scale(1.05); }
+  .sv-idea-3:hover svg .sv-glint { transform: scale(1.35) rotate(45deg); }
+  .sv-idea-3:hover svg .sv-gem { filter: brightness(1.25); }
+}
+
+/* 04: Sequential Rank-Up Pips */
+@keyframes sv-pip-ignite {
+  0% { opacity: 0.15; transform: scale(0.3); }
+  70% { opacity: 1; transform: scale(1.45); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.sv-idea-4 svg .sv-pips { animation: sv-bezel-in 0.45s ease-out both; }
+.sv-idea-4 svg .sv-pip { transform-box: fill-box; transform-origin: center; animation: sv-pip-ignite 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.sv-idea-4 svg .sv-pip:nth-of-type(1) { animation-delay: 0.12s; }
+.sv-idea-4 svg .sv-pip:nth-of-type(2) { animation-delay: 0.24s; }
+.sv-idea-4 svg .sv-pip:nth-of-type(3) { animation-delay: 0.36s; }
+.sv-idea-4 svg .sv-pip:nth-of-type(4) { animation-delay: 0.48s; }
+.sv-idea-4 svg .sv-pip:nth-of-type(5) { animation-delay: 0.60s; }
+
+/* 05: Prism Shimmer & Wing Sway */
+@keyframes sv-wings-sway {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.045, 0.98); }
+}
+@keyframes sv-spikes-pulse {
+  0%, 100% { transform: scale(0.97); }
+  50% { transform: scale(1.04); }
+}
+.sv-idea-5 svg .sv-wings { animation: sv-wings-sway 3s ease-in-out infinite; }
+.sv-idea-5 svg .sv-spikes { animation: sv-spikes-pulse 3s ease-in-out infinite; }
+.sv-idea-5 svg .sv-gem { animation: sv-gem-breathe 3s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sv-anim-stage svg * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

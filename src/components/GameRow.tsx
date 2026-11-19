@@ -9,9 +9,11 @@ export interface Game {
   title: string;
   provider: string;
   image: string;
+  category?: "slots" | "live" | "table" | "jackpot" | "new";
   isLive?: boolean;
   isNew?: boolean;
   isHot?: boolean;
+  isOriginal?: boolean;
   players?: number;
   rtp?: number;
 }
@@ -41,28 +43,39 @@ export default function GameRow({
   const [cardWidth, setCardWidth] = useState(176);
   const gap = 16; // gap-4 = 1rem = 16px
 
+  const syncScrollState = () => {
+    const el = containerRef.current;
+    if (!el) return;
+    setScrollPosition(el.scrollLeft);
+    setMaxScroll(Math.max(0, el.scrollWidth - el.clientWidth));
+  };
+
   // Calculate cards per view and card width based on container width
   useEffect(() => {
     const calculateLayout = () => {
       if (containerRef.current) {
-        const containerWidth = containerRef.current.offsetWidth;
-        const minCardWidth = 160;
-        const maxCardWidth = 200;
+        const containerWidth = containerRef.current.clientWidth;
 
-        // Calculate how many cards can fit
-        let numCards = Math.floor((containerWidth + gap) / (minCardWidth + gap));
-        numCards = Math.max(3, Math.min(numCards, 10)); // Between 3 and 10 cards
+        if (containerWidth < 520) {
+          // On compact mobile screens show 2 full cards + a peek of the 3rd for natural horizontal swiping
+          const mobileCardWidth = Math.max(136, Math.min(168, Math.floor((containerWidth - 1.25 * gap) / 2.25)));
+          setCardsPerView(2);
+          setCardWidth(mobileCardWidth);
+        } else {
+          const minCardWidth = 160;
+          const maxCardWidth = 200;
 
-        // Calculate exact card width to fill container
-        const exactCardWidth = (containerWidth - (numCards - 1) * gap) / numCards;
-        const finalCardWidth = Math.min(maxCardWidth, Math.max(minCardWidth, exactCardWidth));
+          let numCards = Math.floor((containerWidth + gap) / (minCardWidth + gap));
+          numCards = Math.max(3, Math.min(numCards, 10));
 
-        setCardsPerView(numCards);
-        setCardWidth(finalCardWidth);
+          const exactCardWidth = (containerWidth - (numCards - 1) * gap) / numCards;
+          const finalCardWidth = Math.min(maxCardWidth, Math.max(minCardWidth, exactCardWidth));
 
-        // Calculate max scroll
-        const totalWidth = games.length * finalCardWidth + (games.length - 1) * gap;
-        setMaxScroll(Math.max(0, totalWidth - containerWidth));
+          setCardsPerView(numCards);
+          setCardWidth(finalCardWidth);
+        }
+
+        requestAnimationFrame(syncScrollState);
       }
     };
 
@@ -82,21 +95,26 @@ export default function GameRow({
   }, [games.length]);
 
   const scroll = (direction: "left" | "right") => {
-    const scrollAmount = (cardWidth + gap) * cardsPerView; // Scroll one full view
-    if (direction === "right") {
-      setScrollPosition((prev) => Math.min(prev + scrollAmount, maxScroll));
-    } else {
-      setScrollPosition((prev) => Math.max(prev - scrollAmount, 0));
-    }
+    const el = containerRef.current;
+    if (!el) return;
+    const scrollAmount = (cardWidth + gap) * cardsPerView;
+    el.scrollBy({
+      left: direction === "right" ? scrollAmount : -scrollAmount,
+      behavior: "smooth",
+    });
   };
 
+  const canScrollLeft = scrollPosition > 4;
+  const canScrollRight = scrollPosition < maxScroll - 4;
+  const edgeMask = `linear-gradient(to right, ${canScrollLeft ? "transparent 0, black 28px" : "black 0"}, black calc(100% - ${canScrollRight ? 28 : 0}px), ${canScrollRight ? "transparent 100%" : "black 100%"})`;
+
   return (
-    <section className="mb-6">
+    <section id={title.toLowerCase().replace(/[^a-z0-9]+/g, "-")} tabIndex={-1} className="mb-9 scroll-mt-24">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
+      <div className="flex items-center justify-between gap-3 mb-3">
+        <div className="flex min-w-0 flex-wrap items-center gap-2.5">
           {icon && <span className="text-dicey-accent">{icon}</span>}
-          <h2 className="text-lg font-semibold text-white">{title}</h2>
+          <h2 className="text-lg font-semibold tracking-[-0.02em] leading-6 text-white">{title}</h2>
           {showViewAll && (
             <button className="text-sm text-gray-400 hover:text-white font-medium transition-colors">
               View All
@@ -104,13 +122,14 @@ export default function GameRow({
           )}
         </div>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex shrink-0 items-center gap-1.5">
           {/* Navigation Buttons */}
           <button
             onClick={() => scroll("left")}
-            disabled={scrollPosition === 0}
-            className={`size-7 flex items-center justify-center bg-dicey-card hover:bg-dicey-border rounded-md transition-colors ${
-              scrollPosition === 0 ? "opacity-50 cursor-not-allowed" : ""
+            aria-label={`Previous ${title.toLowerCase()}`}
+            disabled={!canScrollLeft}
+            className={`size-8 sm:size-7 flex items-center justify-center bg-dicey-card hover:bg-dicey-border rounded-md transition-colors ${
+              !canScrollLeft ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
             <svg
@@ -125,9 +144,10 @@ export default function GameRow({
           </button>
           <button
             onClick={() => scroll("right")}
-            disabled={scrollPosition >= maxScroll}
-            className={`size-7 flex items-center justify-center bg-dicey-card hover:bg-dicey-border rounded-md transition-colors ${
-              scrollPosition >= maxScroll ? "opacity-50 cursor-not-allowed" : ""
+            aria-label={`Next ${title.toLowerCase()}`}
+            disabled={!canScrollRight}
+            className={`size-8 sm:size-7 flex items-center justify-center bg-dicey-card hover:bg-dicey-border rounded-md transition-colors ${
+              !canScrollRight ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
             <svg
@@ -143,14 +163,13 @@ export default function GameRow({
         </div>
       </div>
 
-      {/* Games Container */}
-      <div ref={containerRef} className="overflow-hidden -mx-2 px-2">
+      {/* Games Container: native horizontal swipe + snap on touch, arrow controls on desktop */}
+      <div className="relative -mx-2 px-2" style={{ maskImage: edgeMask, WebkitMaskImage: edgeMask }}>
         <div
-          className="flex transition-transform duration-500 ease-out py-2"
-          style={{
-            transform: `translateX(-${scrollPosition}px)`,
-            gap: `${gap}px`,
-          }}
+          ref={containerRef}
+          onScroll={syncScrollState}
+          className="hide-scrollbar flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth py-2"
+          style={{ gap: `${gap}px` }}
         >
           {games.map((game) => (
             <GameCard
@@ -161,9 +180,11 @@ export default function GameRow({
               isLive={game.isLive}
               isNew={game.isNew}
               isHot={game.isHot}
+              isOriginal={game.isOriginal}
               players={game.players}
               rtp={game.rtp}
               width={cardWidth}
+              className="snap-start"
               onPlay={() => {
                 if (useRouterNavigation) {
                   router.push(`/game/${game.id}`);

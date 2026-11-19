@@ -1,0 +1,43 @@
+/* Light rays that slowly turn behind the badge */
+.lp-rays { position: absolute; left: 50%; top: 28px; width: 420px; height: 420px; margin-left: -210px; pointer-events: none; border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, rgba(255,160,60,.34) 0 6deg, transparent 6deg 20deg);
+  -webkit-mask: radial-gradient(circle, #000 10%, transparent 62%); mask: radial-gradient(circle, #000 10%, transparent 62%);
+  animation: lp-spin 26s linear infinite; }
+@keyframes lp-spin { to { transform: rotate(360deg); } }
+.lp-glow { position: absolute; left: 50%; top: 40px; width: 240px; height: 240px; margin-left: -120px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, rgba(255,150,60,.5), transparent 65%); animation: lp-pulse 2.6s ease-in-out infinite; }
+@keyframes lp-pulse { 0%, 100% { opacity: .5; transform: scale(.9); } 50% { opacity: 1; transform: scale(1.08); } }
+
+/* Rank change: the old badge fades back, the new one flips in */
+.lp-old { animation: lp-old 1.4s both; }
+@keyframes lp-old { 0% { opacity: 1; transform: scale(1); } 100% { opacity: .45; transform: scale(.78); } }
+.lp-flip { animation: lp-flip 1s .5s both; transform-origin: 50% 60%; }
+@keyframes lp-flip {
+  0%   { opacity: 0; transform: perspective(500px) rotateY(100deg) scale(.6); animation-timing-function: cubic-bezier(.2,.9,.3,1.2); }
+  70%  { opacity: 1; transform: perspective(500px) rotateY(-8deg) scale(1.08); animation-timing-function: cubic-bezier(.4,0,.6,1); }
+  100% { opacity: 1; transform: perspective(500px) rotateY(0) scale(1); }
+}
+.lp-arrow { animation: lp-arrow 1s .2s both; }
+@keyframes lp-arrow { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
+
+/* XP bar fills with an ease-out */
+.lp-fill { width: 46%; animation: lp-fill 1.6s .4s cubic-bezier(.2,.8,.3,1) both; }
+@keyframes lp-fill { from { width: 6%; } to { width: 46%; } }
+
+/* Coins that fall from the top and fade out */
+.lp-coin { position: absolute; top: -48px; width: 44px; height: 44px; pointer-events: none; opacity: 0; animation: lp-fall 2.6s ease-in infinite; }
+@keyframes lp-fall {
+  0%   { opacity: 0; transform: translateY(0) rotate(-12deg); }
+  10%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(330px) rotate(14deg); }
+}
+
+/* Reward tiles pop in one after another */
+.lp-tile { animation: lp-tile .6s both; }
+@keyframes lp-tile { 0% { opacity: 0; transform: translateY(10px) scale(.92); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-rays, .lp-glow, .lp-old, .lp-flip, .lp-arrow, .lp-fill, .lp-coin, .lp-tile { animation: none !important; }
+  .lp-coin { display: none; }
+}

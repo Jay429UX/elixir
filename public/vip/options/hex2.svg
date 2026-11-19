@@ -1,0 +1,96 @@
+<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024">
+<defs>
+  <linearGradient id="gold-nw" x1="240" y1="180" x2="476" y2="420" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#ffb900" />
+    <stop offset=".48" stop-color="#fff636" />
+    <stop offset="1" stop-color="#ffffb2" />
+  </linearGradient>
+  <linearGradient id="gold-ne" x1="718" y1="161" x2="603" y2="453" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#ffb400" />
+    <stop offset=".52" stop-color="#ffe600" />
+    <stop offset="1" stop-color="#ffffab" />
+  </linearGradient>
+  <linearGradient id="gold-e" x1="901" y1="315" x2="723" y2="663" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#a94c00" />
+    <stop offset=".44" stop-color="#ffb000" />
+    <stop offset=".8" stop-color="#fff52c" />
+    <stop offset="1" stop-color="#ffffbd" />
+  </linearGradient>
+  <linearGradient id="gold-se" x1="745" y1="705" x2="593" y2="960" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#b65300" />
+    <stop offset=".52" stop-color="#ffb900" />
+    <stop offset="1" stop-color="#ffec31" />
+  </linearGradient>
+  <linearGradient id="gold-sw" x1="285" y1="703" x2="459" y2="958" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#b45500" />
+    <stop offset=".5" stop-color="#ffc400" />
+    <stop offset="1" stop-color="#ffff9a" />
+  </linearGradient>
+  <linearGradient id="gold-w" x1="120" y1="317" x2="300" y2="655" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#b65a00" />
+    <stop offset=".46" stop-color="#ffb800" />
+    <stop offset=".78" stop-color="#fff525" />
+    <stop offset="1" stop-color="#ffffb8" />
+  </linearGradient>
+  <linearGradient id="rim" x1="290" y1="70" x2="724" y2="960" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#ffff5b" />
+    <stop offset=".28" stop-color="#ffcf00" />
+    <stop offset=".65" stop-color="#ff9d00" />
+    <stop offset="1" stop-color="#ffc516" />
+  </linearGradient>
+  <linearGradient id="glass" x1="414" y1="417" x2="646" y2="506" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#c5ff00" />
+    <stop offset=".35" stop-color="#96f000" />
+    <stop offset=".7" stop-color="#5ad300" />
+    <stop offset=".88" stop-color="#baff00" />
+    <stop offset="1" stop-color="#80ed00" />
+  </linearGradient>
+  <radialGradient id="liquid" cx=".43" cy=".13" r=".88">
+    <stop stop-color="#b0ff00" />
+    <stop offset=".42" stop-color="#5eee00" />
+    <stop offset=".72" stop-color="#00b900" />
+    <stop offset=".9" stop-color="#008600" />
+    <stop offset="1" stop-color="#a7ff00" />
+  </radialGradient>
+  <linearGradient id="lip" x1="508" y1="212" x2="514" y2="266" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#c4ff00" />
+    <stop offset=".48" stop-color="#76dc00" />
+    <stop offset=".73" stop-color="#52c400" />
+    <stop offset="1" stop-color="#a4ff00" />
+  </linearGradient>
+  <linearGradient id="shine" x1="420" y1="455" x2="360" y2="605" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#fff" />
+    <stop offset=".5" stop-color="#ffffd0" />
+    <stop offset="1" stop-color="#f7ff97" stop-opacity="0" />
+  </linearGradient>
+  <linearGradient id="neck-shine" x1="453" y1="338" x2="488" y2="410" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#ffffdd" />
+    <stop offset="1" stop-color="#e6ff57" stop-opacity="0" />
+  </linearGradient>
+</defs>
+<g id="gem" stroke-linejoin="round">
+  <path d="M512 20 945 275V749L512 1004 79 749V275Z" fill="url(#rim)" stroke="#301600" stroke-width="40" />
+  <path d="M512 20 945 275 917 291 512 51 107 291 79 275Z" fill="#fff72a" />
+  <path d="M79 275 107 291V730L79 749Z" fill="#ffc31d" />
+  <path d="M945 275 917 291V730L945 749Z" fill="#ffb300" />
+  <path d="M79 749 107 730 512 973 917 730 945 749 512 1004Z" fill="url(#rim)" />
+  <g id="six-facets">
+    <path d="M512 512 107 291 512 51Z" fill="url(#gold-nw)" />
+    <path d="M512 512V51L917 291Z" fill="url(#gold-ne)" />
+    <path d="M512 512 917 291V730Z" fill="url(#gold-e)" />
+    <path d="M512 512 917 730 512 973Z" fill="url(#gold-se)" />
+    <path d="M512 512V973L107 730Z" fill="url(#gold-sw)" />
+    <path d="M512 512 107 730V291Z" fill="url(#gold-w)" />
+  </g>
+  <path d="M512 21V181M107 291 512 51 917 291M107 291V730L512 973 917 730V291M107 291 512 512 917 291M107 730 512 512 917 730M512 842V973" fill="none" stroke="#ffffa1" stroke-width="3" />
+</g>
+<g id="potion" stroke-linejoin="round">
+  <path d="M423 274H601V399Q601 419 623 432C699 480 744 548 744 625 744 741 646 827 512 827S280 741 280 625C280 548 325 480 401 432Q423 419 423 399Z" fill="url(#glass)" stroke="#002700" stroke-width="30" />
+  <path d="M300 601C347 571 378 565 419 581 462 598 489 605 536 586 592 561 620 548 659 556 687 561 707 573 722 590 750 706 653 812 512 812 375 812 281 712 300 601Z" fill="url(#liquid)" />
+  <path d="M301 600C347 572 376 568 413 579 453 592 479 605 524 589 578 569 605 548 646 552 678 553 702 566 719 582 687 566 668 561 645 561 607 562 582 579 540 594 491 612 465 611 418 593 375 576 343 588 301 607Z" fill="#ffffa3" />
+  <path d="M328 632C332 553 382 486 436 456 460 442 478 458 461 477 444 497 412 516 389 549 359 588 355 612 348 642Z" fill="url(#shine)" />
+  <path d="M455 417V316C457 294 480 296 483 314V392Q481 418 468 436Z" fill="url(#neck-shine)" />
+  <rect x="379" y="196" width="266" height="84" rx="42" fill="url(#lip)" stroke="#002700" stroke-width="30" />
+  <path d="M430 220H513Q545 221 548 229 537 239 506 240H430Q416 240 416 230T430 220Z" fill="#ffffd5" />
+</g>
+</svg>
