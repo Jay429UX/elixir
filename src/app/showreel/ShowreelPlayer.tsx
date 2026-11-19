@@ -139,19 +139,33 @@ export default function ShowreelPlayer() {
   const [replayNonce, setReplayNonce] = useState(0);
   const stageFrameRef = useRef<HTMLDivElement>(null);
   const [stageScale, setStageScale] = useState(1);
+  const [rotatedFullscreen, setRotatedFullscreen] = useState(false);
+  const [rotScale, setRotScale] = useState(0.5);
 
   useEffect(() => {
     const el = stageFrameRef.current;
-    if (!el) return;
     const update = () => {
-      const w = el.clientWidth;
-      if (w > 0) setStageScale(w / 1280);
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      if (vw > vh) {
+        setRotatedFullscreen(false);
+      }
+      setRotScale(Math.min((vh - 16) / 1280, (vw - 16) / 720));
+      if (el && el.clientWidth > 0) {
+        setStageScale(el.clientWidth / 1280);
+      }
     };
     update();
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
+    const ro = el ? new ResizeObserver(update) : null;
+    if (el && ro) ro.observe(el);
+    window.addEventListener("resize", update);
+    window.addEventListener("orientationchange", update);
+    return () => {
+      ro?.disconnect();
+      window.removeEventListener("resize", update);
+      window.removeEventListener("orientationchange", update);
+    };
+  }, [rotatedFullscreen]);
 
   const actIndex = getActIndex(elapsed);
   const currentAct = ACTS[actIndex];
@@ -294,11 +308,34 @@ export default function ShowreelPlayer() {
           {/* 16:9 Cinema Frame (proportionally scales fixed 1280x720 virtual stage on all viewports) */}
           <div
             ref={stageFrameRef}
-            className="relative aspect-video w-full overflow-hidden rounded-xl sm:rounded-2xl border border-white/[0.1] bg-[#0c0618] shadow-[0_32px_90px_rgba(0,0,0,0.85)] select-none"
+            className={cn(
+              rotatedFullscreen
+                ? "fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-[#090512] select-none"
+                : "relative aspect-video w-full overflow-hidden rounded-xl sm:rounded-2xl border border-white/[0.1] bg-[#0c0618] shadow-[0_32px_90px_rgba(0,0,0,0.85)] select-none"
+            )}
           >
+            {rotatedFullscreen && (
+              <button
+                type="button"
+                aria-label="Exit fullscreen"
+                onClick={() => setRotatedFullscreen(false)}
+                className="fixed right-3 top-3 z-[60] flex size-9 items-center justify-center rounded-full border border-white/20 bg-black/65 text-sm font-bold text-white/85 backdrop-blur-md active:scale-95"
+              >
+                ✕
+              </button>
+            )}
             <div
-              className="absolute left-0 top-0 h-[720px] w-[1280px] origin-top-left overflow-hidden"
-              style={{ transform: `scale(${stageScale})` }}
+              className={cn(
+                "h-[720px] w-[1280px] overflow-hidden bg-[#0c0618]",
+                rotatedFullscreen
+                  ? "relative shrink-0 origin-center rounded-2xl border border-white/[0.1] shadow-[0_32px_90px_rgba(0,0,0,0.85)]"
+                  : "absolute left-0 top-0 origin-top-left"
+              )}
+              style={{
+                transform: rotatedFullscreen
+                  ? `rotate(90deg) scale(${rotScale})`
+                  : `scale(${stageScale})`,
+              }}
             >
             {/* Curated Studio Backdrops (no grid lines, zero overlay HUD chrome) */}
             {backdrop === "alchemy" && (
@@ -1661,11 +1698,18 @@ export default function ShowreelPlayer() {
             </div>
           </div>
 
-          {/* Subtle portrait mobile hint */}
-          {cleanMode && (
-            <p className="mt-3 text-center text-[11px] font-medium tracking-wide text-purple-200/45 sm:hidden landscape:hidden">
-              Rotate your phone for full screen
-            </p>
+          {/* Interactive portrait mobile rotate-to-fullscreen button (works even in Messenger/Orientation Lock) */}
+          {cleanMode && !rotatedFullscreen && (
+            <div className="mt-4 flex justify-center sm:hidden landscape:hidden">
+              <button
+                type="button"
+                onClick={() => setRotatedFullscreen(true)}
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-4 py-2 text-xs font-semibold text-purple-100 active:scale-95"
+              >
+                <BiFullscreen className="size-3.5 text-lime-300" />
+                Watch Fullscreen
+              </button>
+            </div>
           )}
 
           {/* ================================================================
