@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import AlphaVideo from "./ui/AlphaVideo";
 
 const STORAGE_KEY = "dicey-confidentiality-accepted";
 
@@ -40,13 +41,10 @@ export default function ConfidentialityModal({ onAccept }: ConfidentialityModalP
         {/* Coin: large, with its upper half overflowing the top of the card */}
         <div className="absolute left-1/2 top-0 z-10 -translate-x-1/2 -translate-y-[44%]">
           <div className="design-concept-coin cursor-pointer">
-            <video
-              src="/animations/coin-spin-3d.webm"
-              autoPlay
-              loop
-              muted
-              playsInline
-              aria-hidden="true"
+            <AlphaVideo
+              webmSrc="/animations/coin-spin-3d.webm"
+              webpSrc="/animations/coin-spin-3d.webp"
+              poster="/animations/coin-spin-3d-poster.png"
               width={640}
               height={640}
               className="size-44 object-contain motion-reduce:hidden sm:size-64"

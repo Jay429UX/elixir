@@ -5,6 +5,7 @@ import Link from "next/link";
 import VipBadge from "@/components/ui/VipBadge";
 import DeepLiquidShader from "@/components/ui/DeepLiquidShader";
 import GooFrameShader from "@/components/ui/GooFrameShader";
+import AlphaVideo from "@/components/ui/AlphaVideo";
 import PrimaryButton from "@/components/ui/PrimaryButton";
 import ElixirLogo from "@/components/ElixirLogo";
 import { cn } from "@/lib/utils";
@@ -349,15 +350,11 @@ export default function ShowreelPlayer() {
 
             {/* Act 07 King Foreground Layer (Above GooFrameShader so blend mode never affects him) */}
             {actIndex === 6 && (
-              <video
+              <AlphaVideo
                 key={`act-6-king-${replayNonce}`}
-                src="/animations/king-peek-coin.webm"
+                webmSrc="/animations/king-peek-coin.webm"
+                webpSrc="/animations/king-peek-coin.webp"
                 poster="/animations/king-peek-poster.png"
-                autoPlay
-                loop
-                muted
-                playsInline
-                aria-hidden="true"
                 className="sr-king-peek-in pointer-events-none absolute bottom-0 right-1 z-40 hidden w-[295px] drop-shadow-[0_24px_40px_rgba(0,0,0,0.65)] sm:block sm:right-3 sm:w-[380px]"
               />
             )}
@@ -452,14 +449,10 @@ export default function ShowreelPlayer() {
                     style={{ animationDelay: coin.delay }}
                     className={`pointer-events-none absolute ${coin.wrapCls}`}
                   >
-                    <video
-                      src="/animations/coin-spin-3d.webm"
+                    <AlphaVideo
+                      webmSrc="/animations/coin-spin-3d.webm"
+                      webpSrc="/animations/coin-spin-3d.webp"
                       poster="/animations/coin-spin-3d-poster.png"
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      aria-hidden="true"
                       onLoadedMetadata={(e) => {
                         const v = e.currentTarget;
                         v.playbackRate = coin.rate;
@@ -816,14 +809,10 @@ export default function ShowreelPlayer() {
                       style={{ animationDelay: coin.delay }}
                       className={`pointer-events-none absolute z-30 hidden sm:block ${coin.wrapCls}`}
                     >
-                      <video
-                        src="/animations/coin-spin-3d.webm"
+                      <AlphaVideo
+                        webmSrc="/animations/coin-spin-3d.webm"
+                        webpSrc="/animations/coin-spin-3d.webp"
                         poster="/animations/coin-spin-3d-poster.png"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        aria-hidden="true"
                         onLoadedMetadata={(e) => {
                           const v = e.currentTarget;
                           v.playbackRate = coin.rate;
@@ -1058,14 +1047,10 @@ export default function ShowreelPlayer() {
                 <div className="grid w-full max-w-[98%] items-center gap-4 sm:grid-cols-[minmax(0,0.42fr)_minmax(0,1fr)] sm:gap-7">
                   {/* Left Editorial Column */}
                   <div className="hidden flex-col items-start text-left sm:flex">
-                    <video
-                      src="/animations/flask-swish.webm"
+                    <AlphaVideo
+                      webmSrc="/animations/flask-swish.webm"
+                      webpSrc="/animations/flask-swish.webp"
                       poster="/animations/flask-swish-poster.png"
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      aria-hidden="true"
                       className="sr-pill-pop -ml-3 mb-1 size-32 object-contain drop-shadow-[0_18px_32px_rgba(57,255,20,0.38)]"
                       style={{ "--delay": "60ms" } as CSSProperties}
                     />
@@ -1266,22 +1251,16 @@ export default function ShowreelPlayer() {
                     style={{ "--delay": "100ms" } as CSSProperties}
                   >
                     <div className="flex flex-1 items-center justify-center gap-3">
-                      <video
-                        src="/animations/coin-spin-3d.webm"
+                      <AlphaVideo
+                        webmSrc="/animations/coin-spin-3d.webm"
+                        webpSrc="/animations/coin-spin-3d.webp"
                         poster="/animations/coin-spin-3d-poster.png"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
                         className="size-16 sm:size-20 object-contain drop-shadow-[0_10px_18px_rgba(250,204,21,0.3)]"
                       />
-                      <video
-                        src="/animations/flask-swish.webm"
+                      <AlphaVideo
+                        webmSrc="/animations/flask-swish.webm"
+                        webpSrc="/animations/flask-swish.webp"
                         poster="/animations/flask-swish-poster.png"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
                         className="size-16 sm:size-20 object-contain drop-shadow-[0_10px_18px_rgba(57,255,20,0.28)]"
                       />
                     </div>

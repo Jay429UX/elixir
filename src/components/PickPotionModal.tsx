@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { BiCheck as Check } from "react-icons/bi";
 import ModalShell from "./ModalShell";
+import AlphaVideo from "./ui/AlphaVideo";
 import ModalCloseButton from "./ui/ModalCloseButton";
 import PrimaryButton from "./ui/PrimaryButton";
 import { cn } from "@/lib/utils";
@@ -148,13 +149,10 @@ export default function PickPotionModal({
         <div className="relative">
           {/* Flask: transparent video, upper half overflowing the top of the panel */}
           <div className="pointer-events-none absolute left-1/2 top-0 z-10 -translate-x-1/2 -translate-y-[58%]">
-            <video
-              src="/animations/flask-swish.webm"
-              autoPlay
-              loop
-              muted
-              playsInline
-              aria-hidden="true"
+            <AlphaVideo
+              webmSrc="/animations/flask-swish.webm"
+              webpSrc="/animations/flask-swish.webp"
+              poster="/animations/flask-swish-poster.png"
               width={480}
               height={480}
               className="size-52 object-contain motion-reduce:hidden sm:size-60"

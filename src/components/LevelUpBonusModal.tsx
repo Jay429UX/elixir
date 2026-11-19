@@ -6,6 +6,7 @@ import VipBadge from "@/components/ui/VipBadge";
 import DeepLiquidShader from "@/components/ui/DeepLiquidShader";
 import PrimaryButton from "./ui/PrimaryButton";
 import ModalCloseButton from "./ui/ModalCloseButton";
+import AlphaVideo from "./ui/AlphaVideo";
 
 /* Placeholder ranks until real rank data exists: moving up from Diamond V to Sapphire I */
 const FROM = { label: "Diamond V", badge: "/vip/elixir/tier4.svg" };
@@ -39,13 +40,10 @@ export default function LevelUpBonusModal({ isOpen, onClose, bonusAmount, onClai
           height={694}
           className="pointer-events-none absolute left-1/2 top-0 z-10 hidden h-auto w-[280px] max-w-full -translate-x-1/2 sm:w-[380px] motion-reduce:block"
         />
-        <video
-          src="/animations/king-peek-coin.webm"
-          autoPlay
-          loop
-          muted
-          playsInline
-          aria-hidden="true"
+        <AlphaVideo
+          webmSrc="/animations/king-peek-coin.webm"
+          webpSrc="/animations/king-peek-coin.webp"
+          poster="/animations/king-peek-poster.png"
           width={1280}
           height={694}
           className="pointer-events-none absolute left-1/2 top-0 z-10 h-auto w-[280px] max-w-full -translate-x-1/2 sm:w-[380px] motion-reduce:hidden"
