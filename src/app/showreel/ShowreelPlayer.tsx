@@ -81,6 +81,54 @@ function getActIndex(t: number): number {
   return 0;
 }
 
+/**
+ * iOS-safe autoplay video helper: sets defaultMuted/muted/playsInline directly
+ * on the DOM node and triggers play() on mount & canPlay so Safari/WKWebView
+ * reliably starts each act's clip without popping fullscreen or pausing.
+ */
+function ReelVideo({
+  src,
+  poster,
+  className,
+}: {
+  src: string;
+  poster?: string;
+  className?: string;
+}) {
+  const ref = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.defaultMuted = true;
+    el.muted = true;
+    el.playsInline = true;
+    el.setAttribute("playsinline", "");
+    el.setAttribute("webkit-playsinline", "true");
+    el.play().catch(() => {});
+  }, [src]);
+
+  return (
+    <video
+      ref={ref}
+      src={src}
+      poster={poster}
+      autoPlay
+      loop
+      muted
+      playsInline
+      preload="auto"
+      aria-hidden="true"
+      onCanPlay={(e) => {
+        const el = e.currentTarget;
+        el.muted = true;
+        if (el.paused) el.play().catch(() => {});
+      }}
+      className={className}
+    />
+  );
+}
+
 export default function ShowreelPlayer() {
   const [elapsed, setElapsed] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
@@ -89,6 +137,21 @@ export default function ShowreelPlayer() {
   const [cleanMode, setCleanMode] = useState(true);
   const [backdrop, setBackdrop] = useState<BackdropMode>("alchemy");
   const [replayNonce, setReplayNonce] = useState(0);
+  const stageFrameRef = useRef<HTMLDivElement>(null);
+  const [stageScale, setStageScale] = useState(1);
+
+  useEffect(() => {
+    const el = stageFrameRef.current;
+    if (!el) return;
+    const update = () => {
+      const w = el.clientWidth;
+      if (w > 0) setStageScale(w / 1280);
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   const actIndex = getActIndex(elapsed);
   const currentAct = ACTS[actIndex];
@@ -219,16 +282,24 @@ export default function ShowreelPlayer() {
       <main
         className={cn(
           "flex-1 flex flex-col items-center justify-center w-full",
-          cleanMode ? "p-3 sm:p-6" : "px-3 py-5 sm:px-6 sm:py-7"
+          cleanMode ? "p-2 sm:p-6" : "px-3 py-5 sm:px-6 sm:py-7"
         )}
       >
-        <div className={cn("w-full", cleanMode ? "max-w-[1340px]" : "max-w-[1100px]")}>
-          {/* 16:9 Cinema Frame */}
+        <div
+          className="w-full"
+          style={{
+            maxWidth: cleanMode ? "min(1340px, calc((100dvh - 24px) * 16 / 9))" : "1100px",
+          }}
+        >
+          {/* 16:9 Cinema Frame (proportionally scales fixed 1280x720 virtual stage on all viewports) */}
           <div
-            className={cn(
-              "relative aspect-video w-full overflow-hidden rounded-2xl border border-white/[0.1] bg-[#0c0618] shadow-[0_32px_90px_rgba(0,0,0,0.85)] select-none"
-            )}
+            ref={stageFrameRef}
+            className="relative aspect-video w-full overflow-hidden rounded-xl sm:rounded-2xl border border-white/[0.1] bg-[#0c0618] shadow-[0_32px_90px_rgba(0,0,0,0.85)] select-none"
           >
+            <div
+              className="absolute left-0 top-0 h-[720px] w-[1280px] origin-top-left overflow-hidden"
+              style={{ transform: `scale(${stageScale})` }}
+            >
             {/* Curated Studio Backdrops (no grid lines, zero overlay HUD chrome) */}
             {backdrop === "alchemy" && (
               <>
@@ -355,7 +426,7 @@ export default function ShowreelPlayer() {
                 webmSrc="/animations/king-peek-coin.webm"
                 webpSrc="/animations/king-peek-coin.webp"
                 poster="/animations/king-peek-poster.png"
-                className="sr-king-peek-in pointer-events-none absolute bottom-0 right-1 z-40 hidden w-[295px] drop-shadow-[0_24px_40px_rgba(0,0,0,0.65)] sm:block sm:right-3 sm:w-[380px]"
+                className="sr-king-peek-in pointer-events-none absolute bottom-0 right-3 z-40 block w-[380px] drop-shadow-[0_24px_40px_rgba(0,0,0,0.65)]"
               />
             )}
 
@@ -370,7 +441,7 @@ export default function ShowreelPlayer() {
                 {/* Volumetric Breathing Emerald & Royal Violet Energy Halo */}
                 <div
                   aria-hidden="true"
-                  className="sr-energy-pulse pointer-events-none absolute left-1/2 top-1/2 h-[340px] w-[520px] rounded-full blur-3xl sm:h-[440px] sm:w-[700px]"
+                  className="sr-energy-pulse pointer-events-none absolute left-1/2 top-1/2 h-[440px] w-[700px] rounded-full blur-3xl"
                   style={{
                     background:
                       "radial-gradient(closest-side, rgba(94,244,57,0.22) 0%, rgba(168,85,247,0.22) 48%, transparent 100%)",
@@ -409,35 +480,35 @@ export default function ShowreelPlayer() {
                 {/* 5 Balanced, Staggered, Independently Phased & Rotated 3D Gold Coins */}
                 {[
                   {
-                    wrapCls: "sr-prop-left left-[1%] top-[10%] w-[21%] max-w-[235px] sm:left-[3%]",
+                    wrapCls: "sr-prop-left left-[3%] top-[10%] w-[21%] max-w-[235px]",
                     vidCls: "-rotate-[28deg] drop-shadow-[0_26px_42px_rgba(250,204,21,0.40)]",
                     startOffset: 0.0,
                     rate: 0.86,
                     delay: "0ms",
                   },
                   {
-                    wrapCls: "sr-prop-right right-[1%] top-[12%] w-[23%] max-w-[255px] sm:right-[3%]",
+                    wrapCls: "sr-prop-right right-[3%] top-[12%] w-[23%] max-w-[255px]",
                     vidCls: "rotate-[22deg] -scale-x-100 drop-shadow-[0_26px_42px_rgba(250,204,21,0.42)]",
                     startOffset: 0.68,
                     rate: 1.12,
                     delay: "110ms",
                   },
                   {
-                    wrapCls: "sr-prop-left left-[6%] bottom-[6%] w-[15%] max-w-[165px] sm:left-[9%] sm:bottom-[8%]",
+                    wrapCls: "sr-prop-left left-[9%] bottom-[8%] w-[15%] max-w-[165px]",
                     vidCls: "rotate-[38deg] -scale-x-100 drop-shadow-[0_20px_32px_rgba(250,204,21,0.34)]",
                     startOffset: 1.32,
                     rate: 0.96,
                     delay: "210ms",
                   },
                   {
-                    wrapCls: "sr-prop-right right-[7%] bottom-[7%] w-[17%] max-w-[185px] sm:right-[10%] sm:bottom-[8%]",
+                    wrapCls: "sr-prop-right right-[10%] bottom-[8%] w-[17%] max-w-[185px]",
                     vidCls: "-rotate-[36deg] drop-shadow-[0_22px_34px_rgba(250,204,21,0.36)]",
                     startOffset: 1.94,
                     rate: 1.22,
                     delay: "300ms",
                   },
                   {
-                    wrapCls: "sr-prop-left left-[24%] top-[6%] hidden w-[11%] max-w-[115px] sm:block",
+                    wrapCls: "sr-prop-left left-[24%] top-[6%] block w-[11%] max-w-[115px]",
                     vidCls: "rotate-[14deg] opacity-85 drop-shadow-[0_14px_24px_rgba(250,204,21,0.28)]",
                     startOffset: 2.48,
                     rate: 0.78,
@@ -468,26 +539,26 @@ export default function ShowreelPlayer() {
                 {/* Undisputed Hero: Oversized Elixir Animated Crowned Slime Logo */}
                 <div className="relative z-10 flex flex-col items-center">
                   <ElixirLogo
-                    iconClassName="w-20 h-20 sm:w-28 sm:h-28"
-                    textClassName="text-[52px] sm:text-[84px]"
-                    gapClassName="gap-2.5 sm:gap-3"
+                    iconClassName="w-28 h-28"
+                    textClassName="text-[84px]"
+                    gapClassName="gap-3"
                     className="sr-logo-hero drop-shadow-[0_24px_48px_rgba(0,0,0,0.75)]"
                   />
 
                   {/* Refined Subordinate Tagline (frames the logo instead of competing with it) */}
                   <div
-                    className="sr-eyebrow mt-4 flex items-center gap-3 sm:mt-5"
+                    className="sr-eyebrow mt-5 flex items-center gap-3"
                     style={{ "--delay": "540ms" } as CSSProperties}
                   >
-                    <span className="h-px w-6 bg-gradient-to-r from-transparent to-lime-400/70 sm:w-10" />
-                    <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-lime-300/95 sm:text-xs">
+                    <span className="h-px w-10 bg-gradient-to-r from-transparent to-lime-400/70" />
+                    <span className="text-xs font-bold uppercase tracking-[0.28em] text-lime-300/95">
                       CRAFTED TO FEEL ALIVE
                     </span>
-                    <span className="h-px w-6 bg-gradient-to-l from-transparent to-lime-400/70 sm:w-10" />
+                    <span className="h-px w-10 bg-gradient-to-l from-transparent to-lime-400/70" />
                   </div>
 
                   <p
-                    className="sr-eyebrow mt-2 max-w-md text-[11px] text-purple-200/75 sm:text-xs"
+                    className="sr-eyebrow mt-2 max-w-md text-xs text-purple-200/75"
                     style={{ "--delay": "720ms" } as CSSProperties}
                   >
                     Next-gen crypto casino design system with custom 3D motion, WebGL shaders &amp; hand-rigged SVG craft.
@@ -503,12 +574,12 @@ export default function ShowreelPlayer() {
             {actIndex === 1 && (
               <div
                 key={`act-logo-${replayNonce}`}
-                className="relative z-10 flex size-full flex-col items-center justify-center px-3 pt-9 pb-4 sm:px-7 sm:pt-10 sm:pb-5"
+                className="relative z-10 flex size-full flex-col items-center justify-center px-7 pt-10 pb-5"
               >
-                <div className="grid w-full max-w-[97%] flex-1 min-h-0 grid-cols-1 gap-2.5 sm:grid-cols-[minmax(0,1.18fr)_minmax(0,0.82fr)] sm:gap-3.5">
+                <div className="grid w-full max-w-[97%] flex-1 min-h-0 grid-cols-[minmax(0,1.18fr)_minmax(0,0.82fr)] gap-3.5">
                   {/* Left: Pure Full-Bleed Logo Construction Blueprint Stage */}
                   <div
-                    className="relative flex items-center justify-center overflow-hidden rounded-2xl border border-lime-400/30 bg-[#140d24]/95 p-4 shadow-[0_24px_60px_rgba(0,0,0,0.8)] sm:p-6"
+                    className="relative flex items-center justify-center overflow-hidden rounded-2xl border border-lime-400/30 bg-[#140d24]/95 p-6 shadow-[0_24px_60px_rgba(0,0,0,0.8)]"
                     style={{
                       backgroundImage:
                         "linear-gradient(to right, rgba(196,181,253,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(196,181,253,0.06) 1px, transparent 1px)",
@@ -614,21 +685,21 @@ export default function ShowreelPlayer() {
                   </div>
 
                   {/* Right: 2x2 Text-Free Animated Mascot State Cards */}
-                  <div className="grid min-h-0 flex-1 grid-cols-2 gap-2.5 sm:gap-3">
+                  <div className="grid min-h-0 flex-1 grid-cols-2 gap-3">
                     <div className="flex items-center justify-center rounded-2xl border border-white/12 bg-[#2a1d42]/80 p-4 shadow-[0_14px_34px_rgba(0,0,0,0.55)]">
-                      <ElixirLogo variant="icon" iconClassName="w-16 h-16 sm:w-20 sm:h-20" playEntrance={true} enableEasterEggs={false} />
+                      <ElixirLogo variant="icon" iconClassName="w-20 h-20" playEntrance={true} enableEasterEggs={false} />
                     </div>
 
                     <div className="flex items-center justify-center rounded-2xl border border-amber-300/25 bg-[#2a1d42]/80 p-4 shadow-[0_14px_34px_rgba(0,0,0,0.55)]">
-                      <ElixirLogo variant="icon" iconClassName="w-16 h-16 sm:w-20 sm:h-20" forcedEgg="coin-catch" loopForcedEgg={true} />
+                      <ElixirLogo variant="icon" iconClassName="w-20 h-20" forcedEgg="coin-catch" loopForcedEgg={true} />
                     </div>
 
                     <div className="flex items-center justify-center rounded-2xl border border-white/12 bg-[#2a1d42]/80 p-4 shadow-[0_14px_34px_rgba(0,0,0,0.55)]">
-                      <ElixirLogo variant="icon" iconClassName="w-16 h-16 sm:w-20 sm:h-20" forcedEgg="crown-slip" loopForcedEgg={true} />
+                      <ElixirLogo variant="icon" iconClassName="w-20 h-20" forcedEgg="crown-slip" loopForcedEgg={true} />
                     </div>
 
                     <div className="flex items-center justify-center rounded-2xl border border-white/12 bg-[#2a1d42]/80 p-4 shadow-[0_14px_34px_rgba(0,0,0,0.55)]">
-                      <ElixirLogo variant="icon" iconClassName="w-16 h-16 sm:w-20 sm:h-20" forcedEgg="cheeky-wink" loopForcedEgg={true} />
+                      <ElixirLogo variant="icon" iconClassName="w-20 h-20" forcedEgg="cheeky-wink" loopForcedEgg={true} />
                     </div>
                   </div>
                 </div>
@@ -642,19 +713,15 @@ export default function ShowreelPlayer() {
             {actIndex === 2 && (
               <div
                 key={`act-1-${replayNonce}`}
-                className="sr-pipeline-stage relative z-10 flex size-full flex-col items-center justify-center px-3 pt-9 pb-4 sm:px-7 sm:pt-10 sm:pb-5"
+                className="sr-pipeline-stage relative z-10 flex size-full flex-col items-center justify-center px-7 pt-10 pb-5"
               >
                 {/* Bento 3D Breakdown Grid */}
-                <div className="grid w-full max-w-[97%] flex-1 min-h-0 grid-cols-1 gap-2.5 sm:grid-cols-[minmax(0,0.62fr)_minmax(0,1.38fr)] sm:gap-3.5">
+                <div className="grid w-full max-w-[97%] flex-1 min-h-0 grid-cols-[minmax(0,0.62fr)_minmax(0,1.38fr)] gap-3.5">
                   {/* Left: Blender Quad Wireframe Viewport (Live Video) */}
                   <div className="sr-wire-card relative overflow-hidden rounded-2xl border border-lime-400/35 bg-[#262629] shadow-[0_24px_60px_rgba(0,0,0,0.85)]">
-                    <video
+                    <ReelVideo
                       src="/showreel/king-wireframe.mp4"
                       poster="/showreel/king-wireframe.jpg"
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
                       className="size-full object-cover object-center"
                     />
                     {/* Vertical Emerald Topology Laser Scan */}
@@ -688,7 +755,7 @@ export default function ShowreelPlayer() {
                   </div>
 
                   {/* Right Column: Clay Turnaround (Top) + 3 Textured Prop Lookdev Sheets (Bottom) */}
-                  <div className="hidden min-h-0 flex-col gap-3 sm:flex">
+                  <div className="flex min-h-0 flex-col gap-3">
                     {/* Top Wide Card: 4-Angle Clay Sculpt Turnaround with Laser Wipe */}
                     <div
                       className="relative flex-[1.2] min-h-0 overflow-hidden rounded-2xl border border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.75)]"
@@ -739,20 +806,20 @@ export default function ShowreelPlayer() {
                 </div>
 
                 {/* Lower-Third Kinetic Typography */}
-                <div className="mt-2.5 text-center sm:mt-3.5">
+                <div className="mt-3.5 text-center">
                   <div className="overflow-hidden">
                     <h2
-                      className="sr-type-line hero-headline text-lg uppercase text-white sm:text-3xl"
+                      className="sr-type-line hero-headline text-3xl uppercase text-white"
                       style={{ "--delay": "420ms" } as CSSProperties}
                     >
                       FROM WIREFRAME TO WORLD
                     </h2>
                   </div>
-                  <div className="mt-1.5 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
+                  <div className="mt-1.5 flex flex-wrap items-center justify-center gap-2">
                     {["Fully Quad Topology Mesh", "Custom 3D Props & Lookdev"].map((pill, i) => (
                       <span
                         key={pill}
-                        className="sr-pill-pop rounded-full border border-white/15 bg-white/[0.06] px-2.5 py-0.5 text-[10px] font-semibold text-purple-100 sm:px-3 sm:py-1 sm:text-xs"
+                        className="sr-pill-pop rounded-full border border-white/15 bg-white/[0.06] px-3 py-1 text-xs font-semibold text-purple-100"
                         style={{ "--delay": `${920 + i * 95}ms` } as CSSProperties}
                       >
                         {pill}
@@ -769,35 +836,35 @@ export default function ShowreelPlayer() {
             {actIndex === 3 && (
               <div
                 key={`act-3-${replayNonce}`}
-                className="sr-act2-stage relative z-10 flex size-full flex-col items-center justify-center px-3 pt-9 pb-5 sm:px-6 sm:pt-10 sm:pb-6"
+                className="sr-act2-stage relative z-10 flex size-full flex-col items-center justify-center px-6 pt-10 pb-6"
               >
                 {/* Large Unobstructed 3D Perspective Video Triptych — King Stirring Cauldron Centered */}
                 <div className="relative flex w-full max-w-[98%] items-center justify-center">
                   {/* 4 Staggered, Independently Rotating & Phased Foreground 3D Coins */}
                   {[
                     {
-                      wrapCls: "sr-prop-left -top-[16%] -left-[5%] w-[195px] sm:w-[250px]",
+                      wrapCls: "sr-prop-left -top-[16%] -left-[5%] w-[250px]",
                       vidCls: "-rotate-[24deg] drop-shadow-[0_28px_44px_rgba(250,204,21,0.44)]",
                       startOffset: 0.0,
                       rate: 0.84,
                       delay: "0ms",
                     },
                     {
-                      wrapCls: "sr-prop-right -bottom-[18%] -right-[4%] w-[160px] sm:w-[205px]",
+                      wrapCls: "sr-prop-right -bottom-[18%] -right-[4%] w-[205px]",
                       vidCls: "rotate-[34deg] -scale-x-100 drop-shadow-[0_26px_40px_rgba(250,204,21,0.40)]",
                       startOffset: 0.72,
                       rate: 1.16,
                       delay: "140ms",
                     },
                     {
-                      wrapCls: "sr-prop-right -top-[14%] right-[2%] w-[125px] sm:w-[160px]",
+                      wrapCls: "sr-prop-right -top-[14%] right-[2%] w-[160px]",
                       vidCls: "rotate-[16deg] drop-shadow-[0_22px_32px_rgba(250,204,21,0.34)]",
                       startOffset: 1.35,
                       rate: 0.96,
                       delay: "260ms",
                     },
                     {
-                      wrapCls: "sr-prop-left -bottom-[16%] left-[2%] w-[140px] sm:w-[180px]",
+                      wrapCls: "sr-prop-left -bottom-[16%] left-[2%] w-[180px]",
                       vidCls: "-rotate-[42deg] -scale-x-100 drop-shadow-[0_24px_36px_rgba(250,204,21,0.36)]",
                       startOffset: 1.95,
                       rate: 1.26,
@@ -807,7 +874,7 @@ export default function ShowreelPlayer() {
                     <div
                       key={idx}
                       style={{ animationDelay: coin.delay }}
-                      className={`pointer-events-none absolute z-30 hidden sm:block ${coin.wrapCls}`}
+                      className={`pointer-events-none absolute z-30 block${coin.wrapCls}`}
                     >
                       <AlphaVideo
                         webmSrc="/animations/coin-spin-3d.webm"
@@ -826,14 +893,10 @@ export default function ShowreelPlayer() {
                   ))}
 
                   {/* Left Wing Card — Midas Brew */}
-                  <div className="sr-trip-left relative z-10 -mr-5 hidden aspect-[16/11] w-[35%] overflow-hidden rounded-2xl border border-white/15 bg-[#1a102d] shadow-[0_22px_50px_rgba(0,0,0,0.8)] sm:block">
-                    <video
+                  <div className="sr-trip-left relative z-10 -mr-5 block aspect-[16/11] w-[35%] overflow-hidden rounded-2xl border border-white/15 bg-[#1a102d] shadow-[0_22px_50px_rgba(0,0,0,0.8)]">
+                    <ReelVideo
                       src="/videos/alchemist-midas-brew.mp4"
                       poster="/videos/alchemist-midas-brew-poster.jpg"
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
                       className="size-full object-cover"
                     />
                     <div
@@ -843,14 +906,10 @@ export default function ShowreelPlayer() {
                   </div>
 
                   {/* Center Lead Hero Card — King Stirring the Cauldron */}
-                  <div className="sr-trip-center relative z-20 aspect-[4/4.1] w-[58%] overflow-hidden rounded-2xl border border-white/15 bg-[#1a102d] shadow-[0_28px_72px_rgba(0,0,0,0.92)] sm:w-[37%]">
-                    <video
+                  <div className="sr-trip-center relative z-20 aspect-[4/4.1] w-[37%] overflow-hidden rounded-2xl border border-white/15 bg-[#1a102d] shadow-[0_28px_72px_rgba(0,0,0,0.92)]">
+                    <ReelVideo
                       src="/videos/signup-cauldron-loop.mp4"
                       poster="/videos/signup-cauldron-poster.jpg"
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
                       className="size-full object-cover object-[50%_30%]"
                     />
                     <div
@@ -860,14 +919,10 @@ export default function ShowreelPlayer() {
                   </div>
 
                   {/* Right Wing Card — Potion Wand */}
-                  <div className="sr-trip-right relative z-10 -ml-5 hidden aspect-[16/11] w-[35%] overflow-hidden rounded-2xl border border-white/15 bg-[#1a102d] shadow-[0_22px_50px_rgba(0,0,0,0.8)] sm:block">
-                    <video
+                  <div className="sr-trip-right relative z-10 -ml-5 block aspect-[16/11] w-[35%] overflow-hidden rounded-2xl border border-white/15 bg-[#1a102d] shadow-[0_22px_50px_rgba(0,0,0,0.8)]">
+                    <ReelVideo
                       src="/videos/alchemist-potion-wand.mp4"
                       poster="/videos/alchemist-potion-wand-poster.jpg"
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
                       className="size-full object-cover"
                     />
                     <div
@@ -878,20 +933,20 @@ export default function ShowreelPlayer() {
                 </div>
 
                 {/* Kinetic Lower-Third Typography + Staggered Craft Pills */}
-                <div className="mt-3 text-center sm:mt-4">
+                <div className="mt-4 text-center">
                   <div className="overflow-hidden">
                     <h2
-                      className="sr-type-line hero-headline text-lg uppercase text-white sm:text-3xl"
+                      className="sr-type-line hero-headline text-3xl uppercase text-white"
                       style={{ "--delay": "460ms" } as CSSProperties}
                     >
                       LIVING 3D ART DIRECTION
                     </h2>
                   </div>
-                  <div className="mt-1.5 flex flex-wrap items-center justify-center gap-1.5 sm:mt-2 sm:gap-2">
+                  <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
                     {["Custom High Quality Loops", "Real Emotion & Visual Delight", "Zero Generic Templates"].map((pill, i) => (
                       <span
                         key={pill}
-                        className="sr-pill-pop rounded-full border border-white/15 bg-white/[0.06] px-2.5 py-0.5 text-[10px] font-semibold text-purple-100 sm:px-3 sm:py-1 sm:text-xs"
+                        className="sr-pill-pop rounded-full border border-white/15 bg-white/[0.06] px-3 py-1 text-xs font-semibold text-purple-100"
                         style={{ "--delay": `${680 + i * 95}ms` } as CSSProperties}
                       >
                         {pill}
@@ -909,10 +964,10 @@ export default function ShowreelPlayer() {
             {actIndex === 4 && (
               <div
                 key={`act-4-${replayNonce}`}
-                className="sr-keyart-stage relative z-10 flex size-full flex-col justify-center gap-2 px-3 py-3 sm:gap-3 sm:px-6 sm:py-5"
+                className="sr-keyart-stage relative z-10 flex size-full flex-col justify-center gap-3 px-6 py-5"
               >
                 {/* Row 1: Two Cinema-Scope Slime Action Banners (2.35:1) */}
-                <div className="grid flex-[0.88] min-h-0 grid-cols-2 gap-2 sm:gap-3">
+                <div className="grid flex-[0.88] min-h-0 grid-cols-2 gap-3">
                   <div className="sr-banner-left relative overflow-hidden rounded-xl border border-white/15 bg-[#160b2b] shadow-[0_18px_40px_rgba(0,0,0,0.75)]">
                     <img
                       src="/showreel/art-slime-rocket.jpg"
@@ -938,7 +993,7 @@ export default function ShowreelPlayer() {
                 </div>
 
                 {/* Row 2: Three 16:9 Hero King Scenes */}
-                <div className="grid flex-1 min-h-0 grid-cols-3 gap-2 sm:gap-3">
+                <div className="grid flex-1 min-h-0 grid-cols-3 gap-3">
                   {[
                     { src: "/showreel/art-king-workshop.jpg", alt: "King holding glowing potion wand in workshop", delay: 220, lead: false },
                     { src: "/showreel/art-coin-fountain.jpg", alt: "King celebrating explosive gold coin fountain", delay: 300, lead: true },
@@ -968,9 +1023,9 @@ export default function ShowreelPlayer() {
                 </div>
 
                 {/* Row 3: Two Flanking 16:9 Key Arts Framing Centered Title Lockup */}
-                <div className="grid flex-1 min-h-0 grid-cols-1 gap-2 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.08fr)_minmax(0,1fr)] sm:gap-3">
+                <div className="grid flex-1 min-h-0 grid-cols-[minmax(0,1fr)_minmax(0,1.08fr)_minmax(0,1fr)] gap-3">
                   <div
-                    className="sr-art-card relative hidden overflow-hidden rounded-xl border border-white/15 bg-[#160b2b] shadow-[0_18px_40px_rgba(0,0,0,0.75)] sm:block"
+                    className="sr-art-card relative block overflow-hidden rounded-xl border border-white/15 bg-[#160b2b] shadow-[0_18px_40px_rgba(0,0,0,0.75)]"
                     style={{ "--delay": "460ms" } as CSSProperties}
                   >
                     <img
@@ -984,7 +1039,7 @@ export default function ShowreelPlayer() {
                   <div className="flex flex-col items-center justify-center rounded-xl border border-white/[0.08] bg-[#140a26]/85 px-3 py-2 text-center backdrop-blur-sm">
                     <div className="overflow-hidden">
                       <h2
-                        className="sr-type-line hero-headline text-lg uppercase leading-none text-white sm:text-2xl md:text-3xl"
+                        className="sr-type-line hero-headline text-3xl uppercase leading-none text-white"
                         style={{ "--delay": "420ms" } as CSSProperties}
                       >
                         WORLD OF ELIXIR
@@ -993,7 +1048,7 @@ export default function ShowreelPlayer() {
                   </div>
 
                   <div
-                    className="sr-art-card relative hidden overflow-hidden rounded-xl border border-white/15 bg-[#160b2b] shadow-[0_18px_40px_rgba(0,0,0,0.75)] sm:block"
+                    className="sr-art-card relative block overflow-hidden rounded-xl border border-white/15 bg-[#160b2b] shadow-[0_18px_40px_rgba(0,0,0,0.75)]"
                     style={{ "--delay": "540ms" } as CSSProperties}
                   >
                     <img
@@ -1042,11 +1097,11 @@ export default function ShowreelPlayer() {
             {actIndex === 5 && (
               <div
                 key={`act-5-${replayNonce}`}
-                className="sr-act3-stage relative z-10 flex size-full items-center justify-center px-4 py-5 sm:px-8 sm:py-6"
+                className="sr-act3-stage relative z-10 flex size-full items-center justify-center px-8 py-6"
               >
-                <div className="grid w-full max-w-[98%] items-center gap-4 sm:grid-cols-[minmax(0,0.42fr)_minmax(0,1fr)] sm:gap-7">
+                <div className="grid w-full max-w-[98%] items-center gap-7 grid-cols-[minmax(0,0.42fr)_minmax(0,1fr)]">
                   {/* Left Editorial Column */}
-                  <div className="hidden flex-col items-start text-left sm:flex">
+                  <div className="flex flex-col items-start text-left">
                     <AlphaVideo
                       webmSrc="/animations/flask-swish.webm"
                       webpSrc="/animations/flask-swish.webp"
@@ -1056,7 +1111,7 @@ export default function ShowreelPlayer() {
                     />
                     <div className="overflow-hidden">
                       <h2
-                        className="sr-type-line hero-headline text-3xl uppercase leading-[1.02] text-white md:text-4xl"
+                        className="sr-type-line hero-headline text-4xl uppercase leading-[1.02] text-white"
                         style={{ "--delay": "180ms" } as CSSProperties}
                       >
                         8 ELIXIR
@@ -1087,7 +1142,7 @@ export default function ShowreelPlayer() {
                   </div>
 
                   {/* Right 4x2 True 3:4 Portrait GameCard Deck */}
-                  <div className="mx-auto grid w-full max-w-[660px] grid-cols-4 gap-2 sm:gap-3">
+                  <div className="mx-auto grid w-full max-w-[660px] grid-cols-4 gap-3">
                     {ORIGINALS.map((game, i) => (
                       <div
                         key={game.name}
@@ -1108,18 +1163,18 @@ export default function ShowreelPlayer() {
                         />
 
                         {/* Production GameCard bottom title lockup */}
-                        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#1b052b]/95 via-[#1b052b]/55 to-transparent px-1.5 pb-2.5 pt-7 text-center sm:px-2 sm:pb-3 sm:pt-9">
-                          <h3 className="hero-headline text-[11px] uppercase leading-none text-white sm:text-base">
+                        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#1b052b]/95 via-[#1b052b]/55 to-transparent px-2 pb-3 pt-9 text-center">
+                          <h3 className="hero-headline text-base uppercase leading-none text-white">
                             {game.name}
                           </h3>
-                          <p className="mt-1 text-[7px] font-semibold uppercase tracking-[0.12em] text-purple-200 sm:text-[8px]">
+                          <p className="mt-1 text-[8px] font-semibold uppercase tracking-[0.12em] text-purple-200">
                             Elixir Originals
                           </p>
                         </div>
 
                         {/* Authentic liquid-green Exclusive pill on Limbo, Plinko & Keno */}
                         {game.exclusive && (
-                          <div className="absolute left-1.5 top-1.5 hidden sm:block">
+                          <div className="absolute left-1.5 top-1.5 block">
                             <span className="exclusive-pill ep-liquid-green !h-[18px] !px-2 !text-[9px]">
                               <span aria-hidden="true" className="ep-liquid">
                                 <span className="ep-liquid-wave" />
@@ -1144,13 +1199,13 @@ export default function ShowreelPlayer() {
             {actIndex === 6 && (
               <div
                 key={`act-6-${replayNonce}`}
-                className="relative z-10 flex size-full flex-col items-center justify-center gap-5 overflow-hidden px-4 py-6 sm:gap-7 sm:px-8 sm:py-7"
+                className="relative z-10 flex size-full flex-col items-center justify-center gap-7 overflow-hidden px-8 py-7"
               >
                 {/* Top Headline */}
                 <div className="relative z-20 text-center">
                   <div className="overflow-hidden">
                     <h2
-                      className="sr-type-line hero-headline text-xl uppercase text-white sm:text-4xl"
+                      className="sr-type-line hero-headline text-4xl uppercase text-white"
                       style={{ "--delay": "140ms" } as CSSProperties}
                     >
                       5-TIER VIP ASCENSION
@@ -1159,14 +1214,14 @@ export default function ShowreelPlayer() {
                 </div>
 
                 {/* Center Stage: 5 Tiers with Center Animated Sapphire */}
-                <div className="relative z-20 flex w-full max-w-3xl items-center justify-center gap-3 sm:gap-7">
+                <div className="relative z-20 flex w-full max-w-3xl items-center justify-center gap-7">
                   {/* Tier 1 Bronze */}
                   <div
                     className="sr-tier-satellite flex flex-col items-center gap-1"
                     style={{ "--delay": "220ms", "--wing-x": "60px" } as CSSProperties}
                   >
-                    <VipBadge src="/vip/elixir/tier1.svg" alt="Bronze" level={1} className="size-10 sm:size-16" />
-                    <span className="text-[9px] font-semibold text-amber-200/80 sm:text-[11px]">Bronze</span>
+                    <VipBadge src="/vip/elixir/tier1.svg" alt="Bronze" level={1} className="size-16" />
+                    <span className="text-[11px] font-semibold text-amber-200/80">Bronze</span>
                   </div>
 
                   {/* Tier 2 Silver */}
@@ -1174,8 +1229,8 @@ export default function ShowreelPlayer() {
                     className="sr-tier-satellite flex flex-col items-center gap-1"
                     style={{ "--delay": "300ms", "--wing-x": "35px" } as CSSProperties}
                   >
-                    <VipBadge src="/vip/elixir/tier2.svg" alt="Silver" level={2} className="size-12 sm:size-[74px]" />
-                    <span className="text-[9px] font-semibold text-slate-200/85 sm:text-[11px]">Silver</span>
+                    <VipBadge src="/vip/elixir/tier2.svg" alt="Silver" level={2} className="size-[74px]" />
+                    <span className="text-[11px] font-semibold text-slate-200/85">Silver</span>
                   </div>
 
                   {/* Tier 5 SAPPHIRE HERO — LIVE CLOCKWORK FORGE ANIMATION */}
@@ -1190,9 +1245,9 @@ export default function ShowreelPlayer() {
                       level={5}
                       sheen
                       animated
-                      className="relative size-24 sm:size-40"
+                      className="relative size-40"
                     />
-                    <span className="mt-1 rounded-full border border-blue-400/40 bg-blue-500/20 px-2.5 py-0.5 text-[10px] font-bold text-blue-200 sm:text-xs">
+                    <span className="mt-1 rounded-full border border-blue-400/40 bg-blue-500/20 px-2.5 py-0.5 text-xs font-bold text-blue-200">
                       Sapphire V
                     </span>
                   </div>
@@ -1202,8 +1257,8 @@ export default function ShowreelPlayer() {
                     className="sr-tier-satellite flex flex-col items-center gap-1"
                     style={{ "--delay": "300ms", "--wing-x": "-35px" } as CSSProperties}
                   >
-                    <VipBadge src="/vip/elixir/tier3.svg" alt="Gold" level={3} className="size-12 sm:size-[74px]" />
-                    <span className="text-[9px] font-semibold text-yellow-200/90 sm:text-[11px]">Gold</span>
+                    <VipBadge src="/vip/elixir/tier3.svg" alt="Gold" level={3} className="size-[74px]" />
+                    <span className="text-[11px] font-semibold text-yellow-200/90">Gold</span>
                   </div>
 
                   {/* Tier 4 Diamond */}
@@ -1211,8 +1266,8 @@ export default function ShowreelPlayer() {
                     className="sr-tier-satellite flex flex-col items-center gap-1"
                     style={{ "--delay": "220ms", "--wing-x": "-60px" } as CSSProperties}
                   >
-                    <VipBadge src="/vip/elixir/tier4.svg" alt="Diamond" level={4} className="size-10 sm:size-16" />
-                    <span className="text-[9px] font-semibold text-cyan-200/90 sm:text-[11px]">Diamond</span>
+                    <VipBadge src="/vip/elixir/tier4.svg" alt="Diamond" level={4} className="size-16" />
+                    <span className="text-[11px] font-semibold text-cyan-200/90">Diamond</span>
                   </div>
                 </div>
 
@@ -1222,13 +1277,13 @@ export default function ShowreelPlayer() {
                   style={{ "--delay": "460ms" } as CSSProperties}
                 >
                   <div className="flex items-center gap-3">
-                    <span className="h-px w-6 bg-white/20 sm:w-8" />
-                    <span className="text-[11px] font-bold uppercase tracking-[0.26em] text-white/90 sm:text-xs">
+                    <span className="h-px w-8 bg-white/20" />
+                    <span className="text-xs font-bold uppercase tracking-[0.26em] text-white/90">
                       All Animated SVG
                     </span>
-                    <span className="h-px w-6 bg-white/20 sm:w-8" />
+                    <span className="h-px w-8 bg-white/20" />
                   </div>
-                  <span className="text-[11px] text-purple-200/65 sm:text-xs">
+                  <span className="text-xs text-purple-200/65">
                     Hand-rigged 14-layer vector crests
                   </span>
                 </div>
@@ -1241,10 +1296,10 @@ export default function ShowreelPlayer() {
             {actIndex === 7 && (
               <div
                 key={`act-7-${replayNonce}`}
-                className="sr-act5-stage relative z-10 flex size-full flex-col items-center justify-center overflow-hidden px-5 py-5 sm:px-9 sm:py-6"
+                className="sr-act5-stage relative z-10 flex size-full flex-col items-center justify-center overflow-hidden px-9 py-6"
               >
                 {/* 4x2 Live Micro-Interaction Bento Grid */}
-                <div className="relative z-10 grid w-full max-w-[94%] flex-1 min-h-0 grid-cols-2 gap-2.5 pt-2 sm:grid-cols-4 sm:gap-3 sm:pt-3">
+                <div className="relative z-10 grid w-full max-w-[94%] flex-1 min-h-0 grid-cols-4 gap-3 pt-3">
                   {/* Tile 1: 3D Spinning Coin & Bubbling Flask */}
                   <div
                     className="sr-art-card flex flex-col items-center justify-between rounded-2xl border border-white/10 bg-[#170e28]/90 p-3 shadow-xl"
@@ -1255,16 +1310,16 @@ export default function ShowreelPlayer() {
                         webmSrc="/animations/coin-spin-3d.webm"
                         webpSrc="/animations/coin-spin-3d.webp"
                         poster="/animations/coin-spin-3d-poster.png"
-                        className="size-16 sm:size-20 object-contain drop-shadow-[0_10px_18px_rgba(250,204,21,0.3)]"
+                        className="size-20 object-contain drop-shadow-[0_10px_18px_rgba(250,204,21,0.3)]"
                       />
                       <AlphaVideo
                         webmSrc="/animations/flask-swish.webm"
                         webpSrc="/animations/flask-swish.webp"
                         poster="/animations/flask-swish-poster.png"
-                        className="size-16 sm:size-20 object-contain drop-shadow-[0_10px_18px_rgba(57,255,20,0.28)]"
+                        className="size-20 object-contain drop-shadow-[0_10px_18px_rgba(57,255,20,0.28)]"
                       />
                     </div>
-                    <span className="text-[10px] font-semibold text-purple-200/80 sm:text-xs">
+                    <span className="text-xs font-semibold text-purple-200/80">
                       3D Reward Coins & Flasks
                     </span>
                   </div>
@@ -1275,7 +1330,7 @@ export default function ShowreelPlayer() {
                     style={{ "--delay": "180ms" } as CSSProperties}
                   >
                     <div className="flex flex-1 items-center justify-center">
-                      <div className="scale-[1.7] sm:scale-[2.1]">
+                      <div className="scale-[1.7] scale-[2.1]">
                         <span className="exclusive-pill ep-liquid-green">
                           <span aria-hidden="true" className="ep-liquid">
                             <span className="ep-liquid-wave" />
@@ -1287,7 +1342,7 @@ export default function ShowreelPlayer() {
                         </span>
                       </div>
                     </div>
-                    <span className="text-[10px] font-semibold text-purple-200/80 sm:text-xs">
+                    <span className="text-xs font-semibold text-purple-200/80">
                       Sloshing Liquid Pill
                     </span>
                   </div>
@@ -1317,7 +1372,7 @@ export default function ShowreelPlayer() {
                         </div>
                       </div>
                     </div>
-                    <span className="text-[10px] font-semibold text-purple-200/80 sm:text-xs">
+                    <span className="text-xs font-semibold text-purple-200/80">
                       100x+ Fizzy Win Border
                     </span>
                   </div>
@@ -1346,7 +1401,7 @@ export default function ShowreelPlayer() {
                         </div>
                       </div>
                     </div>
-                    <span className="text-[10px] font-semibold text-purple-200/80 sm:text-xs">
+                    <span className="text-xs font-semibold text-purple-200/80">
                       Electric XP Progress Sparks
                     </span>
                   </div>
@@ -1357,11 +1412,11 @@ export default function ShowreelPlayer() {
                     style={{ "--delay": "420ms" } as CSSProperties}
                   >
                     <div className="flex flex-1 items-center justify-center">
-                      <PrimaryButton className="[&_.ui-button-face]:px-6 [&_.ui-button-face]:py-2.5 [&_.ui-button-face]:text-xs sm:[&_.ui-button-face]:text-sm [&_.ui-button-bubble-one]:animate-[bubble-1_1.8s_ease-out_infinite] [&_.ui-button-bubble-two]:animate-[bubble-2_2s_ease-out_0.2s_infinite] [&_.ui-button-bubble-three]:animate-[bubble-3_1.6s_ease-out_0.4s_infinite]">
+                      <PrimaryButton className="[&_.ui-button-face]:px-6 [&_.ui-button-face]:py-2.5 [&_.ui-button-face]:text-sm [&_.ui-button-bubble-one]:animate-[bubble-1_1.8s_ease-out_infinite] [&_.ui-button-bubble-two]:animate-[bubble-2_2s_ease-out_0.2s_infinite] [&_.ui-button-bubble-three]:animate-[bubble-3_1.6s_ease-out_0.4s_infinite]">
                         Claim Bonus
                       </PrimaryButton>
                     </div>
-                    <span className="text-[10px] font-semibold text-purple-200/80 sm:text-xs">
+                    <span className="text-xs font-semibold text-purple-200/80">
                       Tactile 3D Bubbling CTA
                     </span>
                   </div>
@@ -1378,10 +1433,10 @@ export default function ShowreelPlayer() {
                         level={5}
                         sheen
                         animated
-                        className="size-20 sm:size-24"
+                        className="size-24"
                       />
                     </div>
-                    <span className="text-[10px] font-semibold text-purple-200/80 sm:text-xs">
+                    <span className="text-xs font-semibold text-purple-200/80">
                       Hand-Rigged SVG Badges
                     </span>
                   </div>
@@ -1408,7 +1463,7 @@ export default function ShowreelPlayer() {
                         </p>
                       </div>
                     </div>
-                    <span className="text-[10px] font-semibold text-purple-200/80 sm:text-xs">
+                    <span className="text-xs font-semibold text-purple-200/80">
                       Layered Glass Live Chat
                     </span>
                   </div>
@@ -1423,17 +1478,17 @@ export default function ShowreelPlayer() {
                         <DeepLiquidShader className="size-full" />
                       </div>
                     </div>
-                    <span className="text-[10px] font-semibold text-purple-200/80 sm:text-xs">
+                    <span className="text-xs font-semibold text-purple-200/80">
                       Live WebGL Potion Shader
                     </span>
                   </div>
                 </div>
 
                 {/* Compact Lower-Third Title */}
-                <div className="mt-2.5 text-center sm:mt-3">
+                <div className="mt-3 text-center">
                   <div className="overflow-hidden">
                     <h2
-                      className="sr-type-line hero-headline text-base uppercase text-white sm:text-2xl"
+                      className="sr-type-line hero-headline text-2xl uppercase text-white"
                       style={{ "--delay": "360ms" } as CSSProperties}
                     >
                       MICRO-ANIMATIONS & UI DELIGHT
@@ -1449,11 +1504,11 @@ export default function ShowreelPlayer() {
             {actIndex === 8 && (
               <div
                 key={`act-8-${replayNonce}`}
-                className="sr-act5-stage relative z-10 flex size-full flex-col items-center justify-center px-4 py-4 sm:px-8 sm:py-5"
+                className="sr-act5-stage relative z-10 flex size-full flex-col items-center justify-center px-8 py-5"
               >
                 {/* Desktop macOS Window + Titanium iPhone Frame Side-by-Side */}
-                <div className="relative flex w-full max-w-[96%] flex-1 min-h-0 items-center justify-center gap-3 sm:gap-6">
-                  <div className="sr-ui-left relative z-10 w-[86%] sm:w-[72%] overflow-hidden rounded-2xl border border-white/20 bg-[#140d24] ring-1 ring-white/10 shadow-[0_28px_72px_rgba(0,0,0,0.9)]">
+                <div className="relative flex w-full max-w-[96%] flex-1 min-h-0 items-center justify-center gap-6">
+                  <div className="sr-ui-left relative z-10 w-[72%] overflow-hidden rounded-2xl border border-white/20 bg-[#140d24] ring-1 ring-white/10 shadow-[0_28px_72px_rgba(0,0,0,0.9)]">
                     {/* Sleek macOS Safari Browser Chrome */}
                     <div className="flex items-center justify-between border-b border-white/[0.08] bg-[#1c1330] px-3 py-1.5">
                       <div className="flex items-center gap-1.5">
@@ -1489,13 +1544,9 @@ export default function ShowreelPlayer() {
                             "linear-gradient(to right, transparent 48%, rgba(0, 0, 0, 0.45) 62%, black 78%)",
                         }}
                       >
-                        <video
+                        <ReelVideo
                           src="/videos/alchemist-potion-wand-mini.mp4"
                           poster="/videos/alchemist-potion-wand-mini-poster.jpg"
-                          autoPlay
-                          loop
-                          muted
-                          playsInline
                           className="absolute inset-0 size-full object-cover object-center opacity-85"
                         />
                       </div>
@@ -1508,7 +1559,7 @@ export default function ShowreelPlayer() {
                   </div>
 
                   {/* Titanium iPhone 16 Pro Style Frame Next to Desktop */}
-                  <div className="sr-ui-right relative z-20 hidden w-[21%] max-w-[215px] rounded-[34px] border-[4px] border-[#3d3749] bg-[#0b0712] p-[5px] ring-1 ring-white/25 shadow-[0_28px_68px_rgba(0,0,0,0.95)] sm:block">
+                  <div className="sr-ui-right relative z-20 block w-[21%] max-w-[215px] rounded-[34px] border-[4px] border-[#3d3749] bg-[#0b0712] p-[5px] ring-1 ring-white/25 shadow-[0_28px_68px_rgba(0,0,0,0.95)]">
                     {/* Side Hardware Buttons */}
                     <span aria-hidden="true" className="pointer-events-none absolute -left-[6px] top-[20%] h-6 w-[2px] rounded-l bg-[#524a61]" />
                     <span aria-hidden="true" className="pointer-events-none absolute -left-[6px] top-[31%] h-8 w-[2px] rounded-l bg-[#524a61]" />
@@ -1545,10 +1596,10 @@ export default function ShowreelPlayer() {
                 </div>
 
                 {/* Compact Lower-Third Title (no bulky pills) */}
-                <div className="mt-2 text-center sm:mt-2.5">
+                <div className="mt-2.5 text-center">
                   <div className="overflow-hidden">
                     <h2
-                      className="sr-type-line hero-headline text-base uppercase text-white sm:text-2xl"
+                      className="sr-type-line hero-headline text-2xl uppercase text-white"
                       style={{ "--delay": "340ms" } as CSSProperties}
                     >
                       DESKTOP & MOBILE EXPERIENCE
@@ -1573,32 +1624,32 @@ export default function ShowreelPlayer() {
 
                 <div className="sr-act6-lockup relative flex flex-col items-center">
                   <ElixirLogo
-                    iconClassName="w-11 h-11 sm:w-16 sm:h-16"
-                    textClassName="text-[32px] sm:text-[48px]"
+                    iconClassName="w-16 h-16"
+                    textClassName="text-[48px]"
                     gapClassName="gap-2"
                     className="drop-shadow-[0_18px_36px_rgba(0,0,0,0.75)]"
                   />
-                  <div className="mt-3 overflow-hidden sm:mt-4">
+                  <div className="mt-4 overflow-hidden">
                     <h2
-                      className="sr-type-line hero-headline text-xl uppercase text-white sm:text-4xl"
+                      className="sr-type-line hero-headline text-4xl uppercase text-white"
                       style={{ "--delay": "240ms" } as CSSProperties}
                     >
                       DESIGNED & ENGINEERED END-TO-END
                     </h2>
                   </div>
                   <p
-                    className="sr-eyebrow mt-1.5 text-[11px] text-purple-200/75 sm:text-sm"
+                    className="sr-eyebrow mt-1.5 text-sm text-purple-200/75"
                     style={{ "--delay": "420ms" } as CSSProperties}
                   >
                     Blender 3D · Next.js · Tailwind CSS · WebGL Shaders · Multi-Layer SVG Motion
                   </p>
 
                   <div
-                    className="sr-pill-pop mt-5 sm:mt-6"
+                    className="sr-pill-pop mt-6"
                     style={{ "--delay": "540ms" } as CSSProperties}
                   >
                     <Link href="/" className="inline-block">
-                      <PrimaryButton className="[&_.ui-button-face]:px-8 [&_.ui-button-face]:py-3.5 [&_.ui-button-face]:text-sm sm:[&_.ui-button-face]:px-10 sm:[&_.ui-button-face]:py-4 sm:[&_.ui-button-face]:text-base [&_.ui-button-face]:font-extrabold">
+                      <PrimaryButton className="[&_.ui-button-face]:px-10 [&_.ui-button-face]:py-4 [&_.ui-button-face]:text-base [&_.ui-button-face]:font-extrabold">
                         Click Here to View Live Prototype
                       </PrimaryButton>
                     </Link>
@@ -1607,7 +1658,15 @@ export default function ShowreelPlayer() {
               </div>
             )}
 
+            </div>
           </div>
+
+          {/* Subtle portrait mobile hint */}
+          {cleanMode && (
+            <p className="mt-3 text-center text-[11px] font-medium tracking-wide text-purple-200/45 sm:hidden landscape:hidden">
+              Rotate your phone for full screen
+            </p>
+          )}
 
           {/* ================================================================
               DIRECTOR SCRUBBER & CHAPTER CONTROLS (hidden in Clean Mode)
